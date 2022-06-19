@@ -1,9 +1,16 @@
 import styled from "styled-components";
 import Logo from "../Logo/Logo";
 import NavPanel from "../NavPanel/NavPanel";
+import PlaylistNavPanel from "../PlaylistNavPanel/PlaylistNavPanel";
+import { PlayList } from "../../App";
 
 interface FnProps {
   navClick: (message: Pages) => void;
+  playlistClick: (id: number) => void;
+  playLists: {
+    id: number;
+    name: string;
+  }[];
 }
 
 const LeftC = styled.div`
@@ -33,6 +40,10 @@ function LeftContainer(props: FnProps) {
     <LeftC>
       <Logo></Logo>
       <NavPanel navClick={props.navClick} elements={elements}></NavPanel>
+      <PlaylistNavPanel
+        navClick={props.playlistClick}
+        elements={props.playLists}
+      ></PlaylistNavPanel>
     </LeftC>
   );
 }

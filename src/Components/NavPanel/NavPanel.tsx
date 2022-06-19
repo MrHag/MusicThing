@@ -7,7 +7,7 @@ interface FnProps<T> {
   elements: { text: string; param: T }[];
 }
 
-const PanelContainer = styled.div`
+export const PanelContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -19,8 +19,6 @@ const PanelContainer = styled.div`
 
 function NavPanel<T>(props: FnProps<T>) {
   const [activeElem, setactiveElem] = useState(0);
-
-  console.log(activeElem);
 
   const NavElems = props.elements.map((attr, index) => {
     return (

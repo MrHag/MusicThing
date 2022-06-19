@@ -10,7 +10,7 @@ interface FnProps extends Props {
   navClick: () => void;
 }
 
-const NavContainer = styled.div<Props>`
+export const NavContainer = styled.div<Props>`
   display: flex;
   width: 100%;
   padding: 8px 0;
