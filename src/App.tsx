@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import LeftContainer from "./Components/LeftContainer/LeftContainer";
+import { Pages } from "./Components/LeftContainer/LeftContainer";
 import styled from "styled-components";
 import Body from "./Components/Body/Body";
 import MainContainer from "./Components/MainContainer/MainContainer";
@@ -11,19 +12,23 @@ import HomePage from "./Components/HomePage/HomePage";
 import HomePageAN from "./Components/HomePage/HomePageAN";
 
 function App() {
-  const [P, SetP] = useState(true);
+  const [Page, SetPage] = useState(Pages.Home);
+
+  const pages: { [key in Pages]: JSX.Element } = {
+    0: <HomePage />,
+    1: <HomePageAN />,
+    2: <HomePage />,
+  };
 
   return (
     <Body>
       <TopContainer>
         <LeftContainer
-          navClick={(e) => {
-            SetP(e == "1");
+          navClick={(page) => {
+            SetPage(page);
           }}
         ></LeftContainer>
-        <MainContainer>
-          ${P ? <HomePage></HomePage> : <HomePageAN></HomePageAN>}
-        </MainContainer>
+        <MainContainer>{pages[Page]}</MainContainer>
       </TopContainer>
       <BottomContainer>
         <Footer></Footer>

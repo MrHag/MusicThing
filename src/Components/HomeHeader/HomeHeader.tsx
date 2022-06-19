@@ -8,6 +8,7 @@ const HeaderImage = styled.img`
 `;
 
 const HomeContainer = styled.div`
+  display: flex;
   width: 70%;
   margin: 0 auto;
 `;

@@ -1,9 +1,10 @@
-import { HTMLAttributes, ReactNode } from "react";
+import { HTMLAttributes, ReactNode, useState } from "react";
 import styled from "styled-components";
 import NavElem from "../NavElem/NavElem";
 
-interface FnProps {
-  navClick: (message: string) => void;
+interface FnProps<T> {
+  navClick: (param: T) => void;
+  elements: { text: string; param: T }[];
 }
 
 const PanelContainer = styled.div`
@@ -16,29 +17,26 @@ const PanelContainer = styled.div`
   border-bottom: 1px solid var(--blue-bg-color);
 `;
 
-function NavPanel(props: FnProps) {
-  return (
-    <PanelContainer>
+function NavPanel<T>(props: FnProps<T>) {
+  const [activeElem, setactiveElem] = useState(0);
+
+  console.log(activeElem);
+
+  const NavElems = props.elements.map((attr, index) => {
+    return (
       <NavElem
-        text="Buttn"
+        active={activeElem === index}
+        key={index}
+        text={attr.text}
         navClick={() => {
-          props.navClick("1");
+          setactiveElem(index);
+          props.navClick(attr.param);
         }}
-      ></NavElem>
-      <NavElem
-        text="Buttn"
-        navClick={() => {
-          props.navClick("2");
-        }}
-      ></NavElem>
-      <NavElem
-        text="Buttn"
-        navClick={() => {
-          props.navClick("3");
-        }}
-      ></NavElem>
-    </PanelContainer>
-  );
+      />
+    );
+  });
+
+  return <PanelContainer>{NavElems}</PanelContainer>;
 }
 
 export default NavPanel;

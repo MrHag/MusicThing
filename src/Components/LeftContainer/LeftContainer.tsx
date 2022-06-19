@@ -3,7 +3,7 @@ import Logo from "../Logo/Logo";
 import NavPanel from "../NavPanel/NavPanel";
 
 interface FnProps {
-  navClick: (message: string) => void;
+  navClick: (message: Pages) => void;
 }
 
 const LeftC = styled.div`
@@ -16,11 +16,23 @@ const LeftC = styled.div`
   user-select: none;
 `;
 
+export enum Pages {
+  Home,
+  Search,
+  AddMusic,
+}
+
 function LeftContainer(props: FnProps) {
+  const elements = [
+    { text: "Home", param: Pages.Home },
+    { text: "Search", param: Pages.Search },
+    { text: "Add Music", param: Pages.AddMusic },
+  ];
+
   return (
     <LeftC>
       <Logo></Logo>
-      <NavPanel navClick={props.navClick}></NavPanel>
+      <NavPanel navClick={props.navClick} elements={elements}></NavPanel>
     </LeftC>
   );
 }
