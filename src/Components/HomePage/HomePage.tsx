@@ -2,21 +2,22 @@ import styled from "styled-components";
 import HomeBody from "../HomeBody/HomeBody";
 import HomeHeader from "../HomeHeader/HomeHeader";
 
-const RightC = styled.div`
+const HomeC = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
   user-select: none;
+  overflow-y: scroll;
 `;
 
-function RightContainer() {
+function HomePage() {
   return (
-    <RightC>
+    <HomeC>
       <HomeHeader></HomeHeader>
       <HomeBody></HomeBody>
-    </RightC>
+    </HomeC>
   );
 }
 
-export default RightContainer;
+export default HomePage;
