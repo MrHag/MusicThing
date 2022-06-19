@@ -1,7 +1,5 @@
-import { Component, HTMLAttributes, ReactNode } from 'react';
-import styled from 'styled-components';
-import Container from '../Container/Container';
+import styled from "styled-components";
 
-const BottomContainer = styled(Container)``;
+const BottomContainer = styled.div``;
 
 export default BottomContainer;

@@ -1,24 +1,23 @@
-import { ReactNode } from 'react';
-import styled from 'styled-components';
-import Container from '../Container/Container';
-import Text from '../Text/Text';
+import styled from "styled-components";
+import Text from "../Text/Text";
 
 const LogoText = styled(Text)`
-    font-size: 40pt;
-    font-family: "Gill Sans", sans-serif;
+  font-size: 40pt;
+  font-family: "Gill Sans", sans-serif;
 `;
 
-function FLogo(props: any) {
-    return (
-        <Container className={props.className}>
-            <LogoText>MusicThing</LogoText>
-        </Container>
-    );
+const LogoContainer = styled.div`
+  display: flex;
+  margin: 20px 0;
+  align-items: center;
+`;
+
+function Logo() {
+  return (
+    <LogoContainer>
+      <LogoText>MusicThing</LogoText>
+    </LogoContainer>
+  );
 }
-
-const Logo = styled(FLogo)`
-    margin: 20px 0;
-    align-items: center;
-`;
 
 export default Logo;

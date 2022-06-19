@@ -1,11 +1,8 @@
-import { Component, HTMLAttributes, ReactNode } from 'react';
-import styled from 'styled-components';
-import Container from '../Container/Container';
-import Logo from '../Logo/Logo';
-import NavPanel from '../NavPanel/NavPanel';
+import styled from "styled-components";
 
-const TopContainer = styled(Container)`
-    height: 100%;
+const TopContainer = styled.div`
+  display: flex;
+  height: 100%;
 `;
 
 export default TopContainer;

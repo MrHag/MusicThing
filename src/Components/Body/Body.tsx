@@ -1,11 +1,11 @@
-import styled from 'styled-components';
-import Container from '../Container/Container';
+import styled from "styled-components";
 
-const Body = styled(Container)`
-    width: 100%;
-    height: 100vh;
-    flex-direction: column;
-    font-family: "Gill Sans", sans-serif;
+const Body = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  font-family: "Gill Sans", sans-serif;
 `;
 
 export default Body;
