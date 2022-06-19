@@ -49,7 +49,8 @@ function App() {
       author: "author1",
       image: logo,
       album: "album1",
-      track: "track1",
+      track:
+        "https://archive.org/download/darling-in-the-franxx-part-1-ost/CD%20Vol%2001/02.%20Vanquish.mp3",
       duration: 400,
     },
     1: {
@@ -58,7 +59,8 @@ function App() {
       author: "author2",
       image: logo1,
       album: "album2",
-      track: "track2",
+      track:
+        "https://archive.org/download/darling-in-the-franxx-part-1-ost/CD%20Vol%2001/03.%20Odds%20and%20ends.mp3",
       duration: 400,
     },
     2: {
@@ -137,6 +139,8 @@ function App() {
 
   const [PlayLists, SetPlaylists] = useState(playlists);
 
+  const [curTrack, setcurTrack] = useState<Track>();
+
   let playlistarr = Object.values(PlayLists).map((pl) => {
     return { id: pl.id, name: pl.name };
   });
@@ -148,7 +152,14 @@ function App() {
           playLists={playlistarr}
           playlistClick={(id) => {
             const pl = playlists[id];
-            SetPage(<PlayListPage playList={pl}></PlayListPage>);
+            SetPage(
+              <PlayListPage
+                onTrackClick={(id) => {
+                  setcurTrack(Tracks[id]);
+                }}
+                playList={pl}
+              ></PlayListPage>
+            );
           }}
           navClick={(page) => {
             SetPage(pages[page]);
@@ -157,7 +168,7 @@ function App() {
         <MainContainer>{Page}</MainContainer>
       </TopContainer>
       <BottomContainer>
-        <Footer></Footer>
+        <Footer track={curTrack}></Footer>
       </BottomContainer>
     </Body>
   );

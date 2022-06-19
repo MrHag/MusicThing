@@ -7,6 +7,7 @@ import PlayListPageHeader from "../PlayListPageHeader/PlayListPageHeader";
 
 interface FnProps {
   playList: PlayList;
+  onTrackClick: (id: number) => void;
 }
 
 const PlayListC = styled.div`
@@ -22,7 +23,10 @@ function PlayListPage(props: FnProps) {
   return (
     <PlayListC>
       <PlayListPageHeader playList={props.playList}></PlayListPageHeader>
-      <PlayListPageBody playList={props.playList}></PlayListPageBody>
+      <PlayListPageBody
+        onTrackClick={props.onTrackClick}
+        playList={props.playList}
+      ></PlayListPageBody>
     </PlayListC>
   );
 }

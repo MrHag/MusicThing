@@ -5,6 +5,7 @@ import Text from "../Text/Text";
 
 interface FnProps {
   playList: PlayList;
+  onTrackClick: (id: number) => void;
 }
 
 const BodyContainer = styled.div`
@@ -27,7 +28,10 @@ function PlayListPageBody(props: FnProps) {
   return (
     <BodyMainContainer>
       <BodyContainer>
-        <PlayListGrid playList={props.playList} />
+        <PlayListGrid
+          onTrackClick={props.onTrackClick}
+          playList={props.playList}
+        />
       </BodyContainer>
     </BodyMainContainer>
   );

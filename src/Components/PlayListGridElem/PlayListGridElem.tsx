@@ -5,6 +5,7 @@ import { Track } from "../../App";
 interface FnProps {
   track: Track;
   position: number;
+  onTrackClick: (id: number) => void;
 }
 
 const PlayListElem = styled.div`
@@ -59,7 +60,7 @@ const TextContainer = styled.div`
 function PlayListGridElem(props: FnProps) {
   const track = props.track;
   return (
-    <PlayListElem>
+    <PlayListElem onClick={() => props.onTrackClick(props.track.id)}>
       <Text className="index">{props.position}</Text>
       <Text className="index-icon">▷</Text>
       <MainContainer>

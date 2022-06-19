@@ -5,6 +5,7 @@ import Text from "../Text/Text";
 
 interface FnProps {
   playList: PlayList;
+  onTrackClick: (id: number) => void;
 }
 
 const Grid = styled.div`
@@ -34,6 +35,7 @@ function PlayListGrid(props: FnProps) {
       </Grid>
       {pl.tracks.map((track, index) => (
         <PlayListGridElem
+          onTrackClick={props.onTrackClick}
           key={index}
           track={track}
           position={index + 1}
