@@ -72,7 +72,6 @@ export const AudioContainer = styled.div<AudioContainerProps>`
     content: "";
     top: 8px;
     left: 0;
-    width: var(--seek-before-width);
     height: 3px;
     background-color: var(--hblue-bg-color);
     cursor: pointer;
@@ -175,9 +174,20 @@ export const Time = styled.span`
   float: left;
 `;
 
+
+export const SeekSlider = styled.input`
+ &::before{
+  width: var(--seek-before-width);
+  }
+`;
+
 export const VolumeSlider = styled.input`
   margin: 0 10px;
   width: 58%;
+
+  &::before{
+    width: var(--volume-before-width);
+  }
 
   &::-webkit-slider-runnable-track {
     background: var(--blue-bg-color);
@@ -193,4 +203,5 @@ export const VolumeSlider = styled.input`
 
   &::before {
     width: var(--volume-before-width);
+  }
 `;

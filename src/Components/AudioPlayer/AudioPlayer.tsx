@@ -6,6 +6,7 @@ import {
   AudioContainer,
   Time,
   VolumeSlider,
+  SeekSlider,
 } from "./style";
 import PlayButton from "./PlayButton";
 
@@ -27,7 +28,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
 
   const AudioCont = useRef<HTMLDivElement>(null);
   const Audio = useRef<HTMLAudioElement>(null);
-  const SeekSlider = useRef<HTMLInputElement>(null);
+  const SeekSlid = useRef<HTMLInputElement>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -122,8 +123,8 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
         ></audio>
         <PlayButton onPlay={play} onPause={pause} isPlaying={isPlaying} />
         <Time>{calculateTime(seek)}</Time>
-        <input
-          ref={SeekSlider}
+        <SeekSlider
+          ref={SeekSlid}
           onChange={onSeekSliderChange}
           onInput={onSeekSliderInput}
           disabled={trackLink === ""}
