@@ -1,11 +1,12 @@
 import { Track } from "../../App";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   PlayIcon,
   VolumeContainer,
   PlayerContainer,
   AudioContainer,
-  TrackDuration,
+  Time,
+  VolumeSlider,
 } from "./style";
 
 interface Props {
@@ -14,7 +15,6 @@ interface Props {
 
 const AudioPlayer: React.FC<Props> = ({ track }) => {
   const trackLink = track ? track.track : "";
-  /** Implementation of the presentation of the audio player */
 
   let raf: number = 0;
 
@@ -22,12 +22,14 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
   const Audio = useRef<HTMLAudioElement>(null);
   const VolumeOutput = useRef<HTMLOutputElement>(null);
   const CurrentTime = useRef<HTMLSpanElement>(null);
-  const VolumeSlider = useRef<HTMLInputElement>(null);
+  const volumeSlider = useRef<HTMLInputElement>(null);
   const SeekSlider = useRef<HTMLInputElement>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [trackDuration, setTrackDuration] = useState(0);
+  const [seek, setSeek] = useState(0);
+  const [volume, setVolume] = useState(100);
 
   const Play = () => {
     if (Audio.current == null) return;
@@ -49,10 +51,10 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
     setIsMuted(!isMuted);
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (SeekSlider.current != null) SeekSlider.current.value = "0";
     if (VolumeSlider.current != null) VolumeSlider.current.value = "100";
-  });
+  });*/
 
   const showRangeProgress = (rangeInput: any) => {
     if (SeekSlider.current == null || AudioCont.current == null) return;
@@ -115,19 +117,11 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
     );
   };
 
-  const displayDuration = () => {
-    if (Audio.current != null) setTrackDuration(Audio.current.duration);
-  };
-
-  const setSliderMax = () => {
-    if (Audio.current != null && SeekSlider.current != null)
-      SeekSlider.current.max = Math.floor(Audio.current.duration).toString();
-  };
-
   const LoadedMetaData = () => {
     Play();
-    displayDuration();
-    setSliderMax();
+    if (Audio.current != null) {
+      setTrackDuration(Audio.current.duration);
+    }
     displayBufferedAmount();
   };
 
@@ -141,15 +135,23 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
     showRangeProgress(e.target);
   };
 
-  const SeekSliderChange = (e: any) => {
-    const value = e.target.value;
+  const SeekSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
     if (Audio.current != null) Audio.current.currentTime = value;
+    setSeek(value);
   };
 
-  const VolumeSliderInput = (e: any) => {
-    const value = e.target.value;
+  const onVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
     if (Audio.current != null) Audio.current.volume = value / 100;
-    if (VolumeOutput.current != null) VolumeOutput.current.textContent = value;
+    setVolume(value);
+
+    const rangeMax = e.target.max;
+
+    /*AudioCont.current.style.setProperty(
+        "--volume-before-width",
+        (rangeInput.value / rangeInput.max) * 100 + "%"
+      );*/
     showRangeProgress(e.target);
   };
 
@@ -167,9 +169,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
         <button onClick={Play} id="play-icon">
           <PlayIcon>▷</PlayIcon>
         </button>
-        <span ref={CurrentTime} id="current-time" className="time">
-          0:00
-        </span>
+        <Time ref={CurrentTime}>{calculateTime(seek)}</Time>
         <input
           ref={SeekSlider}
           onChange={SeekSliderChange}
@@ -177,17 +177,18 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
           disabled={trackLink === ""}
           type="range"
           id="seek-slider"
-          max="100"
+          max={trackDuration}
         />
-        <TrackDuration>{calculateTime(trackDuration)}</TrackDuration>
+        <Time>{calculateTime(trackDuration)}</Time>
       </PlayerContainer>
       <VolumeContainer>
         <output ref={VolumeOutput} id="volume-output">
-          100
+          {volume}
         </output>
-        <input
-          ref={VolumeSlider}
-          onInput={VolumeSliderInput}
+        <VolumeSlider
+          ref={volumeSlider}
+          onInput={onVolumeChange}
+          value={volume}
           type="range"
           id="volume-slider"
           max="100"

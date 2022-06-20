@@ -38,22 +38,6 @@ export const AudioContainer = styled.div`
     clear: left;
   }
 
-  #volume-slider {
-    margin: 0 10px;
-    width: 58%;
-  }
-  #volume-slider::-webkit-slider-runnable-track {
-    background: var(--blue-bg-color);
-  }
-  #volume-slider::-moz-range-track {
-    background: var(--blue-bg-color);
-  }
-  #volume-slider::-ms-fill-upper {
-    background: var(--blue-bg-color);
-  }
-  #volume-slider::before {
-    width: var(--volume-before-width);
-  }
   #mute-icon {
     margin: 0 10px;
   }
@@ -175,11 +159,32 @@ export const PlayerContainer = styled.div`
   align-items: center;
 `;
 
-export const TrackDuration = styled.span`
+export const Time = styled.span`
   display: inline-block;
   width: 37px;
   text-align: center;
   font-size: 20px;
   margin: 0 10px;
   float: left;
+`;
+
+export const VolumeSlider = styled.input`
+  margin: 0 10px;
+  width: 58%;
+
+  &::-webkit-slider-runnable-track {
+    background: var(--blue-bg-color);
+  }
+
+  &::-moz-range-track {
+    background: var(--blue-bg-color);
+  }
+
+  &::-ms-fill-upper {
+    background: var(--blue-bg-color);
+  }
+
+  &::before {
+    width: var(--volume-before-width);
+  }
 `;
