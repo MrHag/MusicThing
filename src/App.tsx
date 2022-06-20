@@ -9,12 +9,12 @@ import Footer from "./Components/Footer/Footer";
 import TopContainer from "./Components/TopContainer/TopContainer";
 import BottomContainer from "./Components/BottomContainer/BottomContainer";
 import HomePage from "./Components/HomePage/HomePage";
-import HomePageAN from "./Components/HomePage/HomePageAN";
 import { type } from "@testing-library/user-event/dist/type";
 import logo from "./logo.svg";
 import logo1 from "./logo1.jpeg";
 import logo2 from "./logo2.jpeg";
 import PlayListPage from "./Components/PlayListPage/PlayListPage";
+import AddMusicPage from "./Components/AddMusicPage/AddMusicPage";
 
 export type Track = {
   id: number;
@@ -36,8 +36,8 @@ export type PlayList = {
 function App() {
   const pages: { [key in Pages]: JSX.Element } = {
     0: <HomePage />,
-    1: <HomePageAN />,
-    2: <HomePage />,
+    1: <HomePage />,
+    2: <AddMusicPage />,
   };
 
   const [Page, SetPage] = useState(pages[Pages.Home]);
@@ -45,76 +45,82 @@ function App() {
   const TracksDB: { [id: number]: Track } = {
     0: {
       id: 0,
-      name: "track1",
-      author: "author1",
+      name: "Vanquish",
+      author: "author",
       image: logo,
-      album: "album1",
+      album: "DA",
       track:
         "https://archive.org/download/darling-in-the-franxx-part-1-ost/CD%20Vol%2001/02.%20Vanquish.mp3",
       duration: 400,
     },
     1: {
       id: 1,
-      name: "track2",
-      author: "author2",
+      name: "Odds",
+      author: "author",
       image: logo1,
-      album: "album2",
+      album: "DA",
       track:
         "https://archive.org/download/darling-in-the-franxx-part-1-ost/CD%20Vol%2001/03.%20Odds%20and%20ends.mp3",
       duration: 400,
     },
     2: {
       id: 2,
-      name: "track3",
-      author: "author3",
+      name: "Beast",
+      author: "author",
       image: logo,
       album: "album3",
-      track: "track3",
+      track:
+        "https://archive.org/download/darling-in-the-franxx-part-1-ost/CD%20Vol%2001/06.%20BEAST.mp3",
       duration: 400,
     },
     3: {
       id: 3,
-      name: "track4",
-      author: "author4",
+      name: "Nuance",
+      author: "author",
       image: logo1,
-      album: "album4",
-      track: "track4",
+      album: "DA",
+      track:
+        "https://archive.org/download/darling-in-the-franxx-part-1-ost/CD%20Vol%2001/16.%20Nuance.mp3",
       duration: 400,
     },
     4: {
       id: 4,
-      name: "track5",
-      author: "author5",
+      name: "Dropping",
+      author: "author",
       image: logo2,
-      album: "album5",
-      track: "track5",
+      album: "DA",
+      track:
+        "https://archive.org/download/darling-in-the-franxx-part-1-ost/CD%20Vol%2001/18.%20Dropping.mp3",
       duration: 400,
     },
     5: {
       id: 5,
-      name: "track8",
-      author: "author8",
+      name: "escape",
+      author: "XX:me",
       image: logo2,
-      album: "album8",
-      track: "track8",
+      album: "DA",
+      track:
+        "https://archive.org/download/darling-in-the-franxx-part-1-ost/E%20vol.2%EF%BC%8FXX%EF%BC%9Ame%20%28flac%2824bits%29%29/02.%20escape.mp3",
       duration: 400,
     },
     6: {
       id: 6,
-      name: "track9",
-      author: "author9",
+      name: "Trente",
+      author: "author",
       image: logo2,
-      album: "album9",
-      track: "track9",
+      album: "DA",
+      track:
+        "https://archive.org/download/darling-in-the-franxx-part-1-ost/CD%20Vol%2001/11.%20Trente.mp3",
       duration: 400,
     },
     7: {
       id: 7,
-      name: "track10",
-      author: "author10",
+      name: "Distopia",
+      author: "author",
       image: logo1,
-      album: "album10",
-      track: "track10",
+      album: "DA",
+      track:
+        "https://archive.org/download/darling-in-the-franxx-part-1-ost/CD%20Vol%2001/12.%20Distopia.mp3",
       duration: 400,
     },
   };
@@ -132,9 +138,9 @@ function App() {
   };
 
   const playlists: { [id: number]: PlayList } = {
-    0: { id: 0, name: "playlist1", image: logo, tracks: extractTracks(list1) },
-    1: { id: 1, name: "playlist2", image: logo, tracks: extractTracks(list2) },
-    2: { id: 2, name: "playlist3", image: logo, tracks: extractTracks(list3) },
+    0: { id: 0, name: "MyPlayList", image: logo, tracks: extractTracks(list1) },
+    1: { id: 1, name: "Secrets", image: logo, tracks: extractTracks(list2) },
+    2: { id: 2, name: "Best", image: logo, tracks: extractTracks(list3) },
   };
 
   const [PlayLists, SetPlaylists] = useState(playlists);

@@ -12,6 +12,11 @@ const BodyContainer = styled.div`
 
 const TitleText = styled(Text)`
   font-size: 34px;
+  margin-bottom: 20px;
+`;
+
+const BodyText = styled(Text)`
+  font-size: 24px;
 `;
 
 const BodyMainContainer = styled.div`
@@ -25,185 +30,10 @@ function HomeBody() {
   return (
     <BodyMainContainer>
       <BodyContainer>
-        <TitleText>TEXT</TitleText>
-        <Text>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-          tincidunt, magna eu gravida tempus, erat massa dictum justo, vitae
-          accumsan purus leo eu sem. Quisque rhoncus nunc et ipsum elementum,
-          sed lacinia felis aliquet. Quisque ut vestibulum lectus, at pulvinar
-          neque. Mauris sed diam nibh. Phasellus quis venenatis mi. Duis eget
-          hendrerit lectus, at sodales lacus. Nullam convallis, nunc et
-          vulputate sagittis, magna urna tincidunt leo, vel aliquam orci mauris
-          nec turpis. Aenean quis diam faucibus, efficitur lectus ac, luctus
-          nibh. Suspendisse purus libero, interdum sed malesuada eget,
-          scelerisque in libero. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Pellentesque tincidunt, magna eu gravida tempus, erat
-          massa dictum justo, vitae accumsan purus leo eu sem. Quisque rhoncus
-          nunc et ipsum elementum, sed lacinia felis aliquet. Quisque ut
-          vestibulum lectus, at pulvinar neque. Mauris sed diam nibh. Phasellus
-          quis venenatis mi. Duis eget hendrerit lectus, at sodales lacus.
-          Nullam convallis, nunc et vulputate sagittis, magna urna tincidunt
-          leo, vel aliquam orci mauris nec turpis. Aenean quis diam faucibus,
-          efficitur lectus ac, luctus nibh. Suspendisse purus libero, interdum
-          sed malesuada eget, scelerisque in libero. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Pellentesque tincidunt, magna eu gravida
-          tempus, erat massa dictum justo, vitae accumsan purus leo eu sem.
-          Quisque rhoncus nunc et ipsum elementum, sed lacinia felis aliquet.
-          Quisque ut vestibulum lectus, at pulvinar neque. Mauris sed diam nibh.
-          Phasellus quis venenatis mi. Duis eget hendrerit lectus, at sodales
-          lacus. Nullam convallis, nunc et vulputate sagittis, magna urna
-          tincidunt leo, vel aliquam orci mauris nec turpis. Aenean quis diam
-          faucibus, efficitur lectus ac, luctus nibh. Suspendisse purus libero,
-          interdum sed malesuada eget, scelerisque in libero. Lorem ipsum dolor
-          sit amet, consectetur adipiscing elit. Pellentesque tincidunt, magna
-          eu gravida tempus, erat massa dictum justo, vitae accumsan purus leo
-          eu sem. Quisque rhoncus nunc et ipsum elementum, sed lacinia felis
-          aliquet. Quisque ut vestibulum lectus, at pulvinar neque. Mauris sed
-          diam nibh. Phasellus quis venenatis mi. Duis eget hendrerit lectus, at
-          sodales lacus. Nullam convallis, nunc et vulputate sagittis, magna
-          urna tincidunt leo, vel aliquam orci mauris nec turpis. Aenean quis
-          diam faucibus, efficitur lectus ac, luctus nibh. Suspendisse purus
-          libero, interdum sed malesuada eget, scelerisque in libero. Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-          tincidunt, magna eu gravida tempus, erat massa dictum justo, vitae
-          accumsan purus leo eu sem. Quisque rhoncus nunc et ipsum elementum,
-          sed lacinia felis aliquet. Quisque ut vestibulum lectus, at pulvinar
-          neque. Mauris sed diam nibh. Phasellus quis venenatis mi. Duis eget
-          hendrerit lectus, at sodales lacus. Nullam convallis, nunc et
-          vulputate sagittis, magna urna tincidunt leo, vel aliquam orci mauris
-          nec turpis. Aenean quis diam faucibus, efficitur lectus ac, luctus
-          nibh. Suspendisse purus libero, interdum sed malesuada eget,
-          scelerisque in libero. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Pellentesque tincidunt, magna eu gravida tempus, erat
-          massa dictum justo, vitae accumsan purus leo eu sem. Quisque rhoncus
-          nunc et ipsum elementum, sed lacinia felis aliquet. Quisque ut
-          vestibulum lectus, at pulvinar neque. Mauris sed diam nibh. Phasellus
-          quis venenatis mi. Duis eget hendrerit lectus, at sodales lacus.
-          Nullam convallis, nunc et vulputate sagittis, magna urna tincidunt
-          leo, vel aliquam orci mauris nec turpis. Aenean quis diam faucibus,
-          efficitur lectus ac, luctus nibh. Suspendisse purus libero, interdum
-          sed malesuada eget, scelerisque in libero. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Pellentesque tincidunt, magna eu gravida
-          tempus, erat massa dictum justo, vitae accumsan purus leo eu sem.
-          Quisque rhoncus nunc et ipsum elementum, sed lacinia felis aliquet.
-          Quisque ut vestibulum lectus, at pulvinar neque. Mauris sed diam nibh.
-          Phasellus quis venenatis mi. Duis eget hendrerit lectus, at sodales
-          lacus. Nullam convallis, nunc et vulputate sagittis, magna urna
-          tincidunt leo, vel aliquam orci mauris nec turpis. Aenean quis diam
-          faucibus, efficitur lectus ac, luctus nibh. Suspendisse purus libero,
-          interdum sed malesuada eget, scelerisque in libero. Lorem ipsum dolor
-          sit amet, consectetur adipiscing elit. Pellentesque tincidunt, magna
-          eu gravida tempus, erat massa dictum justo, vitae accumsan purus leo
-          eu sem. Quisque rhoncus nunc et ipsum elementum, sed lacinia felis
-          aliquet. Quisque ut vestibulum lectus, at pulvinar neque. Mauris sed
-          diam nibh. Phasellus quis venenatis mi. Duis eget hendrerit lectus, at
-          sodales lacus. Nullam convallis, nunc et vulputate sagittis, magna
-          urna tincidunt leo, vel aliquam orci mauris nec turpis. Aenean quis
-          diam faucibus, efficitur lectus ac, luctus nibh. Suspendisse purus
-          libero, interdum sed malesuada eget, scelerisque in libero. Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-          tincidunt, magna eu gravida tempus, erat massa dictum justo, vitae
-          accumsan purus leo eu sem. Quisque rhoncus nunc et ipsum elementum,
-          sed lacinia felis aliquet. Quisque ut vestibulum lectus, at pulvinar
-          neque. Mauris sed diam nibh. Phasellus quis venenatis mi. Duis eget
-          hendrerit lectus, at sodales lacus. Nullam convallis, nunc et
-          vulputate sagittis, magna urna tincidunt leo, vel aliquam orci mauris
-          nec turpis. Aenean quis diam faucibus, efficitur lectus ac, luctus
-          nibh. Suspendisse purus libero, interdum sed malesuada eget,
-          scelerisque in libero. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Pellentesque tincidunt, magna eu gravida tempus, erat
-          massa dictum justo, vitae accumsan purus leo eu sem. Quisque rhoncus
-          nunc et ipsum elementum, sed lacinia felis aliquet. Quisque ut
-          vestibulum lectus, at pulvinar neque. Mauris sed diam nibh. Phasellus
-          quis venenatis mi. Duis eget hendrerit lectus, at sodales lacus.
-          Nullam convallis, nunc et vulputate sagittis, magna urna tincidunt
-          leo, vel aliquam orci mauris nec turpis. Aenean quis diam faucibus,
-          efficitur lectus ac, luctus nibh. Suspendisse purus libero, interdum
-          sed malesuada eget, scelerisque in libero. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Pellentesque tincidunt, magna eu gravida
-          tempus, erat massa dictum justo, vitae accumsan purus leo eu sem.
-          Quisque rhoncus nunc et ipsum elementum, sed lacinia felis aliquet.
-          Quisque ut vestibulum lectus, at pulvinar neque. Mauris sed diam nibh.
-          Phasellus quis venenatis mi. Duis eget hendrerit lectus, at sodales
-          lacus. Nullam convallis, nunc et vulputate sagittis, magna urna
-          tincidunt leo, vel aliquam orci mauris nec turpis. Aenean quis diam
-          faucibus, efficitur lectus ac, luctus nibh. Suspendisse purus libero,
-          interdum sed malesuada eget, scelerisque in libero. Lorem ipsum dolor
-          sit amet, consectetur adipiscing elit. Pellentesque tincidunt, magna
-          eu gravida tempus, erat massa dictum justo, vitae accumsan purus leo
-          eu sem. Quisque rhoncus nunc et ipsum elementum, sed lacinia felis
-          aliquet. Quisque ut vestibulum lectus, at pulvinar neque. Mauris sed
-          diam nibh. Phasellus quis venenatis mi. Duis eget hendrerit lectus, at
-          sodales lacus. Nullam convallis, nunc et vulputate sagittis, magna
-          urna tincidunt leo, vel aliquam orci mauris nec turpis. Aenean quis
-          diam faucibus, efficitur lectus ac, luctus nibh. Suspendisse purus
-          libero, interdum sed malesuada eget, scelerisque in libero. Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-          tincidunt, magna eu gravida tempus, erat massa dictum justo, vitae
-          accumsan purus leo eu sem. Quisque rhoncus nunc et ipsum elementum,
-          sed lacinia felis aliquet. Quisque ut vestibulum lectus, at pulvinar
-          neque. Mauris sed diam nibh. Phasellus quis venenatis mi. Duis eget
-          hendrerit lectus, at sodales lacus. Nullam convallis, nunc et
-          vulputate sagittis, magna urna tincidunt leo, vel aliquam orci mauris
-          nec turpis. Aenean quis diam faucibus, efficitur lectus ac, luctus
-          nibh. Suspendisse purus libero, interdum sed malesuada eget,
-          scelerisque in libero. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Pellentesque tincidunt, magna eu gravida tempus, erat
-          massa dictum justo, vitae accumsan purus leo eu sem. Quisque rhoncus
-          nunc et ipsum elementum, sed lacinia felis aliquet. Quisque ut
-          vestibulum lectus, at pulvinar neque. Mauris sed diam nibh. Phasellus
-          quis venenatis mi. Duis eget hendrerit lectus, at sodales lacus.
-          Nullam convallis, nunc et vulputate sagittis, magna urna tincidunt
-          leo, vel aliquam orci mauris nec turpis. Aenean quis diam faucibus,
-          efficitur lectus ac, luctus nibh. Suspendisse purus libero, interdum
-          sed malesuada eget, scelerisque in libero. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Pellentesque tincidunt, magna eu gravida
-          tempus, erat massa dictum justo, vitae accumsan purus leo eu sem.
-          Quisque rhoncus nunc et ipsum elementum, sed lacinia felis aliquet.
-          Quisque ut vestibulum lectus, at pulvinar neque. Mauris sed diam nibh.
-          Phasellus quis venenatis mi. Duis eget hendrerit lectus, at sodales
-          lacus. Nullam convallis, nunc et vulputate sagittis, magna urna
-          tincidunt leo, vel aliquam orci mauris nec turpis. Aenean quis diam
-          faucibus, efficitur lectus ac, luctus nibh. Suspendisse purus libero,
-          interdum sed malesuada eget, scelerisque in libero. Lorem ipsum dolor
-          sit amet, consectetur adipiscing elit. Pellentesque tincidunt, magna
-          eu gravida tempus, erat massa dictum justo, vitae accumsan purus leo
-          eu sem. Quisque rhoncus nunc et ipsum elementum, sed lacinia felis
-          aliquet. Quisque ut vestibulum lectus, at pulvinar neque. Mauris sed
-          diam nibh. Phasellus quis venenatis mi. Duis eget hendrerit lectus, at
-          sodales lacus. Nullam convallis, nunc et vulputate sagittis, magna
-          urna tincidunt leo, vel aliquam orci mauris nec turpis. Aenean quis
-          diam faucibus, efficitur lectus ac, luctus nibh. Suspendisse purus
-          libero, interdum sed malesuada eget, scelerisque in libero. Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-          tincidunt, magna eu gravida tempus, erat massa dictum justo, vitae
-          accumsan purus leo eu sem. Quisque rhoncus nunc et ipsum elementum,
-          sed lacinia felis aliquet. Quisque ut vestibulum lectus, at pulvinar
-          neque. Mauris sed diam nibh. Phasellus quis venenatis mi. Duis eget
-          hendrerit lectus, at sodales lacus. Nullam convallis, nunc et
-          vulputate sagittis, magna urna tincidunt leo, vel aliquam orci mauris
-          nec turpis. Aenean quis diam faucibus, efficitur lectus ac, luctus
-          nibh. Suspendisse purus libero, interdum sed malesuada eget,
-          scelerisque in libero. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Pellentesque tincidunt, magna eu gravida tempus, erat
-          massa dictum justo, vitae accumsan purus leo eu sem. Quisque rhoncus
-          nunc et ipsum elementum, sed lacinia felis aliquet. Quisque ut
-          vestibulum lectus, at pulvinar neque. Mauris sed diam nibh. Phasellus
-          quis venenatis mi. Duis eget hendrerit lectus, at sodales lacus.
-          Nullam convallis, nunc et vulputate sagittis, magna urna tincidunt
-          leo, vel aliquam orci mauris nec turpis. Aenean quis diam faucibus,
-          efficitur lectus ac, luctus nibh. Suspendisse purus libero, interdum
-          sed malesuada eget, scelerisque in libero. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Pellentesque tincidunt, magna eu gravida
-          tempus, erat massa dictum justo, vitae accumsan purus leo eu sem.
-          Quisque rhoncus nunc et ipsum elementum, sed lacinia felis aliquet.
-          Quisque ut vestibulum lectus, at pulvinar neque. Mauris sed diam nibh.
-          Phasellus quis venenatis mi. Duis eget hendrerit lectus, at sodales
-          lacus. Nullam convallis, nunc et vulputate sagittis, magna urna
-          tincidunt leo, vel aliquam orci mauris nec turpis. Aenean quis diam
-          faucibus, efficitur lectus ac, luctus nibh. Suspendisse purus libero,
-          interdum sed malesuada eget, scelerisque in libero.
-        </Text>
+        <TitleText>Wellcome to MusicThings</TitleText>
+        <BodyText>
+          MusicThings - is the platform to listen and share music.
+        </BodyText>
       </BodyContainer>
     </BodyMainContainer>
   );
