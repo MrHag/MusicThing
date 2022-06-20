@@ -1,13 +1,20 @@
 import { Track } from "../../App";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
-  PlayIcon,
   VolumeContainer,
   PlayerContainer,
   AudioContainer,
   Time,
   VolumeSlider,
 } from "./style";
+import PlayButton from "./PlayButton";
+
+const calculateTime = (secs: number) => {
+  const minutes = Math.floor(secs / 60);
+  const seconds = Math.floor(secs % 60);
+  const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+  return `${minutes}:${returnedSeconds}`;
+};
 
 interface Props {
   track?: Track;
@@ -16,13 +23,10 @@ interface Props {
 const AudioPlayer: React.FC<Props> = ({ track }) => {
   const trackLink = track ? track.track : "";
 
-  let raf: number = 0;
+  const raf = useRef(0);
 
   const AudioCont = useRef<HTMLDivElement>(null);
   const Audio = useRef<HTMLAudioElement>(null);
-  const VolumeOutput = useRef<HTMLOutputElement>(null);
-  const CurrentTime = useRef<HTMLSpanElement>(null);
-  const volumeSlider = useRef<HTMLInputElement>(null);
   const SeekSlider = useRef<HTMLInputElement>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -31,111 +35,59 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
   const [seek, setSeek] = useState(0);
   const [volume, setVolume] = useState(100);
 
-  const Play = () => {
+  const play = () => {
     if (Audio.current == null) return;
 
     if (isPlaying) {
-      Audio.current.pause();
-      cancelAnimationFrame(raf);
-    } else {
-      Audio.current.play();
-      raf = requestAnimationFrame(whilePlaying);
+      pause();
     }
 
-    setIsPlaying(!isPlaying);
+    Audio.current.play();
+    raf.current = requestAnimationFrame(whilePlaying);
+
+    setIsPlaying(true);
   };
 
-  const Mute = () => {
-    if (Audio.current == null) return;
-    Audio.current.muted = !isMuted;
-    setIsMuted(!isMuted);
+  const pause = () => {
+    if (Audio.current != null) {
+      Audio.current.pause();
+      cancelAnimationFrame(raf.current);
+      setIsPlaying(false);
+    }
   };
-
-  /*useEffect(() => {
-    if (SeekSlider.current != null) SeekSlider.current.value = "0";
-    if (VolumeSlider.current != null) VolumeSlider.current.value = "100";
-  });*/
-
-  const showRangeProgress = (rangeInput: any) => {
-    if (SeekSlider.current == null || AudioCont.current == null) return;
-
-    if (rangeInput === SeekSlider.current)
-      AudioCont.current.style.setProperty(
-        "--seek-before-width",
-        (rangeInput.value / rangeInput.max) * 100 + "%"
-      );
-    else
-      AudioCont.current.style.setProperty(
-        "--volume-before-width",
-        (rangeInput.value / rangeInput.max) * 100 + "%"
-      );
-  };
+  const onMute = () => setIsMuted(!isMuted);
 
   const whilePlaying = () => {
-    if (
-      SeekSlider.current == null ||
-      Audio.current == null ||
-      CurrentTime.current == null ||
-      AudioCont.current == null
-    )
+    if (Audio.current == null) {
       return;
-    SeekSlider.current.value = Math.floor(Audio.current.currentTime).toString();
-    CurrentTime.current.textContent = calculateTime(
-      Number.parseFloat(SeekSlider.current.value)
-    );
-    AudioCont.current.style.setProperty(
-      "--seek-before-width",
-      `${
-        (Number.parseFloat(SeekSlider.current.value) /
-          Number.parseFloat(SeekSlider.current.max)) *
-        100
-      }%`
-    );
-    raf = requestAnimationFrame(whilePlaying);
-  };
-
-  const calculateTime = (secs: number) => {
-    const minutes = Math.floor(secs / 60);
-    const seconds = Math.floor(secs % 60);
-    const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
-    return `${minutes}:${returnedSeconds}`;
+    }
+    setSeek(Math.floor(Audio.current.currentTime));
+    raf.current = requestAnimationFrame(whilePlaying);
   };
 
   const displayBufferedAmount = () => {
-    if (
-      Audio.current == null ||
-      AudioCont.current == null ||
-      SeekSlider.current == null
-    )
-      return;
+    if (Audio.current == null || AudioCont.current == null) return;
 
     const buff = Audio.current.buffered;
     const bufferedAmount = Math.floor(buff.end(buff.length - 1));
     AudioCont.current.style.setProperty(
       "--buffered-width",
-      `${(bufferedAmount / Number.parseFloat(SeekSlider.current.max)) * 100}%`
+      `${(bufferedAmount / trackDuration) * 100}%`
     );
   };
 
-  const LoadedMetaData = () => {
-    Play();
+  const onMetaDataLoaded = () => {
+    play();
     if (Audio.current != null) {
       setTrackDuration(Audio.current.duration);
     }
     displayBufferedAmount();
   };
 
-  const AudioProgress = () => {
-    displayBufferedAmount();
-  };
+  const onAudioProgress = () => displayBufferedAmount();
+  const onSeekSliderInput = (e: any) => setSeek(e.target.value);
 
-  const SeekSliderInput = (e: any) => {
-    const value = calculateTime(e.target.value);
-    if (CurrentTime.current != null) CurrentTime.current.textContent = value;
-    showRangeProgress(e.target);
-  };
-
-  const SeekSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onSeekSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
     if (Audio.current != null) Audio.current.currentTime = value;
     setSeek(value);
@@ -145,55 +97,51 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
     const value = Number(e.target.value);
     if (Audio.current != null) Audio.current.volume = value / 100;
     setVolume(value);
-
-    const rangeMax = e.target.max;
-
-    /*AudioCont.current.style.setProperty(
-        "--volume-before-width",
-        (rangeInput.value / rangeInput.max) * 100 + "%"
-      );*/
-    showRangeProgress(e.target);
   };
 
+  const maxVolume = 100;
+  const seekBeforeWidth = (seek / trackDuration) * 100;
+  const volumeBeforeWidth = (volume / maxVolume) * 100;
+
   return (
-    <AudioContainer ref={AudioCont} id="audio-player-container">
+    <AudioContainer
+      ref={AudioCont}
+      id="audio-player-container"
+      seekBeforeWidth={seekBeforeWidth}
+      volumeBeforeWidth={volumeBeforeWidth}
+    >
       <PlayerContainer>
         <audio
-          onProgress={AudioProgress}
+          onProgress={onAudioProgress}
           ref={Audio}
-          onLoadedMetadata={LoadedMetaData}
+          muted={isMuted}
+          onLoadedMetadata={onMetaDataLoaded}
           src={trackLink}
           preload="metadata"
           loop
         ></audio>
-        <button onClick={Play} id="play-icon">
-          <PlayIcon>▷</PlayIcon>
-        </button>
-        <Time ref={CurrentTime}>{calculateTime(seek)}</Time>
+        <PlayButton onPlay={play} onPause={pause} isPlaying={isPlaying} />
+        <Time>{calculateTime(seek)}</Time>
         <input
           ref={SeekSlider}
-          onChange={SeekSliderChange}
-          onInput={SeekSliderInput}
+          onChange={onSeekSliderChange}
+          onInput={onSeekSliderInput}
           disabled={trackLink === ""}
           type="range"
-          id="seek-slider"
+          value={seek}
           max={trackDuration}
         />
         <Time>{calculateTime(trackDuration)}</Time>
       </PlayerContainer>
       <VolumeContainer>
-        <output ref={VolumeOutput} id="volume-output">
-          {volume}
-        </output>
+        <output>{volume}</output>
         <VolumeSlider
-          ref={volumeSlider}
           onInput={onVolumeChange}
           value={volume}
           type="range"
-          id="volume-slider"
-          max="100"
+          max={maxVolume}
         />
-        <button onClick={Mute} id="mute-icon"></button>
+        <button onClick={onMute} id="mute-icon"></button>
       </VolumeContainer>
     </AudioContainer>
   );

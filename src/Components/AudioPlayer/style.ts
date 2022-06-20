@@ -1,9 +1,14 @@
 import styled from "styled-components";
 import Text from "../Text/Text";
 
-export const AudioContainer = styled.div`
-  --seek-before-width: 0%;
-  --volume-before-width: 100%;
+interface AudioContainerProps {
+  seekBeforeWidth: number;
+  volumeBeforeWidth: number;
+}
+
+export const AudioContainer = styled.div<AudioContainerProps>`
+  --seek-before-width: ${({ seekBeforeWidth }) => seekBeforeWidth}%;
+  --volume-before-width: ${({ volumeBeforeWidth }) => volumeBeforeWidth}%;
   --buffered-width: 0%;
   width: 95%;
   max-width: 500px;
@@ -61,6 +66,7 @@ export const AudioContainer = styled.div`
     cursor: pointer;
     background-color: var(--blue-bg-color);
   }
+
   & input[type="range"]::before {
     position: absolute;
     content: "";
@@ -71,6 +77,7 @@ export const AudioContainer = styled.div`
     background-color: var(--hblue-bg-color);
     cursor: pointer;
   }
+
   & input[type="range"]::-webkit-slider-thumb {
     position: relative;
     -webkit-appearance: none;
@@ -186,5 +193,4 @@ export const VolumeSlider = styled.input`
 
   &::before {
     width: var(--volume-before-width);
-  }
 `;
