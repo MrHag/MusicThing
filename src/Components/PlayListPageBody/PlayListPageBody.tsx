@@ -13,8 +13,6 @@ const BodyContainer = styled.div`
   flex-direction: column;
   width: 100%;
   margin: 0 auto;
-  /* TODO: How to fix this? */
-  height: 0;
 `;
 
 const BodyMainContainer = styled.div`

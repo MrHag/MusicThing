@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import { PlayList } from "../../App";
-import HomeBody from "../HomeBody/HomeBody";
-import HomeHeader from "../HomeHeader/HomeHeader";
 import PlayListPageBody from "../PlayListPageBody/PlayListPageBody";
 import PlayListPageHeader from "../PlayListPageHeader/PlayListPageHeader";
 
