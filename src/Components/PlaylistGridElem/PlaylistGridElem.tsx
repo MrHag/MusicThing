@@ -2,13 +2,7 @@ import styled from "styled-components";
 import Text from "../Text/Text";
 import { Track } from "../../App";
 
-interface FnProps {
-  track: Track;
-  position: number;
-  onTrackClick: (id: number) => void;
-}
-
-const PlayListElem = styled.div`
+const PlaylistElem = styled.div`
   display: grid;
   grid-template-columns: 24px 4fr 6fr [last] minmax(120px, 1fr);
   height: 40px;
@@ -57,11 +51,20 @@ const TextContainer = styled.div`
   justify-content: space-evenly;
 `;
 
-function PlayListGridElem(props: FnProps) {
-  const track = props.track;
+interface Props {
+  track: Track;
+  position: number;
+  onTrackClick: (id: number) => void;
+}
+
+const PlaylistGridElem: React.FC<Props> = ({
+  track,
+  position,
+  onTrackClick,
+}) => {
   return (
-    <PlayListElem onClick={() => props.onTrackClick(props.track.id)}>
-      <Text className="index">{props.position}</Text>
+    <PlaylistElem onClick={() => onTrackClick(track.id)}>
+      <Text className="index">{position}</Text>
       <Text className="index-icon">▷</Text>
       <MainContainer>
         <Image src={track.image}></Image>
@@ -72,8 +75,8 @@ function PlayListGridElem(props: FnProps) {
       </MainContainer>
       <Text>{track.album}</Text>
       <Text>{track.duration}</Text>
-    </PlayListElem>
+    </PlaylistElem>
   );
-}
+};
 
-export default PlayListGridElem;
+export default PlaylistGridElem;

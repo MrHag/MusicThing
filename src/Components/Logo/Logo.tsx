@@ -6,18 +6,18 @@ const LogoText = styled(Text)`
   font-family: "Gill Sans", sans-serif;
 `;
 
-const LogoContainer = styled.div`
+const Container = styled.div`
   display: flex;
   margin: 20px 0;
   align-items: center;
 `;
 
-function Logo() {
+const Logo: React.FC = () => {
   return (
-    <LogoContainer>
+    <Container>
       <LogoText>MusicThing</LogoText>
-    </LogoContainer>
+    </Container>
   );
-}
+};
 
 export default Logo;

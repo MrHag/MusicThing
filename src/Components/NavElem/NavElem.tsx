@@ -1,16 +1,11 @@
 import styled from "styled-components";
 import Text from "../Text/Text";
 
-interface Props {
-  active: Boolean;
+interface ContainerProps {
+  active: boolean;
 }
 
-interface FnProps extends Props {
-  text: string;
-  navClick: () => void;
-}
-
-export const NavContainer = styled.div<Props>`
+export const NavContainer = styled.div<ContainerProps>`
   display: flex;
   width: 100%;
   padding: 8px 0;
@@ -24,12 +19,17 @@ export const NavContainer = styled.div<Props>`
   }
 `;
 
-function NavElem(props: FnProps) {
+interface NavElemProps extends ContainerProps {
+  text: string;
+  onClick: () => void;
+}
+
+const NavElem: React.FC<NavElemProps> = ({ active, onClick, text }) => {
   return (
-    <NavContainer active={props.active} onClick={props.navClick}>
-      <Text>{props.text}</Text>
+    <NavContainer active={active} onClick={onClick}>
+      <Text>{text}</Text>
     </NavContainer>
   );
-}
+};
 
 export default NavElem;

@@ -1,10 +1,8 @@
 import styled from "styled-components";
-import { PlayList } from "../../App";
 import AddMusicPageBody from "../AddMusicPageBody/AddMusicPageBody";
-import HomeBody from "../HomeBody/HomeBody";
 import HomeHeader from "../HomeHeader/HomeHeader";
 
-const PlayListC = styled.div`
+const PlaylistContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -13,13 +11,13 @@ const PlayListC = styled.div`
   overflow-y: scroll;
 `;
 
-function AddMusicPage() {
+const AddMusicPage: React.FC = () => {
   return (
-    <PlayListC>
+    <PlaylistContainer>
       <HomeHeader></HomeHeader>
       <AddMusicPageBody></AddMusicPageBody>
-    </PlayListC>
+    </PlaylistContainer>
   );
-}
+};
 
 export default AddMusicPage;

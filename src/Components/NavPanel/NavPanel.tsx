@@ -1,9 +1,9 @@
-import { HTMLAttributes, ReactNode, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import NavElem from "../NavElem/NavElem";
 
 interface FnProps<T> {
-  navClick: (param: T) => void;
+  onNavClick: (param: T) => void;
   elements: { text: string; param: T }[];
 }
 
@@ -26,9 +26,9 @@ function NavPanel<T>(props: FnProps<T>) {
         active={activeElem === index}
         key={index}
         text={attr.text}
-        navClick={() => {
+        onClick={() => {
           setactiveElem(index);
-          props.navClick(attr.param);
+          props.onNavClick(attr.param);
         }}
       />
     );

@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { PlayList } from "../../App";
-import PlayListGrid from "../PlayListGrid/PlayListGrid";
 import Text from "../Text/Text";
 
 const BodyContainer = styled.div`
@@ -54,7 +52,7 @@ const Submit = styled.input``;
 
 const Save = styled.button``;
 
-function AddMusicPageBody() {
+const AddMusicPageBody: React.FC = () => {
   const FormVar = useRef<HTMLFormElement>(null);
 
   const [isemail, setisemail] = useState(false);
@@ -191,6 +189,6 @@ function AddMusicPageBody() {
       </BodyContainer>
     </BodyMainContainer>
   );
-}
+};
 
 export default AddMusicPageBody;

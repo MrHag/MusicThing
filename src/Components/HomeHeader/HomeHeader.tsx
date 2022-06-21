@@ -13,7 +13,7 @@ const HomeContainer = styled.div`
   margin: 0 auto;
 `;
 
-const HomeMainContainer = styled.div`
+const Container = styled.div`
   display: flex;
   background-color: var(--light-bg-color);
   width: 100%;
@@ -21,15 +21,15 @@ const HomeMainContainer = styled.div`
   margin: 0 auto;
 `;
 
-function HomeHeader() {
+const HomeHeader: React.FC = () => {
   return (
-    <HomeMainContainer>
+    <Container>
       <HomeContainer>
         <HeaderImage src={logo}></HeaderImage>
         <Logo></Logo>
       </HomeContainer>
-    </HomeMainContainer>
+    </Container>
   );
-}
+};
 
 export default HomeHeader;

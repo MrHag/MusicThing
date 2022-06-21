@@ -2,18 +2,8 @@ import styled from "styled-components";
 import Logo from "../Logo/Logo";
 import NavPanel from "../NavPanel/NavPanel";
 import PlaylistNavPanel from "../PlaylistNavPanel/PlaylistNavPanel";
-import { PlayList } from "../../App";
 
-interface FnProps {
-  navClick: (message: Pages) => void;
-  playlistClick: (id: number) => void;
-  playLists: {
-    id: number;
-    name: string;
-  }[];
-}
-
-const LeftC = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: var(--primary-bg-color);
@@ -29,7 +19,20 @@ export enum Pages {
   AddMusic,
 }
 
-function LeftContainer(props: FnProps) {
+interface Props {
+  onNavClick: (message: Pages) => void;
+  onPlaylistClick: (id: number) => void;
+  playlists: {
+    id: number;
+    name: string;
+  }[];
+}
+
+const LeftContainer: React.FC<Props> = ({
+  onNavClick,
+  onPlaylistClick,
+  playlists,
+}) => {
   const elements = [
     { text: "Home", param: Pages.Home },
     { text: "Search", param: Pages.Search },
@@ -37,15 +40,15 @@ function LeftContainer(props: FnProps) {
   ];
 
   return (
-    <LeftC>
+    <Container>
       <Logo></Logo>
-      <NavPanel navClick={props.navClick} elements={elements}></NavPanel>
+      <NavPanel onNavClick={onNavClick} elements={elements}></NavPanel>
       <PlaylistNavPanel
-        navClick={props.playlistClick}
-        elements={props.playLists}
+        onNavClick={onPlaylistClick}
+        elements={playlists}
       ></PlaylistNavPanel>
-    </LeftC>
+    </Container>
   );
-}
+};
 
 export default LeftContainer;

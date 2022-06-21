@@ -1,12 +1,7 @@
 import styled from "styled-components";
-import { PlayList } from "../../App";
-import PlayListGridElem from "../PlayListGridElem/PlayListGridElem";
+import { Playlist } from "../../App";
+import PlaylistGridElem from "../PlaylistGridElem/PlaylistGridElem";
 import Text from "../Text/Text";
-
-interface FnProps {
-  playList: PlayList;
-  onTrackClick: (id: number) => void;
-}
 
 const Grid = styled.div`
   display: grid;
@@ -23,8 +18,12 @@ const MainContainer = styled.div`
   flex-direction: column;
 `;
 
-function PlayListGrid(props: FnProps) {
-  const pl = props.playList;
+interface Props {
+  playlist: Playlist;
+  onTrackClick: (id: number) => void;
+}
+
+const PlaylistGrid: React.FC<Props> = ({ playlist, onTrackClick }) => {
   return (
     <MainContainer>
       <Grid>
@@ -33,16 +32,16 @@ function PlayListGrid(props: FnProps) {
         <Text>Album</Text>
         <Text>Duration</Text>
       </Grid>
-      {pl.tracks.map((track, index) => (
-        <PlayListGridElem
-          onTrackClick={props.onTrackClick}
+      {playlist.tracks.map((track, index) => (
+        <PlaylistGridElem
+          onTrackClick={onTrackClick}
           key={index}
           track={track}
           position={index + 1}
-        ></PlayListGridElem>
+        ></PlaylistGridElem>
       ))}
     </MainContainer>
   );
-}
+};
 
-export default PlayListGrid;
+export default PlaylistGrid;

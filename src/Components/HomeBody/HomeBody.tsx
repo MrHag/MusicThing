@@ -19,24 +19,24 @@ const BodyText = styled(Text)`
   font-size: 24px;
 `;
 
-const BodyMainContainer = styled.div`
+const Container = styled.div`
   display: flex;
   padding: 30px 0;
   width: 100%;
   height: 100%;
 `;
 
-function HomeBody() {
+const HomeBody: React.FC = () => {
   return (
-    <BodyMainContainer>
+    <Container>
       <BodyContainer>
         <TitleText>Wellcome to MusicThings</TitleText>
         <BodyText>
           MusicThings - is the platform to listen and share music.
         </BodyText>
       </BodyContainer>
-    </BodyMainContainer>
+    </Container>
   );
-}
+};
 
 export default HomeBody;
