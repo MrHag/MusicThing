@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Text from "../Text/Text";
-import { PlayList } from "../../App";
+import { Playlist } from "../../App";
 
 const PlaylistImage = styled.img`
   width: 20%;
@@ -34,7 +34,7 @@ const HeadText = styled(Text)`
 `;
 
 interface Props {
-  playlist: PlayList;
+  playlist: Playlist;
 }
 
 const PlaylistPageHeader: React.FC<Props> = ({ playlist: playList }) => {

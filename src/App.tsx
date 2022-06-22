@@ -11,7 +11,7 @@ export type Track = {
   duration: number;
 };
 
-export type PlayList = {
+export type Playlist = {
   id: number;
   name: string;
   image: string;
