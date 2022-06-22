@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Playlist } from "../../App";
+import { PlayList } from "../../App";
 import PlaylistPageBody from "../PlaylistPageBody/PlaylistPageBody";
 import PlaylistPageHeader from "../PlaylistPageHeader/PlaylistPageHeader";
 
@@ -13,7 +13,7 @@ const PlaylistContainer = styled.div`
 `;
 
 interface Props {
-  playlist: Playlist;
+  playlist: PlayList;
   onTrackClick: (id: number) => void;
 }
 
@@ -23,7 +23,7 @@ const PlaylistPage: React.FC<Props> = ({ playlist, onTrackClick }) => {
       <PlaylistPageHeader playlist={playlist}></PlaylistPageHeader>
       <PlaylistPageBody
         onTrackClick={onTrackClick}
-        playlist={playlist}
+        playList={playlist}
       ></PlaylistPageBody>
     </PlaylistContainer>
   );

@@ -24,7 +24,7 @@ export type Track = {
   duration: number;
 };
 
-export type Playlist = {
+export type PlayList = {
   id: number;
   name: string;
   image: string;
@@ -131,7 +131,7 @@ function App() {
     return tracksNumbers.map((id) => TracksDB[id]);
   };
 
-  const playlists: { [id: number]: Playlist } = {
+  const playlists: { [id: number]: PlayList } = {
     0: { id: 0, name: "MyPlayList", image: logo, tracks: extractTracks(list1) },
     1: { id: 1, name: "Secrets", image: logo, tracks: extractTracks(list2) },
     2: { id: 2, name: "Best", image: logo, tracks: extractTracks(list3) },
