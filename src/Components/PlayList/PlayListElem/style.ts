@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GridTemplate } from "../sharedstyle";
+import { GridTemplate } from "../style";
 
 export const PlayListElem = styled(GridTemplate)`
   display: grid;
