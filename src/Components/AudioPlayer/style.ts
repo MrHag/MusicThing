@@ -1,7 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import { ClassicInput } from "../ClassicInput/ClassicInput";
-import Text from "../Text/Text";
 
 interface AudioContainerProps {
   seekBeforeWidth: number;

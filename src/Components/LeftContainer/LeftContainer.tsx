@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Logo from "../Logo/Logo";
 import NavPanel from "../NavPanel/NavPanel";
 import PlaylistNavPanel from "../PlaylistNavPanel/PlaylistNavPanel";
-import { PlayList } from "../../App";
 
 interface FnProps {
   navClick: (message: Pages) => void;

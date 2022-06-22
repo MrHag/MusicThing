@@ -1,5 +1,5 @@
 import { Track } from "../../App";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   VolumeContainer,
   PlayerContainer,

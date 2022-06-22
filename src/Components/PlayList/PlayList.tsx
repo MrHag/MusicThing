@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { PlayList as PlayListType } from "../../App";
 import PlayListElem from "./PlayListElem/PlayListElem";
 import Text from "../Text/Text";

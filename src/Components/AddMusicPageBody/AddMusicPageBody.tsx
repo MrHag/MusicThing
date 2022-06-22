@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { PlayList } from "../../App";
-import PlayListGrid from "../PlayList/PlayList";
 import Text from "../Text/Text";
 
 const BodyContainer = styled.div`

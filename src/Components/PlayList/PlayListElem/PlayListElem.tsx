@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import Text from "../../Text/Text";
 import { Track } from "../../../App";
 import { PlayListElem, MainContainer, TextContainer, Image } from "./style";

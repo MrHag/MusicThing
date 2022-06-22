@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import { PlayList } from "../../App";
 import AddMusicPageBody from "../AddMusicPageBody/AddMusicPageBody";
-import HomeBody from "../HomeBody/HomeBody";
 import HomeHeader from "../HomeHeader/HomeHeader";
 
 const PlayListC = styled.div`
