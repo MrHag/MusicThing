@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import NavElem from "../NavElem/NavElem";
 
-interface FnProps<T> {
+interface Props<T> {
   onNavClick: (param: T) => void;
   elements: { text: string; param: T }[];
 }
@@ -17,8 +17,8 @@ export const PanelContainer = styled.div`
   border-bottom: 1px solid var(--blue-bg-color);
 `;
 
-function NavPanel<T>(props: FnProps<T>) {
-  const [activeElem, setactiveElem] = useState(0);
+function NavPanel<T>(props: Props<T>) {
+  const [activeElem, setActiveElem] = useState(0);
 
   const NavElems = props.elements.map((attr, index) => {
     return (
@@ -27,7 +27,7 @@ function NavPanel<T>(props: FnProps<T>) {
         key={index}
         text={attr.text}
         onClick={() => {
-          setactiveElem(index);
+          setActiveElem(index);
           props.onNavClick(attr.param);
         }}
       />

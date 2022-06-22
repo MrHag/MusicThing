@@ -41,12 +41,9 @@ const LeftContainer: React.FC<Props> = ({
 
   return (
     <Container>
-      <Logo></Logo>
-      <NavPanel onNavClick={onNavClick} elements={elements}></NavPanel>
-      <PlaylistNavPanel
-        onNavClick={onPlaylistClick}
-        elements={playlists}
-      ></PlaylistNavPanel>
+      <Logo />
+      <NavPanel onNavClick={onNavClick} elements={elements} />
+      <PlaylistNavPanel onNavClick={onPlaylistClick} elements={playlists} />
     </Container>
   );
 };
