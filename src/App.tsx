@@ -1,19 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import LeftContainer from "./Components/LeftContainer/LeftContainer";
 import { Pages } from "./Components/LeftContainer/LeftContainer";
-import styled from "styled-components";
 import Body from "./Components/Body/Body";
 import MainContainer from "./Components/MainContainer/MainContainer";
 import Footer from "./Components/Footer/Footer";
 import TopContainer from "./Components/TopContainer/TopContainer";
 import BottomContainer from "./Components/BottomContainer/BottomContainer";
 import HomePage from "./Components/HomePage/HomePage";
-import { type } from "@testing-library/user-event/dist/type";
 import logo from "./logo.svg";
 import logo1 from "./logo1.jpeg";
 import logo2 from "./logo2.jpeg";
-import PlayListPage from "./Components/PlayListPage/PlayListPage";
+import PlaylistPage from "./Components/PlaylistPage/PlaylistPage";
 import AddMusicPage from "./Components/AddMusicPage/AddMusicPage";
 
 export type Track = {
@@ -26,7 +24,7 @@ export type Track = {
   duration: number;
 };
 
-export type PlayList = {
+export type Playlist = {
   id: number;
   name: string;
   image: string;
@@ -40,7 +38,7 @@ function App() {
     2: <AddMusicPage />,
   };
 
-  const [Page, SetPage] = useState(pages[Pages.Home]);
+  const [page, setPage] = useState(pages[Pages.Home]);
 
   const TracksDB: { [id: number]: Track } = {
     0: {
@@ -125,29 +123,23 @@ function App() {
     },
   };
 
-  const [Tracks, SetTrack] = useState(TracksDB);
-
   const list1: number[] = [0, 1, 2, 3, 4];
-
   const list2: number[] = [0, 1, 4];
-
   const list3: number[] = [5, 6, 7];
 
-  const extractTracks = (tracks: number[]) => {
-    return tracks.map((id) => Tracks[id]);
+  const extractTracks = (tracksNumbers: number[]) => {
+    return tracksNumbers.map((id) => TracksDB[id]);
   };
 
-  const playlists: { [id: number]: PlayList } = {
+  const playlists: { [id: number]: Playlist } = {
     0: { id: 0, name: "MyPlayList", image: logo, tracks: extractTracks(list1) },
     1: { id: 1, name: "Secrets", image: logo, tracks: extractTracks(list2) },
     2: { id: 2, name: "Best", image: logo, tracks: extractTracks(list3) },
   };
 
-  const [PlayLists, SetPlaylists] = useState(playlists);
+  const [curTrack, setCurrentTrack] = useState<Track>();
 
-  const [curTrack, setcurTrack] = useState<Track>();
-
-  let playlistarr = Object.values(PlayLists).map((pl) => {
+  let playlistarr = Object.values(playlists).map((pl) => {
     return { id: pl.id, name: pl.name };
   });
 
@@ -155,23 +147,23 @@ function App() {
     <Body>
       <TopContainer>
         <LeftContainer
-          playLists={playlistarr}
-          playlistClick={(id) => {
+          playlists={playlistarr}
+          onPlaylistClick={(id) => {
             const pl = playlists[id];
-            SetPage(
-              <PlayListPage
+            setPage(
+              <PlaylistPage
                 onTrackClick={(id) => {
-                  setcurTrack(Tracks[id]);
+                  setCurrentTrack(TracksDB[id]);
                 }}
-                playList={pl}
-              ></PlayListPage>
+                playlist={pl}
+              ></PlaylistPage>
             );
           }}
-          navClick={(page) => {
-            SetPage(pages[page]);
+          onNavClick={(page) => {
+            setPage(pages[page]);
           }}
         ></LeftContainer>
-        <MainContainer>{Page}</MainContainer>
+        <MainContainer>{page}</MainContainer>
       </TopContainer>
       <BottomContainer>
         <Footer track={curTrack}></Footer>

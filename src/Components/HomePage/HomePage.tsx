@@ -2,7 +2,7 @@ import styled from "styled-components";
 import HomeBody from "../HomeBody/HomeBody";
 import HomeHeader from "../HomeHeader/HomeHeader";
 
-const HomeC = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -11,13 +11,13 @@ const HomeC = styled.div`
   overflow-y: scroll;
 `;
 
-function HomePage() {
+const HomePage: React.FC = () => {
   return (
-    <HomeC>
+    <Container>
       <HomeHeader></HomeHeader>
       <HomeBody></HomeBody>
-    </HomeC>
+    </Container>
   );
-}
+};
 
 export default HomePage;

@@ -2,24 +2,23 @@ import styled from "styled-components";
 import { Track } from "../../App";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
 
-interface FnProps {
+interface Props {
   track?: Track;
 }
 
-const FContainer = styled.div`
+const Container = styled.div`
   display: flex;
   border-top: 1px solid var(--hblue-bg-color);
   background-color: var(--light-bg-color);
   width: 100%;
 `;
 
-function Footer(props: FnProps) {
-  const track = props.track;
+const Footer: React.FC<Props> = ({ track }) => {
   return (
-    <FContainer>
+    <Container>
       <AudioPlayer track={track}></AudioPlayer>
-    </FContainer>
+    </Container>
   );
-}
+};
 
 export default Footer;

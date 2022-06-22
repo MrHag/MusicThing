@@ -3,36 +3,39 @@ import styled from "styled-components";
 import { PanelContainer } from "../NavPanel/NavPanel";
 import PlaylistNavElem from "../PlaylistNavElem/PlaylistNavElem";
 
-interface FnProps {
-  navClick: (param: number) => void;
+const Container = styled(PanelContainer)`
+  border-top: unset;
+`;
+
+interface Props {
+  onNavClick: (param: number) => void;
   elements: {
     id: number;
     name: string;
   }[];
 }
 
-const PanelC = styled(PanelContainer)`
-  border-top: unset;
-`;
-
-function PlaylistNavPanel(props: FnProps) {
+const PlaylistNavPanel: React.FC<Props> = ({
+  onNavClick: navClick,
+  elements,
+}) => {
   const [activeElem, setactiveElem] = useState(0);
 
-  const NavElems = props.elements.map((attr, index) => {
+  const NavElems = elements.map((attr, index) => {
     return (
       <PlaylistNavElem
         active={activeElem === index}
         key={index}
         text={attr.name}
-        navClick={() => {
+        onNavClick={() => {
           setactiveElem(index);
-          props.navClick(attr.id);
+          navClick(attr.id);
         }}
       />
     );
   });
 
-  return <PanelC>{NavElems}</PanelC>;
-}
+  return <Container>{NavElems}</Container>;
+};
 
 export default PlaylistNavPanel;

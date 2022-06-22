@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { PlayList as PlayListType } from "../../App";
 import PlayList from "../PlayList/PlayList";
 
-interface FnProps {
+interface Props {
   playList: PlayListType;
   onTrackClick: (id: number) => void;
 }
@@ -21,14 +21,14 @@ const BodyMainContainer = styled.div`
   height: 100%;
 `;
 
-function PlayListPageBody(props: FnProps) {
+const PlaylistPageBody: React.FC<Props> = ({ playList, onTrackClick }) => {
   return (
     <BodyMainContainer>
       <BodyContainer>
-        <PlayList onTrackClick={props.onTrackClick} playList={props.playList} />
+        <PlayList onTrackClick={onTrackClick} playList={playList} />
       </BodyContainer>
     </BodyMainContainer>
   );
-}
+};
 
-export default PlayListPageBody;
+export default PlaylistPageBody;

@@ -52,7 +52,7 @@ const Submit = styled.input``;
 
 const Save = styled.button``;
 
-function AddMusicPageBody() {
+const AddMusicPageBody: React.FC = () => {
   const FormVar = useRef<HTMLFormElement>(null);
 
   const [isemail, setisemail] = useState(false);
@@ -189,6 +189,6 @@ function AddMusicPageBody() {
       </BodyContainer>
     </BodyMainContainer>
   );
-}
+};
 
 export default AddMusicPageBody;

@@ -1,24 +1,18 @@
-import styled from "styled-components";
 import Text from "../Text/Text";
 import { NavContainer } from "../NavElem/NavElem";
 
 interface Props {
-  active: Boolean;
-}
-
-interface FnProps extends Props {
   text: string;
-  navClick: () => void;
+  active: boolean;
+  onNavClick: () => void;
 }
 
-const NavC = styled(NavContainer)``;
-
-function PlaylistNavElem(props: FnProps) {
+const PlaylistNavElem: React.FC<Props> = ({ active, onNavClick, text }) => {
   return (
-    <NavC active={props.active} onClick={props.navClick}>
-      <Text>{props.text}</Text>
-    </NavC>
+    <NavContainer active={active} onClick={onNavClick}>
+      <Text>{text}</Text>
+    </NavContainer>
   );
-}
+};
 
 export default PlaylistNavElem;
