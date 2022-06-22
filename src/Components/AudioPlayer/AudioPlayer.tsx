@@ -1,5 +1,5 @@
 import { Track } from "../../App";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   VolumeContainer,
   PlayerContainer,
@@ -9,6 +9,8 @@ import {
   SeekSlider,
 } from "./style";
 import PlayButton from "./PlayButton";
+import { ClassicInput } from "../ClassicInput/ClassicInput";
+import MuteButton from "./MuteButton";
 
 const calculateTime = (secs: number) => {
   const minutes = Math.floor(secs / 60);
@@ -28,7 +30,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
 
   const AudioCont = useRef<HTMLDivElement>(null);
   const Audio = useRef<HTMLAudioElement>(null);
-  const SeekSlid = useRef<HTMLInputElement>(null);
+  const SeekSlid = useRef<ClassicInput>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -37,7 +39,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
   const [volume, setVolume] = useState(100);
 
   const play = () => {
-    if (Audio.current == null) return;
+    if (!Audio.current) return;
 
     if (isPlaying) {
       pause();
@@ -50,24 +52,23 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
   };
 
   const pause = () => {
-    if (Audio.current != null) {
+    if (Audio.current) {
       Audio.current.pause();
       cancelAnimationFrame(raf.current);
       setIsPlaying(false);
     }
   };
-  const onMute = () => setIsMuted(!isMuted);
+  const onMute = () => setIsMuted(true);
+  const onUnMute = () => setIsMuted(false);
 
   const whilePlaying = () => {
-    if (Audio.current == null) {
-      return;
-    }
+    if (!Audio.current) return;
     setSeek(Math.floor(Audio.current.currentTime));
     raf.current = requestAnimationFrame(whilePlaying);
   };
 
   const displayBufferedAmount = () => {
-    if (Audio.current == null || AudioCont.current == null) return;
+    if (!Audio.current || !AudioCont.current) return;
 
     const buff = Audio.current.buffered;
     const bufferedAmount = Math.floor(buff.end(buff.length - 1));
@@ -79,19 +80,25 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
 
   const onMetaDataLoaded = () => {
     play();
-    if (Audio.current != null) {
+    if (Audio.current) {
       setTrackDuration(Audio.current.duration);
     }
     displayBufferedAmount();
   };
 
   const onAudioProgress = () => displayBufferedAmount();
-  const onSeekSliderInput = (e: any) => setSeek(e.target.value);
 
-  const onSeekSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
+  const onSeekSliderInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSeek(Number(e.target.value));
+    cancelAnimationFrame(raf.current);
+  };
+
+  const onSeekSliderChange = (e: Event) => {
+    if (!e.currentTarget) return;
+    const value = Number((e.currentTarget as any).value);
     if (Audio.current != null) Audio.current.currentTime = value;
     setSeek(value);
+    raf.current = requestAnimationFrame(whilePlaying);
   };
 
   const onVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,7 +128,12 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
           preload="metadata"
           loop
         ></audio>
-        <PlayButton onPlay={play} onPause={pause} isPlaying={isPlaying} />
+        <PlayButton
+          onPlay={play}
+          onPause={pause}
+          isPlaying={isPlaying}
+          disabled={trackLink === ""}
+        />
         <Time>{calculateTime(seek)}</Time>
         <SeekSlider
           ref={SeekSlid}
@@ -135,14 +147,18 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
         <Time>{calculateTime(trackDuration)}</Time>
       </PlayerContainer>
       <VolumeContainer>
-        <output>{volume}</output>
+        <MuteButton
+          onMute={onMute}
+          onUnMute={onUnMute}
+          isMuted={isMuted}
+        ></MuteButton>
         <VolumeSlider
           onInput={onVolumeChange}
           value={volume}
           type="range"
           max={maxVolume}
         />
-        <button onClick={onMute} id="mute-icon"></button>
+        <output>{volume}</output>
       </VolumeContainer>
     </AudioContainer>
   );

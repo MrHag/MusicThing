@@ -17,9 +17,9 @@ const LeftC = styled.div`
   display: flex;
   flex-direction: column;
   background-color: var(--primary-bg-color);
-  min-width: 350px;
+  min-width: 230px;
   height: 100%;
-  padding-left: 30px;
+  padding: 0 30px;
   user-select: none;
 `;
 

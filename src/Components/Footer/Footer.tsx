@@ -10,7 +10,6 @@ const FContainer = styled.div`
   display: flex;
   border-top: 1px solid var(--hblue-bg-color);
   background-color: var(--light-bg-color);
-  min-height: 80px;
   width: 100%;
 `;
 

@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import { PlayList } from "../../App";
-import PlayListGrid from "../PlayListGrid/PlayListGrid";
-import Text from "../Text/Text";
+import { PlayList as PlayListType } from "../../App";
+import PlayList from "../PlayList/PlayList";
 
 interface FnProps {
-  playList: PlayList;
+  playList: PlayListType;
   onTrackClick: (id: number) => void;
 }
 
@@ -26,10 +25,7 @@ function PlayListPageBody(props: FnProps) {
   return (
     <BodyMainContainer>
       <BodyContainer>
-        <PlayListGrid
-          onTrackClick={props.onTrackClick}
-          playList={props.playList}
-        />
+        <PlayList onTrackClick={props.onTrackClick} playList={props.playList} />
       </BodyContainer>
     </BodyMainContainer>
   );

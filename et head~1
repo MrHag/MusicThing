@@ -1,0 +1,71 @@
+[33mcommit 611ed97135ea4ffd78dbc58ce528c1caa6af34a9[m[33m ([m[1;36mHEAD -> [m[1;32mlost[m[33m)[m
+Author: MrHag <superhackervit@gmail.com>
+Date:   Mon Jun 20 16:41:40 2022 +0200
+
+    Fix volume display
+
+[33mcommit 39105a5cbdc2c59488c33dfaa6da16313ecfce29[m
+Author: 1amL0st <>
+Date:   Mon Jun 20 14:33:51 2022 +0300
+
+    Final refactor
+
+[33mcommit 54a15ad144c273baef4d9c51f50c6aabb156e3c5[m
+Author: 1amL0st <>
+Date:   Mon Jun 20 13:21:54 2022 +0300
+
+    seek, volume, trackDuration states
+
+[33mcommit 8c0d7fe917589a878c0e80396fe7b8876e3eb5e5[m
+Author: 1amL0st <>
+Date:   Mon Jun 20 13:02:00 2022 +0300
+
+    isPlaying, isMuted, duration states
+
+[33mcommit 1ce34a5ebe8f812e0854351950d7895f56de2f7d[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: MrHag <superhackervit@gmail.com>
+Date:   Mon Jun 20 04:57:27 2022 +0200
+
+    Add examples. Form.
+
+[33mcommit 88cbfd38f25040ef269f0ccef273db1f4b94f971[m
+Author: MrHag <superhackervit@gmail.com>
+Date:   Mon Jun 20 01:41:43 2022 +0200
+
+    Added player
+
+[33mcommit 69d75bbab998a2f3f5d418521281adc20f0505dc[m
+Author: MrHag <superhackervit@gmail.com>
+Date:   Sun Jun 19 19:28:04 2022 +0200
+
+    PlayList
+
+[33mcommit 57a25ac93c715bcca8c79fab0c6bfd89967b3017[m
+Author: MrHag <superhackervit@gmail.com>
+Date:   Sun Jun 19 14:00:24 2022 +0200
+
+    Add body scrolling. Need to fix.
+
+[33mcommit a4a0cd7375e391055448f9e4217104243a7372d1[m
+Author: MrHag <superhackervit@gmail.com>
+Date:   Sun Jun 19 10:47:06 2022 +0200
+
+    NavPanel
+
+[33mcommit f703e530a9989c5ea9cbedeb96ed984fdf299f95[m
+Author: MrHag <superhackervit@gmail.com>
+Date:   Sun Jun 19 08:54:12 2022 +0200
+
+    Refactoring
+
+[33mcommit d1a0d7879f2fa9ea9cfe964a8522f8e19affb524[m
+Author: MrHag <superhackervit@gmail.com>
+Date:   Sun Jun 19 01:27:11 2022 +0200
+
+    Start
+
+[33mcommit 2b1f287ed37fd83ccf18fb0f40e5f256d091746a[m
+Author: MrHag <superhackervit@gmail.com>
+Date:   Sat Jun 18 12:32:04 2022 +0200
+
+    Initialize project using Create React App
