@@ -58,8 +58,8 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
       setIsPlaying(false);
     }
   };
-  const onMute = () => setIsMuted(true);
-  const onUnMute = () => setIsMuted(false);
+
+  const onMuteBtnClick = () => setIsMuted(!isMuted);
 
   const whilePlaying = () => {
     if (!Audio.current) return;
@@ -148,8 +148,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
       </PlayerContainer>
       <VolumeContainer>
         <MuteButton
-          onMute={onMute}
-          onUnMute={onUnMute}
+          onClick={onMuteBtnClick}
           isMuted={isMuted}
         ></MuteButton>
         <VolumeSlider

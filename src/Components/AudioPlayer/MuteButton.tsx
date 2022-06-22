@@ -2,18 +2,17 @@ import IconContainer from "./IconContainer";
 import { VolumeIcon, MuteVolumeIcon } from "./icons";
 
 interface Props {
-  onMute: () => void;
-  onUnMute: () => void;
+  onClick: () => void;
   isMuted: boolean;
 }
 
-const MuteButton: React.FC<Props> = ({ onMute, onUnMute, isMuted }) => {
+const MuteButton: React.FC<Props> = ({ onClick,  isMuted }) => {
   return isMuted ? (
-    <IconContainer onClick={onUnMute} disabled={true}>
+    <IconContainer onClick={onClick} disabled={true}>
       <MuteVolumeIcon />
     </IconContainer>
   ) : (
-    <IconContainer onClick={onMute} disabled={false}>
+    <IconContainer onClick={onClick} disabled={false}>
       <VolumeIcon />
     </IconContainer>
   );
