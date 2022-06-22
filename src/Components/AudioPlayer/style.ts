@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Text from "../Text/Text";
+import { ClassicInput } from "../ClassicInput/ClassicInput";
 
 interface AudioContainerProps {
   seekBeforeWidth: number;
@@ -10,24 +10,15 @@ export const AudioContainer = styled.div<AudioContainerProps>`
   --seek-before-width: ${({ seekBeforeWidth }) => seekBeforeWidth}%;
   --volume-before-width: ${({ volumeBeforeWidth }) => volumeBeforeWidth}%;
   --buffered-width: 0%;
-  width: 95%;
-  max-width: 500px;
+
   /* background: var(--ultra-light-bg-color); */
   color: var(--secondary-text-color);
 
   display: flex;
+  justify-content: space-between;
+  width: 100%;
   align-items: center;
-
-  & button {
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    outline: none;
-    width: 40px;
-    height: 40px;
-    float: left;
-  }
+  user-select: none;
 
   #play-icon {
     margin: 0 10px;
@@ -39,20 +30,16 @@ export const AudioContainer = styled.div<AudioContainerProps>`
     text-align: center;
     font-size: 20px;
     margin: 0 10px;
-    float: left;
     clear: left;
   }
 
-  #mute-icon {
-    margin: 0 10px;
-  }
   & input[type="range"] {
     background-color: unset;
   }
   & input[type="range"] {
     position: relative;
     -webkit-appearance: none;
-    width: 48%;
+    width: 100%;
     margin: 0;
     padding: 0;
     height: 19px;
@@ -73,7 +60,7 @@ export const AudioContainer = styled.div<AudioContainerProps>`
     top: 8px;
     left: 0;
     height: 3px;
-    background-color: var(--hblue-bg-color);
+    width: 100%;
     cursor: pointer;
   }
 
@@ -147,22 +134,22 @@ export const AudioContainer = styled.div<AudioContainerProps>`
   }
 `;
 
-export const PlayIcon = styled(Text)`
-  font-size: 30px;
-`;
-
-export const StopIcon = styled(Text)`
-  font-size: 25px;
-`;
-
 export const VolumeContainer = styled.div`
   display: flex;
   align-items: center;
+  height: 33.3%;
+  width: 50%;
+  max-width: 200px;
+  min-width: 150px;
 `;
 
 export const PlayerContainer = styled.div`
   display: flex;
   align-items: center;
+  height: 33.3%;
+  width: 50%;
+  max-width: 440px;
+  min-width: 250px;
 `;
 
 export const Time = styled.span`
@@ -171,22 +158,30 @@ export const Time = styled.span`
   text-align: center;
   font-size: 20px;
   margin: 0 10px;
-  float: left;
 `;
 
-
-export const SeekSlider = styled.input`
- &::before{
-  width: var(--seek-before-width);
+export const SeekSlider = styled(ClassicInput)`
+  &::before {
+    background: linear-gradient(
+      to right,
+      var(--hblue-bg-color) var(--seek-before-width),
+      var(--lightblue-bg-color) var(--seek-before-width),
+      var(--buffered-width),
+      transparent 0
+    );
   }
 `;
 
 export const VolumeSlider = styled.input`
   margin: 0 10px;
-  width: 58%;
+  width: 80%;
 
-  &::before{
-    width: var(--volume-before-width);
+  &::before {
+    background: linear-gradient(
+      to right,
+      var(--hblue-bg-color) var(--volume-before-width),
+      transparent 0
+    );
   }
 
   &::-webkit-slider-runnable-track {
@@ -199,9 +194,5 @@ export const VolumeSlider = styled.input`
 
   &::-ms-fill-upper {
     background: var(--blue-bg-color);
-  }
-
-  &::before {
-    width: var(--volume-before-width);
   }
 `;

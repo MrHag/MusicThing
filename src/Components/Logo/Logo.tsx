@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Text from "../Text/Text";
 
 const LogoText = styled(Text)`
-  font-size: 40pt;
+  font-size: 26pt;
   font-family: "Gill Sans", sans-serif;
 `;
 

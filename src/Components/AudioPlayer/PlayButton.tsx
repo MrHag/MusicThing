@@ -1,16 +1,27 @@
-import { PlayIcon } from "./style";
+import IconContainer from "./IconContainer";
+import { PlayIcon, PauseIcon } from "./icons";
 
 interface Props {
   onPlay: () => void;
   onPause: () => void;
   isPlaying: boolean;
+  disabled: boolean;
 }
 
-const PlayButton: React.FC<Props> = ({ onPlay, onPause, isPlaying }) => {
+const PlayButton: React.FC<Props> = ({
+  onPlay,
+  onPause,
+  isPlaying,
+  disabled,
+}) => {
   return isPlaying ? (
-    <PlayIcon onClick={onPause}>||</PlayIcon>
+    <IconContainer onClick={disabled ? undefined : onPause} disabled={disabled}>
+      <PauseIcon />
+    </IconContainer>
   ) : (
-    <PlayIcon onClick={onPlay}>{"=>"}</PlayIcon>
+    <IconContainer onClick={disabled ? undefined : onPlay} disabled={disabled}>
+      <PlayIcon />
+    </IconContainer>
   );
 };
 

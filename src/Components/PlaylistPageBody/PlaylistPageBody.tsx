@@ -1,6 +1,11 @@
 import styled from "styled-components";
-import { Playlist } from "../../App";
-import PlaylistGrid from "../PlaylistGrid/PlaylistGrid";
+import { PlayList as PlayListType } from "../../App";
+import PlayList from "../PlayList/PlayList";
+
+interface Props {
+  playList: PlayListType;
+  onTrackClick: (id: number) => void;
+}
 
 const BodyContainer = styled.div`
   display: flex;
@@ -16,16 +21,11 @@ const BodyMainContainer = styled.div`
   height: 100%;
 `;
 
-interface Props {
-  playlist: Playlist;
-  onTrackClick: (id: number) => void;
-}
-
-const PlaylistPageBody: React.FC<Props> = ({ playlist, onTrackClick }) => {
+const PlaylistPageBody: React.FC<Props> = ({ playList, onTrackClick }) => {
   return (
     <BodyMainContainer>
       <BodyContainer>
-        <PlaylistGrid onTrackClick={onTrackClick} playlist={playlist} />
+        <PlayList onTrackClick={onTrackClick} playList={playList} />
       </BodyContainer>
     </BodyMainContainer>
   );
