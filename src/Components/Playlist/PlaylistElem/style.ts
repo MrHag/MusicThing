@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { GridTemplate } from "../style";
 
-export const PlayListElem = styled(GridTemplate)`
+export const Container = styled(GridTemplate)`
   display: grid;
   height: 40px;
   align-items: center;

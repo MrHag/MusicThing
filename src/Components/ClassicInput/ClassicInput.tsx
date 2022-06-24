@@ -1,4 +1,4 @@
-import { Component, InputHTMLAttributes, Ref } from "react";
+import { Component, InputHTMLAttributes } from "react";
 
 export interface OnChangeInputProps {
   onChange?: (event: Event) => void;
@@ -14,7 +14,7 @@ export interface OnChangeInputProps {
  * - https://github.com/facebook/react/issues/14857
  */
 
-export class ClassicInput extends Component<
+class ClassicInput extends Component<
   Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> & OnChangeInputProps
 > {
   private readonly registerCallbacks = (element: HTMLInputElement | null) => {
@@ -28,3 +28,5 @@ export class ClassicInput extends Component<
     return <input ref={this.registerCallbacks} {...newProps} />;
   }
 }
+
+export default ClassicInput;

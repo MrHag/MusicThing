@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { Playlist } from "../../App";
-import PlayList from "../PlayList/PlayList";
+import { Playlist as PlaylistType } from "../../App";
+import Playlist from "../Playlist/Playlist";
 
 interface Props {
-  playlist: Playlist;
+  playlist: PlaylistType;
   onTrackClick: (id: number) => void;
 }
 
@@ -25,7 +25,7 @@ const PlaylistPageBody: React.FC<Props> = ({ playlist, onTrackClick }) => {
   return (
     <BodyMainContainer>
       <BodyContainer>
-        <PlayList onTrackClick={onTrackClick} playList={playlist} />
+        <Playlist onTrackClick={onTrackClick} playlist={playlist} />
       </BodyContainer>
     </BodyMainContainer>
   );

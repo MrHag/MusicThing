@@ -1,5 +1,5 @@
 import { Track } from "../../App";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   VolumeContainer,
   PlayerContainer,
@@ -9,7 +9,7 @@ import {
   SeekSlider,
 } from "./style";
 import PlayButton from "./PlayButton";
-import { ClassicInput } from "../ClassicInput/ClassicInput";
+import ClassicInput from "../ClassicInput/ClassicInput";
 import MuteButton from "./MuteButton";
 
 const calculateTime = (secs: number) => {
@@ -28,9 +28,9 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
 
   const raf = useRef(0);
 
-  const AudioCont = useRef<HTMLDivElement>(null);
-  const Audio = useRef<HTMLAudioElement>(null);
-  const SeekSlid = useRef<ClassicInput>(null);
+  const audioCont = useRef<HTMLDivElement>(null);
+  const audio = useRef<HTMLAudioElement>(null);
+  const seekSlider = useRef<ClassicInput>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -39,21 +39,21 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
   const [volume, setVolume] = useState(100);
 
   const play = () => {
-    if (!Audio.current) return;
+    if (!audio.current) return;
 
     if (isPlaying) {
       pause();
     }
 
-    Audio.current.play();
+    audio.current.play();
     raf.current = requestAnimationFrame(whilePlaying);
 
     setIsPlaying(true);
   };
 
   const pause = () => {
-    if (Audio.current) {
-      Audio.current.pause();
+    if (audio.current) {
+      audio.current.pause();
       cancelAnimationFrame(raf.current);
       setIsPlaying(false);
     }
@@ -62,26 +62,26 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
   const onMuteBtnClick = () => setIsMuted(!isMuted);
 
   const whilePlaying = () => {
-    if (!Audio.current) return;
-    setSeek(Math.floor(Audio.current.currentTime));
+    if (!audio.current) return;
+    setSeek(Math.floor(audio.current.currentTime));
     raf.current = requestAnimationFrame(whilePlaying);
   };
 
   const displayBufferedAmount = () => {
-    if (!Audio.current || !AudioCont.current) return;
-
-    const buff = Audio.current.buffered;
-    const bufferedAmount = Math.floor(buff.end(buff.length - 1));
-    AudioCont.current.style.setProperty(
-      "--buffered-width",
-      `${(bufferedAmount / trackDuration) * 100}%`
-    );
+    if (audio.current && audioCont.current) {
+      const buff = audio.current.buffered;
+      const bufferedAmount = Math.floor(buff.end(buff.length - 1));
+      audioCont.current.style.setProperty(
+        "--buffered-width",
+        `${(bufferedAmount / trackDuration) * 100}%`
+      );
+    }
   };
 
   const onMetaDataLoaded = () => {
     play();
-    if (Audio.current) {
-      setTrackDuration(Audio.current.duration);
+    if (audio.current) {
+      setTrackDuration(audio.current.duration);
     }
     displayBufferedAmount();
   };
@@ -94,34 +94,45 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
   };
 
   const onSeekSliderChange = (e: Event) => {
-    if (!e.currentTarget) return;
-    const value = Number((e.currentTarget as any).value);
-    if (Audio.current != null) Audio.current.currentTime = value;
-    setSeek(value);
-    raf.current = requestAnimationFrame(whilePlaying);
+    if (e.currentTarget && e.currentTarget instanceof HTMLInputElement) {
+      const value = Number(e.currentTarget.value);
+      if (audio.current != null) audio.current.currentTime = value;
+      setSeek(value);
+      raf.current = requestAnimationFrame(whilePlaying);
+    }
   };
 
   const onVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
-    if (Audio.current != null) Audio.current.volume = value / 100;
+    if (audio.current != null) audio.current.volume = value / 100;
     setVolume(value);
   };
 
+  useEffect(() => {
+    if (audioCont.current) {
+      audioCont.current.style.setProperty(
+        "--seek-before-width",
+        `${(seek / trackDuration) * 100}%`
+      );
+    }
+  }, [seek, trackDuration]);
+
   const maxVolume = 100;
-  const seekBeforeWidth = (seek / trackDuration) * 100;
-  const volumeBeforeWidth = (volume / maxVolume) * 100;
+  useEffect(() => {
+    if (audioCont.current) {
+      audioCont.current.style.setProperty(
+        "--volume-before-width",
+        `${(volume / maxVolume) * 100}%`
+      );
+    }
+  }, [volume, audioCont]);
 
   return (
-    <AudioContainer
-      ref={AudioCont}
-      id="audio-player-container"
-      seekBeforeWidth={seekBeforeWidth}
-      volumeBeforeWidth={volumeBeforeWidth}
-    >
+    <AudioContainer ref={audioCont} id="audio-player-container">
       <PlayerContainer>
         <audio
           onProgress={onAudioProgress}
-          ref={Audio}
+          ref={audio}
           muted={isMuted}
           onLoadedMetadata={onMetaDataLoaded}
           src={trackLink}
@@ -136,7 +147,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
         />
         <Time>{calculateTime(seek)}</Time>
         <SeekSlider
-          ref={SeekSlid}
+          ref={seekSlider}
           onChange={onSeekSliderChange}
           onInput={onSeekSliderInput}
           disabled={trackLink === ""}
@@ -147,10 +158,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
         <Time>{calculateTime(trackDuration)}</Time>
       </PlayerContainer>
       <VolumeContainer>
-        <MuteButton
-          onClick={onMuteBtnClick}
-          isMuted={isMuted}
-        ></MuteButton>
+        <MuteButton onClick={onMuteBtnClick} isMuted={isMuted}></MuteButton>
         <VolumeSlider
           onInput={onVolumeChange}
           value={volume}

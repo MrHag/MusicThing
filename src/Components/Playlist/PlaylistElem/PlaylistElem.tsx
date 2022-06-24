@@ -1,6 +1,6 @@
 import Text from "../../Text/Text";
 import { Track } from "../../../App";
-import { PlayListElem, MainContainer, TextContainer, Image } from "./style";
+import { Container, MainContainer, TextContainer, Image } from "./style";
 
 interface Props {
   track: Track;
@@ -8,13 +8,9 @@ interface Props {
   onTrackClick: (id: number) => void;
 }
 
-const PlayListGridElem: React.FC<Props> = ({
-  track,
-  position,
-  onTrackClick,
-}) => {
+const PlaylistElem: React.FC<Props> = ({ track, position, onTrackClick }) => {
   return (
-    <PlayListElem onClick={() => onTrackClick(track.id)}>
+    <Container onClick={() => onTrackClick(track.id)}>
       <Text className="index">{position}</Text>
       <Text className="index-icon">▷</Text>
       <MainContainer>
@@ -26,8 +22,8 @@ const PlayListGridElem: React.FC<Props> = ({
       </MainContainer>
       <Text>{track.album}</Text>
       <Text>{track.duration}</Text>
-    </PlayListElem>
+    </Container>
   );
 };
 
-export default PlayListGridElem;
+export default PlaylistElem;

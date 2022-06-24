@@ -1,14 +1,7 @@
 import styled from "styled-components";
-import { ClassicInput } from "../ClassicInput/ClassicInput";
+import ClassicInput from "../ClassicInput/ClassicInput";
 
-interface AudioContainerProps {
-  seekBeforeWidth: number;
-  volumeBeforeWidth: number;
-}
-
-export const AudioContainer = styled.div<AudioContainerProps>`
-  --seek-before-width: ${({ seekBeforeWidth }) => seekBeforeWidth}%;
-  --volume-before-width: ${({ volumeBeforeWidth }) => volumeBeforeWidth}%;
+export const AudioContainer = styled.div`
   --buffered-width: 0%;
 
   /* background: var(--ultra-light-bg-color); */
