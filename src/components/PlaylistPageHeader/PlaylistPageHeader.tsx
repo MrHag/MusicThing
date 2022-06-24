@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Text from "../Text/Text";
-import { Playlist } from "../../App";
+import { Playlist } from "../../types";
 
 const PlaylistImage = styled.img`
   width: 20%;
@@ -37,14 +37,14 @@ interface Props {
   playlist: Playlist;
 }
 
-const PlaylistPageHeader: React.FC<Props> = ({ playlist: playList }) => {
+const PlaylistPageHeader: React.FC<Props> = ({ playlist }) => {
   return (
     <PlaylistMainContainer>
       <PlaylistContainer>
-        <PlaylistImage src={playList.image}></PlaylistImage>
+        <PlaylistImage src={playlist.image}></PlaylistImage>
         <TextContainer>
-          <HeadText>{playList.name}</HeadText>
-          <Text>{playList.tracks.length} tracks</Text>
+          <HeadText>{playlist.name}</HeadText>
+          <Text>{playlist.tracks.length} tracks</Text>
         </TextContainer>
       </PlaylistContainer>
     </PlaylistMainContainer>

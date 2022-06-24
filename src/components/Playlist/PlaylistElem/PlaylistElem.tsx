@@ -1,5 +1,5 @@
 import Text from "../../Text/Text";
-import { Track } from "../../../App";
+import { Track } from "../../../types";
 import { Container, MainContainer, TextContainer, Image } from "./style";
 
 interface Props {

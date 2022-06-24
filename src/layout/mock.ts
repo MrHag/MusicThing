@@ -1,4 +1,4 @@
-import { Playlist, Track } from "../App";
+import { Playlist, Track } from "../types";
 import logo from "../logo.svg";
 import logo1 from "../logo1.jpeg";
 import logo2 from "../logo2.jpeg";

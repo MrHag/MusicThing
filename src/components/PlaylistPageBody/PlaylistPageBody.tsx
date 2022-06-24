@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Playlist as PlaylistType } from "../../App";
+import { Playlist as PlaylistType } from "../../types";
 import Playlist from "../Playlist/Playlist";
 
 interface Props {

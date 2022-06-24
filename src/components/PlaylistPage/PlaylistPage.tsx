@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Playlist } from "../../App";
+import { Playlist } from "../../types";
 import PlaylistPageBody from "../PlaylistPageBody/PlaylistPageBody";
 import PlaylistPageHeader from "../PlaylistPageHeader/PlaylistPageHeader";
 
