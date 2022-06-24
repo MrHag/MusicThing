@@ -4,7 +4,7 @@ import {
   VolumeContainer,
   PlayerContainer,
   AudioContainer,
-  Time,
+  Output,
   VolumeSlider,
   SeekSlider,
 } from "./style";
@@ -79,10 +79,10 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
   };
 
   const onMetaDataLoaded = () => {
-    play();
     if (audio.current) {
       setTrackDuration(audio.current.duration);
     }
+    play();
     displayBufferedAmount();
   };
 
@@ -112,7 +112,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
     if (audioCont.current) {
       audioCont.current.style.setProperty(
         "--seek-before-width",
-        `${(seek / trackDuration) * 100}%`
+        `${trackDuration && (seek / trackDuration) * 100}%`
       );
     }
   }, [seek, trackDuration]);
@@ -122,7 +122,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
     if (audioCont.current) {
       audioCont.current.style.setProperty(
         "--volume-before-width",
-        `${(volume / maxVolume) * 100}%`
+        `${maxVolume && (volume / maxVolume) * 100}%`
       );
     }
   }, [volume, audioCont]);
@@ -137,7 +137,6 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
           onLoadedMetadata={onMetaDataLoaded}
           src={trackLink}
           preload="metadata"
-          loop
         ></audio>
         <PlayButton
           onPlay={play}
@@ -145,7 +144,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
           isPlaying={isPlaying}
           disabled={trackLink === ""}
         />
-        <Time>{calculateTime(seek)}</Time>
+        <Output>{calculateTime(seek)}</Output>
         <SeekSlider
           ref={seekSlider}
           onChange={onSeekSliderChange}
@@ -155,7 +154,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
           value={seek}
           max={trackDuration}
         />
-        <Time>{calculateTime(trackDuration)}</Time>
+        <Output>{calculateTime(trackDuration)}</Output>
       </PlayerContainer>
       <VolumeContainer>
         <MuteButton onClick={onMuteBtnClick} isMuted={isMuted}></MuteButton>
@@ -165,7 +164,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
           type="range"
           max={maxVolume}
         />
-        <output>{volume}</output>
+        <Output>{volume}</Output>
       </VolumeContainer>
     </AudioContainer>
   );

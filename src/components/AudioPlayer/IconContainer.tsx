@@ -8,7 +8,7 @@ const IconContainer = styled.div<StyleProps>`
   height: 100%;
   & svg {
     height: 100%;
-    width: 30px;
+    width: 100%;
     color: ${(props) =>
       props.disabled ? "var(--unactive-text-color)" : "unset"};
   }
