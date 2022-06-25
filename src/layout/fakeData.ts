@@ -1,7 +1,7 @@
-import { Playlist, Track } from "../types";
-import logo from "../logo.svg";
-import logo1 from "../logo1.jpeg";
-import logo2 from "../logo2.jpeg";
+import { Playlist, Track } from "types";
+import logo from "assets/logos/logo.svg";
+import logo1 from "assets/logos/logo1.jpeg";
+import logo2 from "assets/logos/logo2.jpeg";
 
 export const TracksDB: { [id: number]: Track } = {
   0: {

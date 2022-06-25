@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Track } from "../../types";
+import { Track } from "types";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
 
 interface Props {

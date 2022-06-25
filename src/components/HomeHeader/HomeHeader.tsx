@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Logo from "../Logo/Logo";
-import logo from "../../logo.svg";
+import logo from "assets/logos/logo.svg";
 
 const HeaderImage = styled.img`
   width: 20%;

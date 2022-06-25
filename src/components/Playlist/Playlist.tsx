@@ -1,4 +1,4 @@
-import { Playlist as PlaylistType } from "../../types";
+import { Playlist as PlaylistType } from "types";
 import PlaylistElem from "./PlaylistElem/PlaylistElem";
 import Text from "../Text/Text";
 import { PlaylistContainer, GridHeader } from "./style";

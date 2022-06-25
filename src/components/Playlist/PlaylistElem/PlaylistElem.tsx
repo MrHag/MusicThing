@@ -1,5 +1,5 @@
-import Text from "../../Text/Text";
-import { Track } from "../../../types";
+import Text from "components/Text/Text";
+import { Track } from "types";
 import { Container, MainContainer, TextContainer, Image } from "./style";
 
 interface Props {

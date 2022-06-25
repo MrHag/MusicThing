@@ -1,4 +1,4 @@
-import { Track } from "../../types";
+import { Track } from "types";
 import React, { useEffect, useRef, useState } from "react";
 import {
   VolumeContainer,
