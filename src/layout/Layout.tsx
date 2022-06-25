@@ -1,11 +1,11 @@
-import LeftContainer from "../components/LeftContainer/LeftContainer";
-import { Pages } from "../components/LeftContainer/LeftContainer";
+import LeftContainer from "components/LeftContainer/LeftContainer";
+import { Pages } from "components/LeftContainer/LeftContainer";
 import { useState } from "react";
-import Footer from "../components/Footer/Footer";
-import HomePage from "../components/HomePage/HomePage";
-import PlaylistPage from "../components/PlaylistPage/PlaylistPage";
-import AddMusicPage from "../components/AddMusicPage/AddMusicPage";
-import { Track } from "../types";
+import Footer from "components/Footer/Footer";
+import HomePage from "components/HomePage/HomePage";
+import PlaylistPage from "components/PlaylistPage/PlaylistPage";
+import AddMusicPage from "components/AddMusicPage/AddMusicPage";
+import { Track } from "types";
 import { Body, MainContainer, TopContainer, BottomContainer } from "./style";
 import { playlistArr, playlists, TracksDB } from "./fakeData";
 

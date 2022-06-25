@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Text from "../Text/Text";
-import { Playlist } from "../../types";
+import { Playlist } from "types";
 
 const PlaylistImage = styled.img`
   width: 20%;
