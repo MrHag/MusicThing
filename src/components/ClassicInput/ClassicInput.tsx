@@ -14,19 +14,16 @@ export interface OnChangeInputProps {
  * - https://github.com/facebook/react/issues/14857
  */
 
-class ClassicInput extends Component<
-  Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> & OnChangeInputProps
-> {
-  private readonly registerCallbacks = (element: HTMLInputElement | null) => {
-    if (element && this.props.onChange) {
-      element.onchange = this.props.onChange;
+type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> &
+  OnChangeInputProps;
+
+const ClassicInput: React.FC<Props> = ({ onChange, ...props }) => {
+  const registerCallback = (element: HTMLInputElement | null) => {
+    if (element && onChange) {
+      element.onchange = onChange;
     }
   };
-
-  public render() {
-    const { onChange, ...newProps } = this.props;
-    return <input ref={this.registerCallbacks} {...newProps} />;
-  }
-}
+  return <input ref={registerCallback} {...props} />;
+};
 
 export default ClassicInput;
