@@ -1,46 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import Text from "../Text/Text";
-
-const BodyContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin: 0 auto;
-  /* TODO: How to fix this? */
-  height: 0;
-`;
-
-const BodyMainContainer = styled.div`
-  display: flex;
-  padding: 10px 0;
-  margin: 0 auto;
-  width: 50%;
-  max-width: 400px;
-  height: 100%;
-`;
-
-const TitleText = styled(Text)`
-  font-size: 34px;
-`;
-
-const Label = styled.label`
-  color: var(--primary-text-color);
-  size: 14pt;
-  margin: 0;
-`;
-
-const Input = styled.input``;
-
-const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 10px 0;
-`;
-
-const HorInputContainer = styled(InputContainer)`
-  flex-direction: row;
-`;
+import {
+  BodyContainer,
+  BodyInnerContainer,
+  HorInputContainer,
+  Input,
+  InputContainer,
+  Label,
+  TitleText,
+} from "./style";
 
 const Select = styled.select``;
 
@@ -119,8 +87,8 @@ const AddMusicPageBody: React.FC = () => {
   };
 
   return (
-    <BodyMainContainer>
-      <BodyContainer>
+    <BodyContainer>
+      <BodyInnerContainer>
         <TitleText>Request track</TitleText>
         <Form ref={FormVar}>
           <InputContainer>
@@ -186,8 +154,8 @@ const AddMusicPageBody: React.FC = () => {
           <Submit type="submit" value="Submit"></Submit>
           <Save onClick={SaveF}>Save</Save>
         </Form>
-      </BodyContainer>
-    </BodyMainContainer>
+      </BodyInnerContainer>
+    </BodyContainer>
   );
 };
 

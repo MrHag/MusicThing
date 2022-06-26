@@ -1,17 +1,7 @@
-import styled from "styled-components";
 import Logo from "../Logo/Logo";
-import NavPanel from "../NavPanel/NavPanel";
-import PlaylistNavPanel from "../PlaylistNavPanel/PlaylistNavPanel";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: var(--primary-bg-color);
-  min-width: 230px;
-  height: 100%;
-  padding: 0 30px;
-  user-select: none;
-`;
+import NavPanel from "./NavPanel";
+import PlaylistNavPanel from "./PlaylistNavPanel";
+import { Container } from "./styles";
 
 export enum Pages {
   Home,

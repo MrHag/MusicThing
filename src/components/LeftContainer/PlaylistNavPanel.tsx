@@ -1,11 +1,6 @@
 import { useState } from "react";
-import styled from "styled-components";
-import { PanelContainer } from "../NavPanel/NavPanel";
-import PlaylistNavElem from "../PlaylistNavElem/PlaylistNavElem";
-
-const Container = styled(PanelContainer)`
-  border-top: unset;
-`;
+import NavElem from "./NavElem";
+import { PlaylistPanelContainer } from "./styles";
 
 interface Props {
   onNavClick: (param: number) => void;
@@ -23,11 +18,11 @@ const PlaylistNavPanel: React.FC<Props> = ({
 
   const NavElems = elements.map((attr, index) => {
     return (
-      <PlaylistNavElem
+      <NavElem
         active={activeElem === index}
         key={index}
         text={attr.name}
-        onNavClick={() => {
+        onClick={() => {
           setactiveElem(index);
           navClick(attr.id);
         }}
@@ -35,7 +30,7 @@ const PlaylistNavPanel: React.FC<Props> = ({
     );
   });
 
-  return <Container>{NavElems}</Container>;
+  return <PlaylistPanelContainer>{NavElems}</PlaylistPanelContainer>;
 };
 
 export default PlaylistNavPanel;
