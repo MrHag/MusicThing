@@ -16,7 +16,7 @@ const Header: React.FC<Props> = ({ playlist }) => {
   return (
     <HeaderContainer>
       <HeaderInnerContainer>
-        <Poster src={playlist.image}></Poster>
+        <Poster src={playlist.image} />
         <TextContainer>
           <HeadText>{playlist.name}</HeadText>
           <Text>{playlist.tracks.length} tracks</Text>

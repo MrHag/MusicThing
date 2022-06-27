@@ -6,8 +6,8 @@ const Header: React.FC = () => {
   return (
     <HeaderContainer>
       <HeaderInnerContainer>
-        <HeaderImage src={logo}></HeaderImage>
-        <Logo></Logo>
+        <HeaderImage src={logo} />
+        <Logo />
       </HeaderInnerContainer>
     </HeaderContainer>
   );

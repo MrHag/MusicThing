@@ -1,5 +1,5 @@
 import { Track } from "types";
-import React, { InputHTMLAttributes, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   VolumeContainer,
   PlayerContainer,
@@ -161,7 +161,7 @@ const AudioPlayer: React.FC<Props> = ({ track }) => {
         <Output>{calculateTime(trackDuration)}</Output>
       </PlayerContainer>
       <VolumeContainer>
-        <MuteButton onClick={onMuteBtnClick} isMuted={isMuted}></MuteButton>
+        <MuteButton onClick={onMuteBtnClick} isMuted={isMuted} />
         <VolumeSlider
           onInput={onVolumeChange}
           value={volume}

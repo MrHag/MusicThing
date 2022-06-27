@@ -1,4 +1,4 @@
-import { Playlist, Track } from "types";
+import { Track } from "types";
 import Body from "./Body";
 import Header from "./Header";
 import { PageContainer } from "./style";
