@@ -2,13 +2,13 @@ import AddMusicPageBody from "./Body";
 import HomeHeader from "./Header";
 import { PageContainer } from "./style";
 
-const AddMusicPage: React.FC = () => {
+const AddMusic: React.FC = () => {
   return (
     <PageContainer>
-      <HomeHeader></HomeHeader>
-      <AddMusicPageBody></AddMusicPageBody>
+      <HomeHeader />
+      <AddMusicPageBody />
     </PageContainer>
   );
 };
 
-export default AddMusicPage;
+export default AddMusic;
