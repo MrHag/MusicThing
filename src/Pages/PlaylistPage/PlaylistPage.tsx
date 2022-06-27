@@ -1,18 +1,25 @@
-import { Playlist } from "types";
+import { Playlist, Track } from "types";
 import Body from "./Body";
 import Header from "./Header";
 import { PageContainer } from "./style";
+import { TracksDB, playlists } from "layout/fakeData";
+import { useParams } from "react-router-dom";
 
 interface Props {
-  playlist: Playlist;
-  onTrackClick: (id: number) => void;
+  onTrackClick: (id: Track) => void;
 }
 
-const PlaylistPage: React.FC<Props> = ({ playlist, onTrackClick }) => {
+const PlaylistPage: React.FC<Props> = ({ onTrackClick }) => {
+  let { id } = useParams();
+  const playlist = playlists[Number(id)];
+
   return (
     <PageContainer>
-      <Header playlist={playlist}></Header>
-      <Body onTrackClick={onTrackClick} playlist={playlist}></Body>
+      <Header playlist={playlist} />
+      <Body
+        onTrackClick={(id) => onTrackClick(TracksDB[id])}
+        playlist={playlist}
+      />
     </PageContainer>
   );
 };

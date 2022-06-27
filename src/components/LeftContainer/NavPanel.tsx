@@ -1,18 +1,21 @@
-import { useState } from "react";
-import NavElem from "./NavElem";
-import { PanelContainer } from "./styles";
+import Text from "components/Text/Text";
+import Routes from "constants/Routes";
+import { PanelContainer, NavLink } from "./styles";
 
-interface Props<T> {
-  route: string;
-  elements: { text: string; param: T }[];
-}
-
-function NavPanel<T>({ route, elements }: Props<T>) {
-  const NavElems = elements.map(({ text, param }, index) => {
-    return <NavElem route={`${route}/${param}`} key={index} text={text} />;
-  });
-
-  return <PanelContainer>{NavElems}</PanelContainer>;
-}
+const NavPanel: React.FC = () => {
+  return (
+    <PanelContainer>
+      <NavLink to={Routes.home}>
+        <Text>Home</Text>
+      </NavLink>
+      <NavLink to={Routes.search}>
+        <Text>Search</Text>
+      </NavLink>
+      <NavLink to={Routes.addMusic}>
+        <Text>Add music</Text>
+      </NavLink>
+    </PanelContainer>
+  );
+};
 
 export default NavPanel;

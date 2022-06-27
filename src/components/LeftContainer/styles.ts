@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink as BaseNavLink } from "react-router-dom";
 
 export const Container = styled.div`
   display: flex;
@@ -21,11 +21,11 @@ export const PanelContainer = styled.div`
   border-bottom: 1px solid var(--blue-bg-color);
 `;
 
-export const PlaylistPanelContainer = styled(PanelContainer)`
+export const Playlists = styled(PanelContainer)`
   border-top: unset;
 `;
 
-export const NavContainer = styled(NavLink)`
+export const NavLink = styled(BaseNavLink)`
   display: flex;
   width: 100%;
   padding: 8px 0;
