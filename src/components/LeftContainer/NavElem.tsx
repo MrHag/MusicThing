@@ -1,14 +1,14 @@
 import Text from "../Text/Text";
-import { ContainerProps, NavContainer } from "./styles";
+import { NavContainer } from "./styles";
 
-interface NavElemProps extends ContainerProps {
+interface NavElemProps {
+  route: string;
   text: string;
-  onClick: () => void;
 }
 
-const NavElem: React.FC<NavElemProps> = ({ active, onClick, text }) => {
+const NavElem: React.FC<NavElemProps> = ({ route, text }) => {
   return (
-    <NavContainer active={active} onClick={onClick}>
+    <NavContainer to={route}>
       <Text>{text}</Text>
     </NavContainer>
   );

@@ -3,25 +3,13 @@ import NavElem from "./NavElem";
 import { PanelContainer } from "./styles";
 
 interface Props<T> {
-  onNavClick: (param: T) => void;
+  route: string;
   elements: { text: string; param: T }[];
 }
 
-function NavPanel<T>(props: Props<T>) {
-  const [activeElem, setActiveElem] = useState(0);
-
-  const NavElems = props.elements.map((attr, index) => {
-    return (
-      <NavElem
-        active={activeElem === index}
-        key={index}
-        text={attr.text}
-        onClick={() => {
-          setActiveElem(index);
-          props.onNavClick(attr.param);
-        }}
-      />
-    );
+function NavPanel<T>({ route, elements }: Props<T>) {
+  const NavElems = elements.map(({ text, param }, index) => {
+    return <NavElem route={`${route}/${param}`} key={index} text={text} />;
   });
 
   return <PanelContainer>{NavElems}</PanelContainer>;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 export const Container = styled.div`
   display: flex;
@@ -24,17 +25,14 @@ export const PlaylistPanelContainer = styled(PanelContainer)`
   border-top: unset;
 `;
 
-export interface ContainerProps {
-  active: boolean;
-}
-
-export const NavContainer = styled.div<ContainerProps>`
+export const NavContainer = styled(NavLink)`
   display: flex;
   width: 100%;
   padding: 8px 0;
+  text-decoration: none;
 
-  & * {
-    color: ${(props) => (props.active ? "var(--active-text-color)" : "")};
+  &.active * {
+    color: var(--active-text-color);
   }
 
   &:hover * {

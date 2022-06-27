@@ -1,5 +1,4 @@
 import LeftContainer from "components/LeftContainer/LeftContainer";
-import { Pages } from "components/LeftContainer/LeftContainer";
 import { useState } from "react";
 import Footer from "components/Footer/Footer";
 import HomePage from "Pages/HomePage/HomePage";
@@ -9,19 +8,22 @@ import { Track } from "types";
 import { Body, MainContainer, TopContainer, BottomContainer } from "./style";
 import { playlistArr, playlists, TracksDB } from "./fakeData";
 
-const pages: { [key in Pages]: JSX.Element } = {
-  0: <HomePage />,
-  1: <HomePage />,
-  2: <AddMusicPage />,
-};
+import { Routes, Route, useParams } from "react-router-dom";
+
+export enum Pages {
+  Home = "",
+  Search = "search",
+  AddMusic = "addmusic",
+  PlayList = "playlist",
+}
 
 const Layout: React.FC = () => {
-  const [page, setPage] = useState(pages[Pages.Home]);
   const [curTrack, setCurrentTrack] = useState<Track>();
 
-  const onPlaylistClick = (id: number) => {
-    const pl = playlists[id];
-    setPage(
+  function PlayListWrap() {
+    let { id } = useParams();
+    const pl = playlists[Number(id)];
+    return (
       <PlaylistPage
         onTrackClick={(id) => {
           setCurrentTrack(TracksDB[id]);
@@ -29,21 +31,20 @@ const Layout: React.FC = () => {
         playlist={pl}
       ></PlaylistPage>
     );
-  };
-
-  const onNavClick = (page: Pages) => {
-    setPage(pages[page]);
-  };
+  }
 
   return (
     <Body>
       <TopContainer>
-        <LeftContainer
-          playlists={playlistArr}
-          onPlaylistClick={onPlaylistClick}
-          onNavClick={onNavClick}
-        ></LeftContainer>
-        <MainContainer>{page}</MainContainer>
+        <LeftContainer playlists={playlistArr}></LeftContainer>
+        <MainContainer>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="search" element={<HomePage />} />
+            <Route path="addmusic" element={<AddMusicPage />} />
+            <Route path="playlist/:id" element={<PlayListWrap />} />
+          </Routes>
+        </MainContainer>
       </TopContainer>
       <BottomContainer>
         <Footer track={curTrack}></Footer>

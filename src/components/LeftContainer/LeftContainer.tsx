@@ -1,28 +1,17 @@
+import { Pages } from "layout/Layout";
 import Logo from "../Logo/Logo";
 import NavPanel from "./NavPanel";
 import PlaylistNavPanel from "./PlaylistNavPanel";
 import { Container } from "./styles";
 
-export enum Pages {
-  Home,
-  Search,
-  AddMusic,
-}
-
 interface Props {
-  onNavClick: (message: Pages) => void;
-  onPlaylistClick: (id: number) => void;
   playlists: {
     id: number;
     name: string;
   }[];
 }
 
-const LeftContainer: React.FC<Props> = ({
-  onNavClick,
-  onPlaylistClick,
-  playlists,
-}) => {
+const LeftContainer: React.FC<Props> = ({ playlists }) => {
   const elements = [
     { text: "Home", param: Pages.Home },
     { text: "Search", param: Pages.Search },
@@ -32,8 +21,8 @@ const LeftContainer: React.FC<Props> = ({
   return (
     <Container>
       <Logo />
-      <NavPanel onNavClick={onNavClick} elements={elements} />
-      <PlaylistNavPanel onNavClick={onPlaylistClick} elements={playlists} />
+      <NavPanel elements={elements} route={""} />
+      <PlaylistNavPanel elements={playlists} route={Pages.PlayList} />
     </Container>
   );
 };
