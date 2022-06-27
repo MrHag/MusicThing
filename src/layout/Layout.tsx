@@ -1,52 +1,37 @@
 import LeftContainer from "components/LeftContainer/LeftContainer";
-import { Pages } from "components/LeftContainer/LeftContainer";
 import { useState } from "react";
 import Footer from "components/Footer/Footer";
 import HomePage from "Pages/HomePage/HomePage";
 import PlaylistPage from "Pages/PlaylistPage/PlaylistPage";
-import AddMusicPage from "Pages/AddMusicPage/AddMusicPage";
+import AddMusic from "Pages/AddMusicPage/AddMusicPage";
 import { Track } from "types";
 import { Body, MainContainer, TopContainer, BottomContainer } from "./style";
-import { playlistArr, playlists, TracksDB } from "./fakeData";
+import { playlistArr } from "./fakeData";
 
-const pages: { [key in Pages]: JSX.Element } = {
-  0: <HomePage />,
-  1: <HomePage />,
-  2: <AddMusicPage />,
-};
+import { Routes, Route } from "react-router-dom";
+import RoutesList from "constants/Routes";
 
 const Layout: React.FC = () => {
-  const [page, setPage] = useState(pages[Pages.Home]);
   const [curTrack, setCurrentTrack] = useState<Track>();
-
-  const onPlaylistClick = (id: number) => {
-    const pl = playlists[id];
-    setPage(
-      <PlaylistPage
-        onTrackClick={(id) => {
-          setCurrentTrack(TracksDB[id]);
-        }}
-        playlist={pl}
-      ></PlaylistPage>
-    );
-  };
-
-  const onNavClick = (page: Pages) => {
-    setPage(pages[page]);
-  };
 
   return (
     <Body>
       <TopContainer>
-        <LeftContainer
-          playlists={playlistArr}
-          onPlaylistClick={onPlaylistClick}
-          onNavClick={onNavClick}
-        ></LeftContainer>
-        <MainContainer>{page}</MainContainer>
+        <LeftContainer playlists={playlistArr} />
+        <MainContainer>
+          <Routes>
+            <Route path={RoutesList.home} element={<HomePage />} />
+            <Route path={RoutesList.search} element={<HomePage />} />
+            <Route path={RoutesList.addMusic} element={<AddMusic />} />
+            <Route
+              path={RoutesList.playlist}
+              element={<PlaylistPage onTrackClick={setCurrentTrack} />}
+            />
+          </Routes>
+        </MainContainer>
       </TopContainer>
       <BottomContainer>
-        <Footer track={curTrack}></Footer>
+        <Footer track={curTrack} />
       </BottomContainer>
     </Body>
   );
