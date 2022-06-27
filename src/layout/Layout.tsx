@@ -1,15 +1,15 @@
-import LeftContainer from "components/LeftContainer/LeftContainer";
+import Navbar from "components/Navbar/Navbar";
 import { useState } from "react";
 import Footer from "components/Footer/Footer";
-import HomePage from "Pages/HomePage/HomePage";
-import PlaylistPage from "Pages/PlaylistPage/PlaylistPage";
-import AddMusic from "Pages/AddMusicPage/AddMusicPage";
+import Home from "pages/Home/Home";
+import Playlist from "pages/Playlist/Playlist";
+import AddMusic from "pages/AddMusic/AddMusic";
 import { Track } from "types";
 import { Body, MainContainer, TopContainer, BottomContainer } from "./style";
 import { playlistArr } from "./fakeData";
-
 import { Routes, Route } from "react-router-dom";
 import RoutesList from "constants/Routes";
+import Search from "pages/Search/Search";
 
 const Layout: React.FC = () => {
   const [curTrack, setCurrentTrack] = useState<Track>();
@@ -17,15 +17,15 @@ const Layout: React.FC = () => {
   return (
     <Body>
       <TopContainer>
-        <LeftContainer playlists={playlistArr} />
+        <Navbar playlists={playlistArr} />
         <MainContainer>
           <Routes>
-            <Route path={RoutesList.home} element={<HomePage />} />
-            <Route path={RoutesList.search} element={<HomePage />} />
+            <Route path={RoutesList.home} element={<Home />} />
+            <Route path={RoutesList.search} element={<Search />} />
             <Route path={RoutesList.addMusic} element={<AddMusic />} />
             <Route
               path={RoutesList.playlist}
-              element={<PlaylistPage onTrackClick={setCurrentTrack} />}
+              element={<Playlist onTrackClick={setCurrentTrack} />}
             />
           </Routes>
         </MainContainer>

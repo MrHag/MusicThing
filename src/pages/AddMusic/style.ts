@@ -7,7 +7,7 @@ import {
   BaseHeaderInnerContainer,
   BaseText,
   BaseTitleText,
-} from "Pages/styles";
+} from "pages/styles";
 import styled from "styled-components";
 
 export const HeaderImage = styled(BaseHeaderImage)``;

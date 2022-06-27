@@ -1,13 +1,13 @@
 import Text from "components/Text/Text";
 import Routes from "constants/Routes";
 import { generatePath } from "react-router-dom";
-import { Playlists, NavLink } from "./styles";
+import { PlaylistsContainer, NavLink } from "./styles";
 
 interface Props {
   elements: { id: number; name: string }[];
 }
 
-const PlaylistNavPanel: React.FC<Props> = ({ elements }) => {
+const Playlists: React.FC<Props> = ({ elements }) => {
   const links = elements.map(({ id, name }) => {
     const path = generatePath(Routes.playlist, {
       id: id.toString(),
@@ -19,7 +19,7 @@ const PlaylistNavPanel: React.FC<Props> = ({ elements }) => {
     );
   });
 
-  return <Playlists>{links}</Playlists>;
+  return <PlaylistsContainer>{links}</PlaylistsContainer>;
 };
 
-export default PlaylistNavPanel;
+export default Playlists;

@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-export interface StyleProps {
+export interface Props {
   disabled: boolean;
 }
 
-const IconContainer = styled.div<StyleProps>`
+const IconContainer = styled.div<Props>`
   height: 100%;
   & svg {
     height: 100%;

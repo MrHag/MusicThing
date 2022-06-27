@@ -1,6 +1,6 @@
 import Logo from "../Logo/Logo";
 import NavPanel from "./NavPanel";
-import PlaylistNavPanel from "./PlaylistNavPanel";
+import Playlists from "./Playlists";
 import { Container } from "./styles";
 
 interface Props {
@@ -10,14 +10,14 @@ interface Props {
   }[];
 }
 
-const LeftContainer: React.FC<Props> = ({ playlists }) => {
+const Navbar: React.FC<Props> = ({ playlists }) => {
   return (
     <Container>
       <Logo />
       <NavPanel />
-      <PlaylistNavPanel elements={playlists} />
+      <Playlists elements={playlists} />
     </Container>
   );
 };
 
-export default LeftContainer;
+export default Navbar;

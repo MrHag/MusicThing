@@ -1,20 +1,20 @@
 import Text from "components/Text/Text";
-import { Track } from "types";
+import { Track as TrackType } from "types";
 import { Container, MainContainer, TextContainer, Image } from "./style";
 
 interface Props {
-  track: Track;
+  track: TrackType;
   position: number;
   onTrackClick: (id: number) => void;
 }
 
-const PlaylistElem: React.FC<Props> = ({ track, position, onTrackClick }) => {
+const Track: React.FC<Props> = ({ track, position, onTrackClick }) => {
   return (
     <Container onClick={() => onTrackClick(track.id)}>
       <Text className="index">{position}</Text>
       <Text className="index-icon">▷</Text>
       <MainContainer>
-        <Image src={track.image}></Image>
+        <Image src={track.image} />
         <TextContainer>
           <Text>{track.name}</Text>
           <Text>{track.author}</Text>
@@ -26,4 +26,4 @@ const PlaylistElem: React.FC<Props> = ({ track, position, onTrackClick }) => {
   );
 };
 
-export default PlaylistElem;
+export default Track;

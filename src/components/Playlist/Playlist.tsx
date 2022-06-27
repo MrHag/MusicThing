@@ -1,5 +1,5 @@
 import { Playlist as PlaylistType } from "types";
-import PlaylistElem from "./PlaylistElem/PlaylistElem";
+import Track from "./Track/Track";
 import Text from "../Text/Text";
 import { PlaylistContainer, GridHeader } from "./style";
 
@@ -18,12 +18,12 @@ const Playlist: React.FC<Props> = ({ playlist, onTrackClick }) => {
         <Text>Duration</Text>
       </GridHeader>
       {playlist.tracks.map((track, index) => (
-        <PlaylistElem
+        <Track
           onTrackClick={onTrackClick}
           key={index}
           track={track}
           position={index + 1}
-        ></PlaylistElem>
+        />
       ))}
     </PlaylistContainer>
   );
