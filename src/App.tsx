@@ -1,11 +1,15 @@
 import "./App.css";
 import Layout from "./layout/Layout";
 import { BrowserRouter as Router } from "react-router-dom";
+import { Provider as StoreProvider } from "react-redux";
+import { store } from "store";
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Layout />
+      <StoreProvider store={store}>
+        <Layout />
+      </StoreProvider>
     </Router>
   );
 };

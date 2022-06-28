@@ -1,5 +1,6 @@
 import Text from "components/Text/Text";
-import { Playlist } from "types";
+import { useAppSelector } from "hooks";
+import { selectPlaylist } from "store/PlaylistSlice";
 import {
   HeaderContainer,
   HeaderInnerContainer,
@@ -8,18 +9,16 @@ import {
   HeadText,
 } from "./style";
 
-interface Props {
-  playlist: Playlist;
-}
+const Header: React.FC = () => {
+  const playlist = useAppSelector(selectPlaylist);
 
-const Header: React.FC<Props> = ({ playlist }) => {
   return (
     <HeaderContainer>
       <HeaderInnerContainer>
-        <Poster src={playlist.image} />
+        <Poster src={playlist?.image} />
         <TextContainer>
-          <HeadText>{playlist.name}</HeadText>
-          <Text>{playlist.tracks.length} tracks</Text>
+          <HeadText>{playlist?.name}</HeadText>
+          <Text>{playlist?.tracks.length} tracks</Text>
         </TextContainer>
       </HeaderInnerContainer>
     </HeaderContainer>

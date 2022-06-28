@@ -9,14 +9,10 @@ const Container = styled.footer`
   width: 100%;
 `;
 
-interface Props {
-  track?: Track;
-}
-
-const Footer: React.FC<Props> = ({ track }) => {
+const Footer: React.FC = () => {
   return (
     <Container>
-      <AudioPlayer track={track} />
+      <AudioPlayer />
     </Container>
   );
 };

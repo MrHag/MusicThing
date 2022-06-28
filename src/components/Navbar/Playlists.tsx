@@ -1,14 +1,14 @@
 import Text from "components/Text/Text";
 import Routes from "constants/Routes";
+import { useAppSelector } from "hooks";
 import { generatePath } from "react-router-dom";
+import { selectNavPlaylists } from "store/NavPlaylistsSlice";
 import { PlaylistsContainer, NavLink } from "./styles";
 
-interface Props {
-  elements: { id: number; name: string }[];
-}
+const Playlists: React.FC = () => {
+  const playlists = useAppSelector(selectNavPlaylists);
 
-const Playlists: React.FC<Props> = ({ elements }) => {
-  const links = elements.map(({ id, name }) => {
+  const links = playlists.map(({ id, name }) => {
     const path = generatePath(Routes.playlist, {
       id: id.toString(),
     });

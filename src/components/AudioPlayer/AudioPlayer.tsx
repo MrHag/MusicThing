@@ -1,4 +1,3 @@
-import { Track } from "types";
 import React, { useEffect, useRef, useState } from "react";
 import {
   VolumeContainer,
@@ -10,6 +9,8 @@ import {
 } from "./style";
 import PlayButton from "./PlayButton";
 import MuteButton from "./MuteButton";
+import { useAppSelector } from "hooks";
+import { selectTrack } from "store/PlayerSlice";
 
 const calculateTime = (secs: number) => {
   const minutes = Math.floor(secs / 60);
@@ -18,11 +19,8 @@ const calculateTime = (secs: number) => {
   return `${minutes}:${returnedSeconds}`;
 };
 
-interface Props {
-  track?: Track;
-}
-
-const AudioPlayer: React.FC<Props> = ({ track }) => {
+const AudioPlayer: React.FC = () => {
+  const track = useAppSelector(selectTrack);
   const trackLink = track ? track.track : "";
 
   const raf = useRef(0);

@@ -2,16 +2,11 @@ import { Playlist as PlaylistType } from "types";
 import Playlist from "components/Playlist/Playlist";
 import { BodyContainer, BodyInnerContainer } from "./style";
 
-interface Props {
-  playlist: PlaylistType;
-  onTrackClick: (id: number) => void;
-}
-
-const Body: React.FC<Props> = ({ playlist, onTrackClick }) => {
+const Body: React.FC = () => {
   return (
     <BodyContainer>
       <BodyInnerContainer>
-        <Playlist onTrackClick={onTrackClick} playlist={playlist} />
+        <Playlist />
       </BodyInnerContainer>
     </BodyContainer>
   );

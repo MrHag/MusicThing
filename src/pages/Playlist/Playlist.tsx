@@ -4,22 +4,23 @@ import Header from "./Header";
 import { PageContainer } from "./style";
 import { TracksDB, playlists } from "layout/fakeData";
 import { useParams } from "react-router-dom";
+import { useAppDispatch } from "hooks";
+import { setPlaylist } from "store/PlaylistSlice";
+import { useEffect } from "react";
 
-interface Props {
-  onTrackClick: (id: Track) => void;
-}
-
-const PlaylistPage: React.FC<Props> = ({ onTrackClick }) => {
+const PlaylistPage: React.FC = () => {
   let { id } = useParams();
   const playlist = playlists[Number(id)];
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setPlaylist(playlist));
+  });
 
   return (
     <PageContainer>
-      <Header playlist={playlist} />
-      <Body
-        onTrackClick={(id) => onTrackClick(TracksDB[id])}
-        playlist={playlist}
-      />
+      <Header />
+      <Body />
     </PageContainer>
   );
 };

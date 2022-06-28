@@ -1,16 +1,19 @@
 import Text from "components/Text/Text";
+import { useAppDispatch } from "hooks";
+import { setTrack } from "store/PlayerSlice";
 import { Track as TrackType } from "types";
 import { Container, MainContainer, TextContainer, Image } from "./style";
 
 interface Props {
   track: TrackType;
   position: number;
-  onTrackClick: (id: number) => void;
 }
 
-const Track: React.FC<Props> = ({ track, position, onTrackClick }) => {
+const Track: React.FC<Props> = ({ track, position }) => {
+  const dispatch = useAppDispatch();
+
   return (
-    <Container onClick={() => onTrackClick(track.id)}>
+    <Container onClick={() => dispatch(setTrack(track))}>
       <Text className="index">{position}</Text>
       <Text className="index-icon">▷</Text>
       <MainContainer>

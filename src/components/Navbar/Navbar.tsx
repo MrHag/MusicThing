@@ -3,19 +3,12 @@ import NavPanel from "./NavPanel";
 import Playlists from "./Playlists";
 import { Container } from "./styles";
 
-interface Props {
-  playlists: {
-    id: number;
-    name: string;
-  }[];
-}
-
-const Navbar: React.FC<Props> = ({ playlists }) => {
+const Navbar: React.FC = () => {
   return (
     <Container>
       <Logo />
       <NavPanel />
-      <Playlists elements={playlists} />
+      <Playlists />
     </Container>
   );
 };
