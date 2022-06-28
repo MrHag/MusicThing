@@ -101,5 +101,5 @@ export const playlists: { [id: number]: Playlist } = {
 };
 
 export let playlistArr = Object.values(playlists).map((pl) => {
-  return { id: pl.id, name: pl.name };
+  return pl;
 });

@@ -10,13 +10,13 @@ import { Routes, Route } from "react-router-dom";
 import RoutesList from "constants/Routes";
 import Search from "pages/Search/Search";
 import { useAppDispatch } from "hooks";
-import { setNavPlaylists } from "store/NavPlaylistsSlice";
+import { setPlaylists } from "store/PlaylistSlice";
 
 const Layout: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setNavPlaylists(playlistArr));
+    dispatch(setPlaylists(playlistArr));
   });
 
   return (
