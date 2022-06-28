@@ -1,4 +1,4 @@
-import { Component, InputHTMLAttributes } from "react";
+import { InputHTMLAttributes } from "react";
 
 export interface OnChangeInputProps {
   onChange?: (event: Event) => void;

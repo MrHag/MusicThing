@@ -1,14 +1,13 @@
-import { Playlist as PlaylistType } from "types";
-import PlaylistElem from "./PlaylistElem/PlaylistElem";
+import Track from "./Track/Track";
 import Text from "../Text/Text";
 import { PlaylistContainer, GridHeader } from "./style";
 
-interface Props {
-  playlist: PlaylistType;
-  onTrackClick: (id: number) => void;
-}
+import { selectPlaylist } from "../../store/PlaylistSlice";
+import { useAppSelector } from "hooks";
 
-const Playlist: React.FC<Props> = ({ playlist, onTrackClick }) => {
+const Playlist: React.FC = () => {
+  const playlist = useAppSelector(selectPlaylist);
+
   return (
     <PlaylistContainer>
       <GridHeader>
@@ -17,13 +16,8 @@ const Playlist: React.FC<Props> = ({ playlist, onTrackClick }) => {
         <Text>Album</Text>
         <Text>Duration</Text>
       </GridHeader>
-      {playlist.tracks.map((track, index) => (
-        <PlaylistElem
-          onTrackClick={onTrackClick}
-          key={index}
-          track={track}
-          position={index + 1}
-        ></PlaylistElem>
+      {playlist?.tracks.map((track, index) => (
+        <Track key={index} track={track} position={index + 1} />
       ))}
     </PlaylistContainer>
   );
