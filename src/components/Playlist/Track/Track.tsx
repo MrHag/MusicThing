@@ -1,8 +1,18 @@
 import Text from "components/Text/Text";
 import { useAppDispatch } from "hooks";
+import { setDropDown, setPosition } from "store/DropDownSlice";
 import { setTrack } from "store/PlayerSlice";
 import { Track as TrackType } from "types";
-import { Container, MainContainer, TextContainer, Image } from "./style";
+import { DropDownHandler } from "./DropDownHandler";
+import {
+  Container,
+  MainContainer,
+  TextContainer,
+  Image,
+  OptButton,
+  LastBlock,
+  IconText,
+} from "./style";
 
 interface Props {
   track: TrackType;
@@ -12,10 +22,18 @@ interface Props {
 const Track: React.FC<Props> = ({ track, position }) => {
   const dispatch = useAppDispatch();
 
+  const OnContext = (e: React.MouseEvent) => {
+    dispatch(setDropDown(DropDownHandler));
+    dispatch(setPosition({ x: e.pageX, y: e.pageY }));
+    e.preventDefault();
+  };
+
   return (
-    <Container onClick={() => dispatch(setTrack(track))}>
+    <Container onContextMenu={OnContext}>
       <Text className="index">{position}</Text>
-      <Text className="index-icon">▷</Text>
+      <Text onClick={() => dispatch(setTrack(track))} className="index-icon">
+        ▷
+      </Text>
       <MainContainer>
         <Image src={track.image} />
         <TextContainer>
@@ -24,7 +42,12 @@ const Track: React.FC<Props> = ({ track, position }) => {
         </TextContainer>
       </MainContainer>
       <Text>{track.album}</Text>
-      <Text>{track.duration}</Text>
+      <LastBlock>
+        <Text>{track.duration}</Text>
+        <IconText onClick={OnContext}>
+          <OptButton />
+        </IconText>
+      </LastBlock>
     </Container>
   );
 };

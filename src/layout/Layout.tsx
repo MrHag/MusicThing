@@ -11,6 +11,7 @@ import RoutesList from "constants/Routes";
 import Search from "pages/Search/Search";
 import { useAppDispatch } from "hooks";
 import { setPlaylists } from "store/PlaylistSlice";
+import DropDownList from "components/DropDownList/DropDownList";
 
 const Layout: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +36,7 @@ const Layout: React.FC = () => {
       <BottomContainer>
         <Footer />
       </BottomContainer>
+      <DropDownList />
     </Body>
   );
 };
