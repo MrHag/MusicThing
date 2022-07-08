@@ -10,16 +10,14 @@ export const Elem = styled.div`
   }
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<{ show: Boolean }>`
   width: 200px;
-  display: flex;
+  display: ${(props) => (props.show ? "flex" : "none")};
   flex-direction: column;
   position: absolute;
   color: white;
   outline: none;
   border-radius: 2px;
   user-select: none;
-  &:focus {
-    background-color: var(--ultra-light-bg-color);
-  }
+  background-color: var(--ultra-light-bg-color);
 `;

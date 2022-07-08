@@ -22,14 +22,14 @@ interface Props {
 const Track: React.FC<Props> = ({ track, position }) => {
   const dispatch = useAppDispatch();
 
-  const OnContext = (e: React.MouseEvent) => {
+  const onContext = (e: React.MouseEvent) => {
     dispatch(setDropDown(DropDownHandler));
     dispatch(setPosition({ x: e.pageX, y: e.pageY }));
     e.preventDefault();
   };
 
   return (
-    <Container onContextMenu={OnContext}>
+    <Container onContextMenu={onContext}>
       <Text className="index">{position}</Text>
       <Text onClick={() => dispatch(setTrack(track))} className="index-icon">
         ▷
@@ -44,7 +44,7 @@ const Track: React.FC<Props> = ({ track, position }) => {
       <Text>{track.album}</Text>
       <LastBlock>
         <Text>{track.duration}</Text>
-        <IconText onClick={OnContext}>
+        <IconText onClick={onContext}>
           <OptButton />
         </IconText>
       </LastBlock>
