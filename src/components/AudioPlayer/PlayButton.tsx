@@ -1,4 +1,4 @@
-import IconContainer from "./IconContainer";
+import IconContainer from "../IconContainer/IconContainer";
 import { PlayIcon, PauseIcon } from "./icons";
 
 interface Props {

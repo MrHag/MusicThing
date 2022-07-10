@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Track } from "types";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
 
 const Container = styled.footer`

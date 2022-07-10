@@ -37,7 +37,7 @@ const DropDownList: React.FC = () => {
   }, [windowSize]);
 
   useEffect(() => {
-    if (dropDown.elems.length != 0) setShow(true);
+    if (dropDown.elems.length !== 0) setShow(true);
   }, [dropDown.position]);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const DropDownList: React.FC = () => {
 
   return (
     <Container
-      onBlur={(e) => {
+      onBlur={() => {
         dispatch(setDropDown([]));
         setShow(false);
       }}

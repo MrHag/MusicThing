@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Playlist as PlaylistType } from "types";
 import { RootState } from "hooks/store";
 import { Track } from "types";
 

@@ -1,4 +1,3 @@
-import { Playlist as PlaylistType } from "types";
 import Playlist from "components/Playlist/Playlist";
 import { BodyContainer, BodyInnerContainer } from "./style";
 

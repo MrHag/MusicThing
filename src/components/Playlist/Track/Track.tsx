@@ -4,6 +4,7 @@ import { setDropDown, setPosition } from "store/DropDownSlice";
 import { setTrack } from "store/PlayerSlice";
 import { Track as TrackType } from "types";
 import { DropDownHandler } from "./DropDownHandler";
+import { OptionIcon } from "./icons";
 import {
   Container,
   MainContainer,
@@ -11,7 +12,6 @@ import {
   Image,
   OptButton,
   LastBlock,
-  IconText,
 } from "./style";
 
 interface Props {
@@ -44,9 +44,9 @@ const Track: React.FC<Props> = ({ track, position }) => {
       <Text>{track.album}</Text>
       <LastBlock>
         <Text>{track.duration}</Text>
-        <IconText onClick={onContext}>
-          <OptButton />
-        </IconText>
+        <OptButton onClick={onContext}>
+          <OptionIcon />
+        </OptButton>
       </LastBlock>
     </Container>
   );

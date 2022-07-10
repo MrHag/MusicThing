@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { GridTemplate } from "../style";
-import Text from "components/Text/Text";
-import { OptionIcon } from "./icons";
+import IconContainer from "components/IconContainer/IconContainer";
 
 export const Image = styled.img`
   max-width: 40px;
@@ -23,17 +22,12 @@ export const TextContainer = styled.div`
   justify-content: space-evenly;
 `;
 
-export const OptButton = styled(OptionIcon)`
+export const OptButton = styled(IconContainer)`
   font-size: 18pt;
-  color: var(--unactive-text-color);
-  &:hover {
-    color: inherit;
-  }
-`;
-
-export const IconText = styled(Text)`
-  font-size: 0;
   display: none;
+  &:hover {
+    color: var(--active-text-color);
+  }
 `;
 
 export const LastBlock = styled.div`
@@ -66,8 +60,12 @@ export const Container = styled(GridTemplate)`
     display: none;
   }
 
+  & > .index-icon:hover {
+    cursor: pointer;
+  }
+
   &:hover > .index-icon,
-  &:hover ${IconText} {
+  &:hover ${OptButton} {
     display: block;
   }
 `;

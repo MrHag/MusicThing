@@ -6,6 +6,7 @@ export const Body = styled.div`
   height: 100vh;
   flex-direction: column;
   font-family: "Gill Sans", sans-serif;
+  color: var(--primary-text-color);
 `;
 
 export const MainContainer = styled.div`

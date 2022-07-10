@@ -1,4 +1,4 @@
-import IconContainer from "./IconContainer";
+import IconContainer from "../IconContainer/IconContainer";
 import { VolumeIcon, MuteVolumeIcon } from "./icons";
 
 interface Props {
@@ -6,7 +6,7 @@ interface Props {
   isMuted: boolean;
 }
 
-const MuteButton: React.FC<Props> = ({ onClick,  isMuted }) => {
+const MuteButton: React.FC<Props> = ({ onClick, isMuted }) => {
   return isMuted ? (
     <IconContainer onClick={onClick} disabled={true}>
       <MuteVolumeIcon />

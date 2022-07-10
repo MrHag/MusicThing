@@ -1,7 +1,7 @@
 import Body from "./Body";
 import Header from "./Header";
 import { PageContainer } from "./style";
-import { TracksDB, playlists } from "layout/fakeData";
+import { playlists } from "layout/fakeData";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "hooks";
 import { setPlaylist } from "store/PlaylistSlice";
