@@ -23,6 +23,20 @@ export const PlaylistSlice = createSlice({
     setPlaylists: (state, action: PayloadAction<PlaylistType[]>) => {
       state.playlists = action.payload;
     },
+    moveTrack: (
+      state,
+      action: PayloadAction<{ from_index: number; to_index: number }>
+    ) => {
+      let { from_index, to_index } = action.payload;
+      let ind = 0;
+      let pl = state.playlists.map((tr, index, arr) => {
+        if (ind === from_index) ind += 1;
+        if (ind === to_index) return arr[ind];
+        ind += 1;
+        return arr[ind];
+      });
+      state.playlists = pl;
+    },
   },
 });
 

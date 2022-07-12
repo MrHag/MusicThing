@@ -37,11 +37,27 @@ export const LastBlock = styled.div`
   align-items: center;
 `;
 
-export const Container = styled(GridTemplate)`
+interface Props {
+  DropOver: boolean;
+  isDragging: boolean;
+  DragTop: boolean;
+}
+
+export const Container = styled(GridTemplate)<Props>`
   display: grid;
   height: 40px;
   align-items: center;
   padding: 10px 0;
+  border-style: solid;
+  border-color: var(--hblue-bg-color);
+
+  ${({ DropOver, isDragging, DragTop }) => ({
+    opacity: isDragging ? 0.5 : 1,
+    backgroundColor: DropOver ? "var(--violet-bg-color)" : "unset",
+    borderWidth: `${DragTop && DropOver ? 10 : 0}px 0 ${
+      !DragTop && DropOver ? 10 : 0
+    }px 0`,
+  })}
 
   &:hover {
     background-color: var(--light-bg-color);
