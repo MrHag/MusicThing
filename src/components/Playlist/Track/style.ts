@@ -53,14 +53,14 @@ export const Container = styled(GridTemplate)<Props>`
 
   ${({ DropOver, isDragging, DragTop }) => ({
     opacity: isDragging ? 0.5 : 1,
-    backgroundColor: DropOver ? "var(--violet-bg-color)" : "unset",
+    backgroundColor: DropOver ? "var(--some-violet)" : "unset",
     borderWidth: `${DragTop && DropOver ? 10 : 0}px 0 ${
       !DragTop && DropOver ? 10 : 0
     }px 0`,
   })}
 
   &:hover {
-    background-color: var(--light-bg-color);
+    background-color: var(--some-gray);
   }
 
   & > .index,

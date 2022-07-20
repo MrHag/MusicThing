@@ -12,6 +12,7 @@ import Search from "pages/Search/Search";
 import { useAppDispatch } from "hooks";
 import { setPlaylists } from "store/PlaylistSlice";
 import DropDownList from "components/DropDownList/DropDownList";
+import Placeholder from "components/Placeholder/Placeholder";
 
 const Layout: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -37,6 +38,7 @@ const Layout: React.FC = () => {
         <Footer />
       </BottomContainer>
       <DropDownList />
+      <Placeholder />
     </Body>
   );
 };

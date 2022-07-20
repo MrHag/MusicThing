@@ -16,7 +16,7 @@ const Playlist: React.FC = () => {
         <Text>Duration</Text>
       </GridHeader>
       {playlist?.tracks.map((track, index) => (
-        <Track key={index} track={track} position={index + 1} />
+        <Track key={index} track={track} index={index} />
       ))}
     </PlaylistContainer>
   );

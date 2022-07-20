@@ -1,0 +1,7 @@
+.Drag * {
+    pointer-events: none;
+}
+
+.Drag {
+    pointer-events: auto;
+}
