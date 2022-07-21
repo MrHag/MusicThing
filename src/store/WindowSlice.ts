@@ -2,29 +2,33 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "hooks/store";
 
-export interface State {
+export interface Size {
   width: number;
   height: number;
 }
 
+export interface State {
+  size: Size;
+}
+
 const initialState: State = {
-  width: window.innerWidth,
-  height: window.innerHeight,
+  size: {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  },
 };
 
 export const WindowSlice = createSlice({
   name: "window",
   initialState,
   reducers: {
-    setWindow: (state, action: PayloadAction<State>) => {
-      const pay = action.payload;
-      state.height = pay.height;
-      state.width = pay.width;
+    setSize: (state, action: PayloadAction<Size>) => {
+      state.size = action.payload;
     },
   },
 });
 
-export const { setWindow } = WindowSlice.actions;
+export const { setSize: setWindowSize } = WindowSlice.actions;
 
 export const selectWindow = (state: RootState) => state.window;
 

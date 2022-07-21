@@ -28,7 +28,6 @@ export const PlaylistSlice = createSlice({
       action: PayloadAction<{ from_index: number; to_index: number }>
     ) => {
       let { from_index, to_index } = action.payload;
-      let ind = 0;
       if (!state.activePlaylist) return;
 
       const tracks = [...state.activePlaylist.tracks];
@@ -39,17 +38,6 @@ export const PlaylistSlice = createSlice({
       tracks.splice(from_index, 1);
       tracks.splice(to_index, 0, from);
 
-      // const newtracks = tracks.map((tr, index, arr) => {
-      //   if (ind === from_index) ind++;
-      //   if (ind === to_index) {
-      //     ind++;
-      //     return tracks[from_index];
-      //   }
-      //   if (ind - 1 === to_index) {
-      //     return tracks[to_index];
-      //   }
-      //   return tracks[ind++];
-      // });
       console.log(tracks);
       state.activePlaylist.tracks = tracks;
     },

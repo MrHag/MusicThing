@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import TransferIO from "./TransferIO";
-import "./DragDrop.css";
+import "./style.css";
 import { lazy, lazyCall, onDragEvent } from "./lib";
 
 export type IsAcceptEvent = (
@@ -15,7 +15,7 @@ interface State {
   onDragOver: (e: onDragEvent) => void;
   onDragEnter: (e: onDragEvent) => void;
   onDragLeave: (e: onDragEvent) => void;
-  IsAccept: (e: IsAcceptEvent) => void;
+  onIsAccept: (e: IsAcceptEvent) => void;
 }
 
 const useDrop = (): [
@@ -26,19 +26,21 @@ const useDrop = (): [
 ] => {
   const [Drop, setDrop] = useState<HTMLElement>();
   const [Tag, setTag] = useState<string>(" ");
-  const [OuterDrop, setOuterDrop] = useState<onDragEvent>();
-  const [OuterDragOver, setOuterDragOver] = useState<onDragEvent>();
-  const [OuterDragEnter, setOuterDragEnter] = useState<onDragEvent>();
-  const [OuterDragLeave, setOuterDragLeave] = useState<onDragEvent>();
-  const [IsAccept, setIsAccept] = useState<IsAcceptEvent>(lazy(() => true));
+  const [DropEvent, setDropEvent] = useState<onDragEvent>();
+  const [DragOverEvent, setDragOverEvent] = useState<onDragEvent>();
+  const [DragEnterEvent, setDragEnterEvent] = useState<onDragEvent>();
+  const [DragLeaveEvent, setDragLeaveEvent] = useState<onDragEvent>();
+  const [IsAcceptEvent, setIsAcceptEvent] = useState<IsAcceptEvent>(
+    lazy(() => true)
+  );
 
   const [State, SetState] = useState<State>({
     isOver: false,
-    onDrop: lazyCall(setOuterDrop),
-    onDragOver: lazyCall(setOuterDragOver),
-    onDragEnter: lazyCall(setOuterDragEnter),
-    onDragLeave: lazyCall(setOuterDragLeave),
-    IsAccept: lazyCall(setIsAccept),
+    onDrop: lazyCall(setDropEvent),
+    onDragOver: lazyCall(setDragOverEvent),
+    onDragEnter: lazyCall(setDragEnterEvent),
+    onDragLeave: lazyCall(setDragLeaveEvent),
+    onIsAccept: lazyCall(setIsAcceptEvent),
   });
 
   const onDrop = (e: DragEvent) => {
@@ -47,7 +49,7 @@ const useDrop = (): [
     SetState({ ...State, isOver: false });
     const target = e.currentTarget as HTMLElement;
 
-    OuterDrop?.call(this, target, e, TransferIO.from(e.dataTransfer));
+    DropEvent?.call(this, target, e, TransferIO.from(e.dataTransfer));
   };
 
   const onDragOver = (e: DragEvent) => {
@@ -56,10 +58,10 @@ const useDrop = (): [
     const target = e.currentTarget as HTMLElement;
 
     const tio = TransferIO.from(e.dataTransfer);
-    if (tio.hasValue("tag", Tag) && IsAccept(target, e, tio))
+    if (tio.hasValue("tag", Tag) && IsAcceptEvent(target, e, tio))
       e.preventDefault();
 
-    OuterDragOver?.call(this, target, e, tio);
+    DragOverEvent?.call(this, target, e, tio);
   };
 
   const onDragEnter = (e: DragEvent) => {
@@ -69,12 +71,12 @@ const useDrop = (): [
 
     const tio = TransferIO.from(e.dataTransfer);
 
-    if (tio.hasValue("tag", Tag) && IsAccept(target, e, tio)) {
+    if (tio.hasValue("tag", Tag) && IsAcceptEvent(target, e, tio)) {
       e.preventDefault();
       SetState({ ...State, isOver: true });
     }
 
-    OuterDragEnter?.call(this, target, e, tio);
+    DragEnterEvent?.call(this, target, e, tio);
   };
 
   const onDragLeave = (e: DragEvent) => {
@@ -83,21 +85,15 @@ const useDrop = (): [
 
     const target = e.currentTarget as HTMLElement;
 
-    OuterDragLeave?.call(this, target, e, TransferIO.from(e.dataTransfer));
+    DragLeaveEvent?.call(this, target, e, TransferIO.from(e.dataTransfer));
   };
 
   useEffect(() => {
     if (!Drop) return;
     Drop.draggable = true;
-    // const elems = Drop.getElementsByTagName("*");
-    // for (const key in elems) {
-    //   const elem = elems[key];
-    //   for (const ev of Object.values(mouseEvents)) {
-    //     elem.hasPointerCapture
-    //   }
-    // }
-    if (State.isOver) Drop.classList.add("Drag");
-    else Drop.classList.remove("Drag");
+
+    if (State.isOver) Drop.classList.add("LockPointerEvents");
+    else Drop.classList.remove("LockPointerEvents");
 
     Drop.addEventListener("dragenter", onDragEnter);
     Drop.addEventListener("dragleave", onDragLeave);

@@ -1,14 +1,14 @@
 import { useAppDispatch, useAppSelector } from "hooks";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { selectWindow, setWindow, State } from "store/WindowSlice";
+import { useEffect } from "react";
+import { selectWindow, setWindowSize, Size } from "store/WindowSlice";
 
-export const useWindowSize = (): [State] => {
-  const windowSize = useAppSelector(selectWindow);
+export const useWindowSize = (): [Size] => {
+  const windowSize = useAppSelector(selectWindow).size;
   const dispatch = useAppDispatch();
 
   const onWindowResize = () => {
     dispatch(
-      setWindow({
+      setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
       })

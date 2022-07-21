@@ -1,7 +1,7 @@
-.Drag * {
+.LockPointerEvents * {
     pointer-events: none;
 }
 
-.Drag {
+.LockPointerEvents {
     pointer-events: auto;
 }

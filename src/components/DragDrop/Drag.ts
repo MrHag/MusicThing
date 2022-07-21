@@ -1,6 +1,4 @@
-import { useAppDispatch, useAppSelector } from "hooks";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { selectPlaceholder, setPlaceholder } from "store/PlaceholderSlice";
 import { lazyCall, onDragEvent } from "./lib";
 import TransferIO from "./TransferIO";
 
@@ -18,82 +16,65 @@ const useDrag = (): [
   Dispatch<SetStateAction<HTMLElement | undefined>>,
   Dispatch<SetStateAction<string>>
 ] => {
-  const [Drag, SetDrag] = useState<HTMLElement>();
-  const [OuterDragStart, setOuterDragStart] = useState<onDragEvent>();
-  const [OuterDragEnd, setOuterDragEnd] = useState<onDragEvent>();
-  const [OuterDrag, setOuterDrag] = useState<onDragEvent>();
+  const [DragElem, SetDragElem] = useState<HTMLElement>();
+  const [DragStartEvent, setDragStartEvent] = useState<onDragEvent>();
+  const [DragEndEvent, setDragEndEvent] = useState<onDragEvent>();
+  const [DragEvent, setDragEvent] = useState<onDragEvent>();
   const [Tag, setTag] = useState<string>(" ");
-
-  const dispatch = useAppDispatch();
-  const Placeholder = useAppSelector(selectPlaceholder);
 
   const [State, SetState] = useState<State>({
     isDragging: false,
     isOver: false,
-    onDragStart: lazyCall(setOuterDragStart),
-    onDrag: lazyCall(setOuterDrag),
-    onDragEnd: lazyCall(setOuterDragEnd),
+    onDragStart: lazyCall(setDragStartEvent),
+    onDrag: lazyCall(setDragEvent),
+    onDragEnd: lazyCall(setDragEndEvent),
   });
 
   const onDragStart = (e: DragEvent) => {
     SetState({ ...State, isDragging: true });
     const target = e.target as HTMLElement;
 
-    // dispatch(
-    //   setPlaceholder({
-    //     ...Placeholder,
-    //     position: { x: e.pageX, y: e.pageY },
-    //     text: "TEXT",
-    //   })
-    // );
-
-    // const el = document.getElementById("placeholder");
     const el = document.createElement("div");
     if (!e.dataTransfer || !Tag) return;
     e.dataTransfer.setDragImage(el, 0, 0);
 
     const tio = TransferIO.from(e.dataTransfer);
     tio.add("tag", Tag);
-    //e.dataTransfer?.setData("text", "textdata");
 
-    OuterDragStart?.call(this, target, e, tio);
+    DragStartEvent?.call(this, target, e, tio);
   };
 
   const onDragEnd = (e: DragEvent) => {
-    if (!e.dataTransfer) return;
     SetState({ ...State, isDragging: false });
-    // dispatch(setPlaceholder({ ...Placeholder, text: "" }));
+
     const target = e.currentTarget as HTMLElement;
-    OuterDragEnd?.call(this, target, e, TransferIO.from(e.dataTransfer));
+
+    if (!e.dataTransfer) return;
+    DragEndEvent?.call(this, target, e, TransferIO.from(e.dataTransfer));
   };
 
   const onDrag = (e: DragEvent) => {
-    if (!e.dataTransfer) return;
-    // dispatch(
-    //   setPlaceholder({
-    //     ...Placeholder,
-    //     position: { x: e.pageX, y: e.pageY },
-    //   })
-    // );
     const target = e.currentTarget as HTMLElement;
-    OuterDrag?.call(this, target, e, TransferIO.from(e.dataTransfer));
+
+    if (!e.dataTransfer) return;
+    DragEvent?.call(this, target, e, TransferIO.from(e.dataTransfer));
   };
 
   useEffect(() => {
-    if (!Drag) return;
-    Drag.draggable = true;
-    Drag.addEventListener("dragstart", onDragStart);
-    Drag.addEventListener("dragend", onDragEnd);
-    Drag.addEventListener("drag", onDrag);
+    if (!DragElem) return;
+    DragElem.draggable = true;
+    DragElem.addEventListener("dragstart", onDragStart);
+    DragElem.addEventListener("dragend", onDragEnd);
+    DragElem.addEventListener("drag", onDrag);
     return () => {
-      Drag.draggable = false;
-      Drag.removeEventListener("dragstart", onDragStart);
-      Drag.removeEventListener("dragend", onDragEnd);
-      Drag.removeEventListener("drag", onDrag);
+      DragElem.draggable = false;
+      DragElem.removeEventListener("dragstart", onDragStart);
+      DragElem.removeEventListener("dragend", onDragEnd);
+      DragElem.removeEventListener("drag", onDrag);
     };
   });
 
-  return [State, Drag, SetDrag, setTag];
+  return [State, DragElem, SetDragElem, setTag];
 };
 
 export default useDrag;

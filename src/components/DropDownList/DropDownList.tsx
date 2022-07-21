@@ -1,19 +1,20 @@
 import { useAppDispatch, useAppSelector } from "hooks";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { selectDropDown, setDropDown } from "store/DropDownSlice";
 import { Container, Elem } from "./style";
 import Text from "components/Text/Text";
-import { useIntWindow } from "components/IntWindow/IntWindow";
+import { useBaseWindow } from "components/AppWindow/useBaseWindow";
 
 const DropDownList: React.FC = () => {
   const dispatch = useAppDispatch();
   const dropDown = useAppSelector(selectDropDown);
   const [show, setShow] = useState(false);
 
-  const [Window, setWindow, Position, setPosition, deps] = useIntWindow();
+  const [WindowElem, setWindowElem, Position, setPosition, deps] =
+    useBaseWindow();
 
   const listCallback = useCallback((node: HTMLDivElement) => {
-    setWindow(node);
+    setWindowElem(node);
   }, []);
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const DropDownList: React.FC = () => {
 
   useEffect(() => {
     if (show) {
-      Window?.focus();
+      WindowElem?.focus();
       setPosition(dropDown.position);
     }
   }, [show]);

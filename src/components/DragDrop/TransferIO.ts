@@ -21,8 +21,6 @@ export default class TransferIO {
   hasKey(key: string) {
     for (let slice of this.transfer.types) {
       if (slice.startsWith(key)) return true;
-      // const split = slice.split(":");
-      // if (split[0] === key) return true;
     }
     return false;
   }

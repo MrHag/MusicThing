@@ -2,13 +2,12 @@ import useDrag from "components/DragDrop/Drag";
 import useDrop from "components/DragDrop/Drop";
 import TransferIO from "components/DragDrop/TransferIO";
 import Text from "components/Text/Text";
-import { useAppDispatch, useAppSelector } from "hooks";
-import { useContext, useEffect, useRef, useState } from "react";
-import Context from "react-redux/es/components/Context";
+import { useAppDispatch } from "hooks";
+import { useEffect, useRef, useState } from "react";
 import { setDropDown, setPosition } from "store/DropDownSlice";
 import { setTrack } from "store/PlayerSlice";
-import { moveTrack, selectPlaylist } from "store/PlaylistSlice";
-import { Playlist, Track as TrackType } from "types";
+import { moveTrack } from "store/PlaylistSlice";
+import { Track as TrackType } from "types";
 import { DropDownHandler } from "./DropDownHandler";
 import { OptionIcon } from "./icons";
 import {
@@ -28,7 +27,6 @@ interface Props {
 const Track: React.FC<Props> = ({ track, index }) => {
   const dispatch = useAppDispatch();
   let RefTrack = useRef<HTMLDivElement>(null);
-  let RefPrev = useRef<HTMLDivElement>(null);
 
   const onContext = (e: React.MouseEvent) => {
     dispatch(setDropDown(DropDownHandler));
@@ -37,15 +35,24 @@ const Track: React.FC<Props> = ({ track, index }) => {
   };
 
   let [DragTop, setDragTop] = useState(true);
-  let [DragImage, setDragImage] = useState("");
 
-  const [{ isDragging, onDragStart }, Drag, SetDrag, setDragTag] = useDrag();
-  const [{ isOver, onDragOver, onDrop, IsAccept }, Drop, SetDrop, setDropTag] =
-    useDrop();
+  const [{ isDragging, onDragStart }, , SetDrag, setDragTag] = useDrag();
+  const [
+    { isOver, onDragOver, onDrop, onIsAccept: IsAccept },
+    ,
+    SetDrop,
+    setDropTag,
+  ] = useDrop();
 
   useEffect(() => {
-    setDropTag("track");
+    if (!RefTrack.current) return;
+    let ref = RefTrack.current;
+    SetDrag(ref);
+    SetDrop(ref);
+
     setDragTag("track");
+    setDropTag("track");
+
     onDragOver((_a: any, e: DragEvent, _b: any) => Calc(e));
     onDragStart((_a: any, e: DragEvent, tio: TransferIO) => {
       tio.add("trackindex", index.toString());
@@ -66,21 +73,6 @@ const Track: React.FC<Props> = ({ track, index }) => {
     });
   }, [DragTop]);
 
-  // const [{ isOver }, drop] = useDrop(() => ({
-  //   accept: ItemTypes.Track,
-  //   drop: (i) => console.log(i),
-  //   collect: (monitor) => ({
-  //     isOver: monitor.isOver(),
-  //   }),
-  // }));
-
-  // const [{ isDragging }, drag, prev] = useDrag(() => ({
-  //   type: ItemTypes.Track,
-  //   collect: (monitor) => ({
-  //     isDragging: monitor.isDragging(),
-  //   }),
-  // }));
-
   const Calc = (e: DragEvent | undefined) => {
     if (!e) return;
     if (!RefTrack.current) return;
@@ -91,20 +83,6 @@ const Track: React.FC<Props> = ({ track, index }) => {
     setDragTop(top < bottom);
   };
 
-  // useEffect(() => {
-  //   if (!RefTrack.current) return;
-  //   let ref = RefTrack.current;
-  //   drag(ref);
-  //   drop(ref);
-  // }, []);
-
-  useEffect(() => {
-    if (!RefTrack.current) return;
-    let ref = RefTrack.current;
-    SetDrag(ref);
-    SetDrop(ref);
-  }, []);
-
   return (
     <>
       <Container
@@ -112,12 +90,6 @@ const Track: React.FC<Props> = ({ track, index }) => {
         isDragging={isDragging}
         DragTop={DragTop}
         ref={RefTrack}
-        // onDrag={(e) => {
-        //   if (!RefTrack.current) return;
-        //   let ref = RefTrack.current;
-        //   SetDrag(ref);
-        // }}
-        draggable={true}
         onContextMenu={onContext}
       >
         <Text className="index">{index + 1}</Text>
