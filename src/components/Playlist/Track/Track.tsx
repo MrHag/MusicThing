@@ -1,5 +1,5 @@
-import useDrag from "components/DragDrop/Drag";
-import useDrop from "components/DragDrop/Drop";
+import useDrag from "components/DragDrop/useDrag";
+import useDrop from "components/DragDrop/useDrop";
 import TransferIO from "components/DragDrop/TransferIO";
 import Text from "components/Text/Text";
 import { useAppDispatch } from "hooks";
@@ -26,7 +26,7 @@ interface Props {
 
 const Track: React.FC<Props> = ({ track, index }) => {
   const dispatch = useAppDispatch();
-  let RefTrack = useRef<HTMLDivElement>(null);
+  let refTrack = useRef<HTMLDivElement>(null);
 
   const onContext = (e: React.MouseEvent) => {
     dispatch(setDropDown(DropDownHandler));
@@ -34,30 +34,26 @@ const Track: React.FC<Props> = ({ track, index }) => {
     e.preventDefault();
   };
 
-  let [DragTop, setDragTop] = useState(true);
+  let [dragTop, setDragTop] = useState(true);
 
-  const [{ isDragging, onDragStart }, , SetDrag, setDragTag] = useDrag();
-  const [
-    { isOver, onDragOver, onDrop, onIsAccept: IsAccept },
-    ,
-    SetDrop,
-    setDropTag,
-  ] = useDrop();
+  const [{ isDragging, onDragStart }, , setDrag, setDragTag] = useDrag();
+  const [{ isOver, onDragOver, onDrop, onIsAccept }, , setDrop, setDropTag] =
+    useDrop();
 
   useEffect(() => {
-    if (!RefTrack.current) return;
-    let ref = RefTrack.current;
-    SetDrag(ref);
-    SetDrop(ref);
+    if (!refTrack.current) return;
+    let ref = refTrack.current;
+    setDrag(ref);
+    setDrop(ref);
 
     setDragTag("track");
     setDropTag("track");
 
-    onDragOver((_a: any, e: DragEvent, _b: any) => Calc(e));
+    onDragOver((_a: any, e: DragEvent, _b: any) => calc(e));
     onDragStart((_a: any, e: DragEvent, tio: TransferIO) => {
       tio.add("trackindex", index.toString());
     });
-    IsAccept((_a: any, e: DragEvent, tio: TransferIO) => {
+    onIsAccept((_a: any, e: DragEvent, tio: TransferIO) => {
       const fromInd = Number.parseInt(tio.get("trackindex")[0]);
       return index !== fromInd;
     });
@@ -65,18 +61,18 @@ const Track: React.FC<Props> = ({ track, index }) => {
 
   useEffect(() => {
     onDrop((_a: any, e: DragEvent, tio: TransferIO) => {
-      const fromInd = Number.parseInt(tio.get("trackindex")[0]);
-      const toInd = DragTop ? index : index + 1;
-      console.log(DragTop);
-      console.log(fromInd, toInd);
-      dispatch(moveTrack({ from_index: fromInd, to_index: toInd }));
+      const fromIndex = Number.parseInt(tio.get("trackindex")[0]);
+      const toIndex = dragTop ? index : index + 1;
+      console.log(dragTop);
+      console.log(fromIndex, toIndex);
+      dispatch(moveTrack({ fromIndex, toIndex }));
     });
-  }, [DragTop]);
+  }, [dragTop]);
 
-  const Calc = (e: DragEvent | undefined) => {
+  const calc = (e: DragEvent | undefined) => {
     if (!e) return;
-    if (!RefTrack.current) return;
-    let cur = RefTrack.current;
+    if (!refTrack.current) return;
+    let cur = refTrack.current;
     let rect = cur.getBoundingClientRect();
     let top = e.pageY - rect.top;
     let bottom = rect.bottom - e.pageY;
@@ -88,8 +84,8 @@ const Track: React.FC<Props> = ({ track, index }) => {
       <Container
         DropOver={isOver}
         isDragging={isDragging}
-        DragTop={DragTop}
-        ref={RefTrack}
+        DragTop={dragTop}
+        ref={refTrack}
         onContextMenu={onContext}
       >
         <Text className="index">{index + 1}</Text>

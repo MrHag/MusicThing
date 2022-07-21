@@ -16,13 +16,13 @@ const useDrag = (): [
   Dispatch<SetStateAction<HTMLElement | undefined>>,
   Dispatch<SetStateAction<string>>
 ] => {
-  const [DragElem, SetDragElem] = useState<HTMLElement>();
-  const [DragStartEvent, setDragStartEvent] = useState<onDragEvent>();
-  const [DragEndEvent, setDragEndEvent] = useState<onDragEvent>();
-  const [DragEvent, setDragEvent] = useState<onDragEvent>();
-  const [Tag, setTag] = useState<string>(" ");
+  const [dragElem, setDragElem] = useState<HTMLElement>();
+  const [dragStartEvent, setDragStartEvent] = useState<onDragEvent>();
+  const [dragEndEvent, setDragEndEvent] = useState<onDragEvent>();
+  const [dragEvent, setDragEvent] = useState<onDragEvent>();
+  const [tag, setTag] = useState<string>(" ");
 
-  const [State, SetState] = useState<State>({
+  const [state, setState] = useState<State>({
     isDragging: false,
     isOver: false,
     onDragStart: lazyCall(setDragStartEvent),
@@ -31,50 +31,50 @@ const useDrag = (): [
   });
 
   const onDragStart = (e: DragEvent) => {
-    SetState({ ...State, isDragging: true });
+    setState({ ...state, isDragging: true });
     const target = e.target as HTMLElement;
 
     const el = document.createElement("div");
-    if (!e.dataTransfer || !Tag) return;
+    if (!e.dataTransfer || !tag) return;
     e.dataTransfer.setDragImage(el, 0, 0);
 
     const tio = TransferIO.from(e.dataTransfer);
-    tio.add("tag", Tag);
+    tio.add("tag", tag);
 
-    DragStartEvent?.call(this, target, e, tio);
+    dragStartEvent?.call(this, target, e, tio);
   };
 
   const onDragEnd = (e: DragEvent) => {
-    SetState({ ...State, isDragging: false });
+    setState({ ...state, isDragging: false });
 
     const target = e.currentTarget as HTMLElement;
 
     if (!e.dataTransfer) return;
-    DragEndEvent?.call(this, target, e, TransferIO.from(e.dataTransfer));
+    dragEndEvent?.call(this, target, e, TransferIO.from(e.dataTransfer));
   };
 
   const onDrag = (e: DragEvent) => {
     const target = e.currentTarget as HTMLElement;
 
     if (!e.dataTransfer) return;
-    DragEvent?.call(this, target, e, TransferIO.from(e.dataTransfer));
+    dragEvent?.call(this, target, e, TransferIO.from(e.dataTransfer));
   };
 
   useEffect(() => {
-    if (!DragElem) return;
-    DragElem.draggable = true;
-    DragElem.addEventListener("dragstart", onDragStart);
-    DragElem.addEventListener("dragend", onDragEnd);
-    DragElem.addEventListener("drag", onDrag);
+    if (!dragElem) return;
+    dragElem.draggable = true;
+    dragElem.addEventListener("dragstart", onDragStart);
+    dragElem.addEventListener("dragend", onDragEnd);
+    dragElem.addEventListener("drag", onDrag);
     return () => {
-      DragElem.draggable = false;
-      DragElem.removeEventListener("dragstart", onDragStart);
-      DragElem.removeEventListener("dragend", onDragEnd);
-      DragElem.removeEventListener("drag", onDrag);
+      dragElem.draggable = false;
+      dragElem.removeEventListener("dragstart", onDragStart);
+      dragElem.removeEventListener("dragend", onDragEnd);
+      dragElem.removeEventListener("drag", onDrag);
     };
   });
 
-  return [State, DragElem, SetDragElem, setTag];
+  return [state, dragElem, setDragElem, setTag];
 };
 
 export default useDrag;

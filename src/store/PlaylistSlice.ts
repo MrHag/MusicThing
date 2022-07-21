@@ -13,30 +13,35 @@ const initialState: PlaylistState = {
   playlists: [],
 };
 
+type MoveTrackAction = PayloadAction<{
+  fromIndex: number;
+  toIndex: number;
+}>;
+
+type SetPlaylistAction = PayloadAction<PlaylistType>;
+type SetPlaylistsAction = PayloadAction<PlaylistType[]>;
+
 export const PlaylistSlice = createSlice({
   name: "playlists",
   initialState,
   reducers: {
-    setPlaylist: (state, action: PayloadAction<PlaylistType>) => {
+    setPlaylist: (state, action: SetPlaylistAction) => {
       state.activePlaylist = action.payload;
     },
-    setPlaylists: (state, action: PayloadAction<PlaylistType[]>) => {
+    setPlaylists: (state, action: SetPlaylistsAction) => {
       state.playlists = action.payload;
     },
-    moveTrack: (
-      state,
-      action: PayloadAction<{ from_index: number; to_index: number }>
-    ) => {
-      let { from_index, to_index } = action.payload;
+    moveTrack: (state, action: MoveTrackAction) => {
+      let { fromIndex, toIndex } = action.payload;
       if (!state.activePlaylist) return;
 
       const tracks = [...state.activePlaylist.tracks];
 
-      if (from_index < to_index) to_index--;
+      if (fromIndex < toIndex) toIndex--;
 
-      const from = tracks[from_index];
-      tracks.splice(from_index, 1);
-      tracks.splice(to_index, 0, from);
+      const from = tracks[fromIndex];
+      tracks.splice(fromIndex, 1);
+      tracks.splice(toIndex, 0, from);
 
       console.log(tracks);
       state.activePlaylist.tracks = tracks;
