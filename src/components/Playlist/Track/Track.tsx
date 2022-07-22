@@ -36,9 +36,31 @@ const Track: React.FC<Props> = ({ track, index }) => {
 
   let [dragTop, setDragTop] = useState(true);
 
-  const [{ isDragging, onDragStart }, , setDrag, setDragTag] = useDrag();
-  const [{ isOver, onDragOver, onDrop, onIsAccept }, , setDrop, setDropTag] =
-    useDrop();
+  let onDragStart = (_a: any, e: DragEvent, tio: TransferIO) => {
+    tio.add("trackindex", index.toString());
+  };
+  let onDragOver = (_a: any, e: DragEvent, _b: any) => calc(e);
+
+  let onIsAccept = (_a: any, e: DragEvent, tio: TransferIO) => {
+    const fromInd = Number.parseInt(tio.get("trackindex")[0]);
+    return index !== fromInd;
+  };
+  let onDrop = (_a: any, e: DragEvent, tio: TransferIO) => {
+    const fromIndex = Number.parseInt(tio.get("trackindex")[0]);
+    const toIndex = dragTop ? index : index + 1;
+    console.log(dragTop);
+    console.log(fromIndex, toIndex);
+    dispatch(moveTrack({ fromIndex, toIndex }));
+  };
+
+  const [{ isDragging }, , setDrag, setDragTag] = useDrag({
+    dragStartEvent: onDragStart,
+  });
+  const [{ isOver }, , setDrop, setDropTag] = useDrop({
+    dropEvent: onDrop,
+    dragOverEvent: onDragOver,
+    isAcceptEvent: onIsAccept,
+  });
 
   useEffect(() => {
     if (!refTrack.current) return;
@@ -48,26 +70,7 @@ const Track: React.FC<Props> = ({ track, index }) => {
 
     setDragTag("track");
     setDropTag("track");
-
-    onDragOver((_a: any, e: DragEvent, _b: any) => calc(e));
-    onDragStart((_a: any, e: DragEvent, tio: TransferIO) => {
-      tio.add("trackindex", index.toString());
-    });
-    onIsAccept((_a: any, e: DragEvent, tio: TransferIO) => {
-      const fromInd = Number.parseInt(tio.get("trackindex")[0]);
-      return index !== fromInd;
-    });
   }, []);
-
-  useEffect(() => {
-    onDrop((_a: any, e: DragEvent, tio: TransferIO) => {
-      const fromIndex = Number.parseInt(tio.get("trackindex")[0]);
-      const toIndex = dragTop ? index : index + 1;
-      console.log(dragTop);
-      console.log(fromIndex, toIndex);
-      dispatch(moveTrack({ fromIndex, toIndex }));
-    });
-  }, [dragTop]);
 
   const calc = (e: DragEvent | undefined) => {
     if (!e) return;
@@ -93,7 +96,7 @@ const Track: React.FC<Props> = ({ track, index }) => {
           ▷
         </Text>
         <MainContainer>
-          <Image src={track.image} draggable={false} />
+          <Image src={track.image} />
           <TextContainer>
             <Text>{track.name}</Text>
             <Text>{track.author}</Text>

@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import TransferIO from "./TransferIO";
 import "./style.css";
-import { lazy, lazyCall, onDragEvent } from "./lib";
+import { onDragEvent } from "./lib";
 
 export type IsAcceptEvent = (
   elem: HTMLElement,
@@ -11,36 +11,39 @@ export type IsAcceptEvent = (
 
 interface State {
   isOver: boolean;
-  onDrop: (e: onDragEvent) => void;
-  onDragOver: (e: onDragEvent) => void;
-  onDragEnter: (e: onDragEvent) => void;
-  onDragLeave: (e: onDragEvent) => void;
-  onIsAccept: (e: IsAcceptEvent) => void;
 }
 
-const useDrop = (): [
+interface Events {
+  dropEvent?: onDragEvent;
+  dragOverEvent?: onDragEvent;
+  dragEnterEvent?: onDragEvent;
+  dragLeaveEvent?: onDragEvent;
+  isAcceptEvent?: IsAcceptEvent;
+}
+
+const useDrop = (
+  events: Events
+): [
   State,
   HTMLElement | undefined,
   Dispatch<SetStateAction<HTMLElement | undefined>>,
   Dispatch<SetStateAction<string>>
 ] => {
+  if (!events.isAcceptEvent) events.isAcceptEvent = () => true;
+
+  let {
+    dropEvent,
+    dragOverEvent,
+    dragEnterEvent,
+    dragLeaveEvent,
+    isAcceptEvent,
+  } = events;
+
   const [drop, setDrop] = useState<HTMLElement>();
   const [tag, setTag] = useState<string>(" ");
-  const [dropEvent, setDropEvent] = useState<onDragEvent>();
-  const [dragOverEvent, setDragOverEvent] = useState<onDragEvent>();
-  const [dragEnterEvent, setDragEnterEvent] = useState<onDragEvent>();
-  const [dragLeaveEvent, setDragLeaveEvent] = useState<onDragEvent>();
-  const [isAcceptEvent, setIsAcceptEvent] = useState<IsAcceptEvent>(
-    lazy(() => true)
-  );
 
   const [state, setState] = useState<State>({
     isOver: false,
-    onDrop: lazyCall(setDropEvent),
-    onDragOver: lazyCall(setDragOverEvent),
-    onDragEnter: lazyCall(setDragEnterEvent),
-    onDragLeave: lazyCall(setDragLeaveEvent),
-    onIsAccept: lazyCall(setIsAcceptEvent),
   });
 
   const onDrop = (e: DragEvent) => {

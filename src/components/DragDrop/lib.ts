@@ -5,11 +5,3 @@ export type onDragEvent = (
   e: DragEvent,
   tio: TransferIO
 ) => void;
-
-export function lazy<T>(fn: T) {
-  return () => fn;
-}
-
-export function lazyCall<T extends CallableFunction, B>(fn: T) {
-  return (arg: B) => fn(lazy(arg));
-}

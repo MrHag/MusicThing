@@ -1,33 +1,32 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { lazyCall, onDragEvent } from "./lib";
+import { onDragEvent } from "./lib";
 import TransferIO from "./TransferIO";
 
 interface State {
   isDragging: boolean;
-  isOver: boolean;
-  onDragStart: (e: onDragEvent) => void;
-  onDragEnd: (e: onDragEvent) => void;
-  onDrag: (e: onDragEvent) => void;
 }
 
-const useDrag = (): [
+interface Events {
+  dragStartEvent?: onDragEvent;
+  dragEndEvent?: onDragEvent;
+  dragEvent?: onDragEvent;
+}
+
+const useDrag = ({
+  dragStartEvent,
+  dragEndEvent,
+  dragEvent,
+}: Events): [
   State,
   HTMLElement | undefined,
   Dispatch<SetStateAction<HTMLElement | undefined>>,
   Dispatch<SetStateAction<string>>
 ] => {
   const [dragElem, setDragElem] = useState<HTMLElement>();
-  const [dragStartEvent, setDragStartEvent] = useState<onDragEvent>();
-  const [dragEndEvent, setDragEndEvent] = useState<onDragEvent>();
-  const [dragEvent, setDragEvent] = useState<onDragEvent>();
   const [tag, setTag] = useState<string>(" ");
 
   const [state, setState] = useState<State>({
     isDragging: false,
-    isOver: false,
-    onDragStart: lazyCall(setDragStartEvent),
-    onDrag: lazyCall(setDragEvent),
-    onDragEnd: lazyCall(setDragEndEvent),
   });
 
   const onDragStart = (e: DragEvent) => {
@@ -41,7 +40,7 @@ const useDrag = (): [
     const tio = TransferIO.from(e.dataTransfer);
     tio.add("tag", tag);
 
-    dragStartEvent?.call(this, target, e, tio);
+    dragStartEvent?.(target, e, tio);
   };
 
   const onDragEnd = (e: DragEvent) => {
@@ -50,14 +49,14 @@ const useDrag = (): [
     const target = e.currentTarget as HTMLElement;
 
     if (!e.dataTransfer) return;
-    dragEndEvent?.call(this, target, e, TransferIO.from(e.dataTransfer));
+    dragEndEvent?.(target, e, TransferIO.from(e.dataTransfer));
   };
 
   const onDrag = (e: DragEvent) => {
     const target = e.currentTarget as HTMLElement;
 
     if (!e.dataTransfer) return;
-    dragEvent?.call(this, target, e, TransferIO.from(e.dataTransfer));
+    dragEvent?.(target, e, TransferIO.from(e.dataTransfer));
   };
 
   useEffect(() => {
