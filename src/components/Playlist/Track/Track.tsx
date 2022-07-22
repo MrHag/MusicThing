@@ -1,5 +1,6 @@
 import Text from "components/Text/Text";
 import { useAppDispatch } from "hooks";
+import { useState, useEffect } from "react";
 import { setDropDown, setPosition } from "store/DropDownSlice";
 import { setTrack } from "store/PlayerSlice";
 import { Track as TrackType } from "types";
@@ -29,7 +30,7 @@ const Track: React.FC<Props> = ({ track, position }) => {
   };
 
   return (
-    <Container onContextMenu={onContext}>
+    <Container data-track="value" onContextMenu={onContext} draggable>
       <Text className="index">{position}</Text>
       <Text onClick={() => dispatch(setTrack(track))} className="index-icon">
         ▷
