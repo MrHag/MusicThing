@@ -4,7 +4,7 @@ import "./style.css";
 import { onDragEvent } from "./lib";
 
 export type IsAcceptEvent = (
-  elem: HTMLElement,
+  elem: EventTarget,
   e: DragEvent,
   tio: TransferIO
 ) => boolean;
@@ -50,45 +50,41 @@ const useDrop = (
     if (!e.dataTransfer) return;
 
     setState({ ...state, isOver: false });
-    const target = e.currentTarget as HTMLElement;
+    if (!e.currentTarget) return;
 
-    dropEvent?.(target, e, TransferIO.from(e.dataTransfer));
+    dropEvent?.(e.currentTarget, e, TransferIO.from(e.dataTransfer));
   };
 
   const onDragOver = (e: DragEvent) => {
     if (!e.dataTransfer) return;
 
-    const target = e.currentTarget as HTMLElement;
+    if (!e.currentTarget) return;
 
     const tio = TransferIO.from(e.dataTransfer);
-    if (tio.hasValue("tag", tag) && isAcceptEvent(target, e, tio))
+    if (tio.hasValue("tag", tag) && isAcceptEvent(e.currentTarget, e, tio))
       e.preventDefault();
 
-    dragOverEvent?.(target, e, tio);
+    dragOverEvent?.(e.currentTarget, e, tio);
   };
 
   const onDragEnter = (e: DragEvent) => {
     if (!e.dataTransfer) return;
-
-    const target = e.currentTarget as HTMLElement;
-
+    if (!e.currentTarget) return;
     const tio = TransferIO.from(e.dataTransfer);
 
-    if (tio.hasValue("tag", tag) && isAcceptEvent(target, e, tio)) {
+    if (tio.hasValue("tag", tag) && isAcceptEvent(e.currentTarget, e, tio)) {
       e.preventDefault();
       setState({ ...state, isOver: true });
     }
 
-    dragEnterEvent?.(target, e, tio);
+    dragEnterEvent?.(e.currentTarget, e, tio);
   };
 
   const onDragLeave = (e: DragEvent) => {
     setState({ ...state, isOver: false });
     if (!e.dataTransfer || !drop) return;
-
-    const target = e.currentTarget as HTMLElement;
-
-    dragLeaveEvent?.(target, e, TransferIO.from(e.dataTransfer));
+    if (!e.currentTarget) return;
+    dragLeaveEvent?.(e.currentTarget, e, TransferIO.from(e.dataTransfer));
   };
 
   useEffect(() => {

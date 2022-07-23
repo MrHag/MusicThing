@@ -31,7 +31,7 @@ const useDrag = ({
 
   const onDragStart = (e: DragEvent) => {
     setState({ ...state, isDragging: true });
-    const target = e.target as HTMLElement;
+    if (!e.target) return;
 
     const el = document.createElement("div");
     if (!e.dataTransfer || !tag) return;
@@ -40,23 +40,22 @@ const useDrag = ({
     const tio = TransferIO.from(e.dataTransfer);
     tio.add("tag", tag);
 
-    dragStartEvent?.(target, e, tio);
+    dragStartEvent?.(e.target, e, tio);
   };
 
   const onDragEnd = (e: DragEvent) => {
     setState({ ...state, isDragging: false });
-
-    const target = e.currentTarget as HTMLElement;
+    if (!e.currentTarget) return;
 
     if (!e.dataTransfer) return;
-    dragEndEvent?.(target, e, TransferIO.from(e.dataTransfer));
+    dragEndEvent?.(e.currentTarget, e, TransferIO.from(e.dataTransfer));
   };
 
   const onDrag = (e: DragEvent) => {
-    const target = e.currentTarget as HTMLElement;
+    if (!e.currentTarget) return;
 
     if (!e.dataTransfer) return;
-    dragEvent?.(target, e, TransferIO.from(e.dataTransfer));
+    dragEvent?.(e.currentTarget, e, TransferIO.from(e.dataTransfer));
   };
 
   useEffect(() => {

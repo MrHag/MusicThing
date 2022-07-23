@@ -1,7 +1,7 @@
 import TransferIO from "./TransferIO";
 
 export type onDragEvent = (
-  elem: HTMLElement,
+  elem: EventTarget,
   e: DragEvent,
   tio: TransferIO
 ) => void;
