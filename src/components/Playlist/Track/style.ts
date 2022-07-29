@@ -39,9 +39,9 @@ export const LastBlock = styled.div`
 
 export const Container = styled(GridTemplate)`
   display: grid;
-  height: 40px;
+  height: 60px;
   align-items: center;
-  padding: 10px 0;
+  position: relative;
 
   &:hover {
     background-color: var(--light-bg-color);

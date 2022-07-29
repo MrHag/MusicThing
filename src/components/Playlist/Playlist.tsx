@@ -16,6 +16,7 @@ const Playlist: React.FC = () => {
   const selfRef = useRef<HTMLDivElement>(null);
   const draggingTrackRef = useRef<HTMLElement>();
   const overTrackRef = useRef<HTMLElement>();
+  const markerRef = useRef<HTMLElement>();
 
   const findParentTrackEl = (target: HTMLElement): HTMLElement | null => {
     let el: HTMLElement | null = target;
@@ -35,24 +36,32 @@ const Playlist: React.FC = () => {
 
   const onDragEnter = (e: DragEv) => {
     const { target } = e;
+    e.preventDefault();
+
     if (target instanceof HTMLElement) {
-      let trackEl = findParentTrackEl(target);
-      if (trackEl && trackEl !== draggingTrackRef.current) {
-        trackEl.style.background = "red";
-
-        if (overTrackRef.current && trackEl !== overTrackRef.current) {
-          overTrackRef.current.style.background = "none";
-        }
-
-        overTrackRef.current = trackEl;
+      let currentTrackEl = findParentTrackEl(target);
+      const isOverDraggingTrack = currentTrackEl === draggingTrackRef.current;
+      if (currentTrackEl === null || isOverDraggingTrack) {
+        return;
       }
+
+      const isOverNewTrack =
+        overTrackRef.current && currentTrackEl !== overTrackRef.current;
+      if (overTrackRef.current && isOverNewTrack) {
+        removeMarker();
+        const { cursorY, trackHeight } = getMetrics(currentTrackEl, e);
+        createMarker(currentTrackEl, cursorY, trackHeight);
+      }
+
+      overTrackRef.current = currentTrackEl;
     }
   };
 
-  const onDragLeave = (e: DragEv) => {};
-
   const onDragStart = (e: DragEv) => {
     const { target } = e;
+
+    e.dataTransfer.effectAllowed = "move";
+
     if (target instanceof HTMLElement) {
       target.style.opacity = "0.3";
       draggingTrackRef.current = target;
@@ -63,46 +72,106 @@ const Playlist: React.FC = () => {
   /*
    * TODO:
    * 1.Disable drop outside PlaylistContainer
-   * 2.Add those markers for top and bottom
+   * 2.Think about drag and drop handler for entire window and not only this component
    */
+
+  const updateMarkerPosition = (cursorY: number, trackHeight: number) => {
+    if (cursorY < 0) {
+      return;
+    }
+
+    const marker = markerRef.current;
+    cursorY = Math.abs(cursorY);
+    if (marker) {
+      if (cursorY <= trackHeight / 2) {
+        marker.style.top = "0";
+        marker.style.bottom = "unset";
+      } else {
+        marker.style.top = "unset";
+        marker.style.bottom = "0";
+      }
+    }
+  };
+
+  const createMarker = (
+    parent: HTMLElement,
+    cursorY: number,
+    trackHeight: number
+  ) => {
+    if (markerRef.current === undefined) {
+      const marker = document.createElement("div");
+
+      marker.style.width = "100%";
+      marker.style.height = "16px";
+      marker.style.backgroundColor = "yellow";
+      marker.style.position = "absolute";
+
+      markerRef.current = marker;
+      updateMarkerPosition(cursorY, trackHeight);
+
+      parent.appendChild(marker);
+    } else {
+      updateMarkerPosition(cursorY, trackHeight);
+    }
+  };
+
+  const removeMarker = () => {
+    if (markerRef.current !== undefined) {
+      markerRef.current.remove();
+      markerRef.current = undefined;
+    }
+  };
+
+  const getMetrics = (el: HTMLElement, e: DragEvent<HTMLElement>) => {
+    const rect = el.getBoundingClientRect();
+    return {
+      cursorY: e.clientY - rect.top,
+      trackHeight: rect.height,
+    };
+  };
 
   const onDragOver = (e: DragEvent<HTMLElement>) => {
     e.preventDefault();
+
     const { target } = e;
     if (target instanceof HTMLElement) {
-      if (target === selfRef.current) {
-        console.log("target === selfRef.current!");
-        e.dataTransfer.effectAllowed = "move";
+      if (overTrackRef.current) {
+        e.dataTransfer.dropEffect = "move";
+        const { cursorY, trackHeight } = getMetrics(overTrackRef.current, e);
+
+        if (markerRef.current) {
+          updateMarkerPosition(cursorY, trackHeight);
+        } else {
+          createMarker(overTrackRef.current, cursorY, trackHeight);
+        }
         return;
       }
 
-      if (selfRef.current) {
-        if (selfRef.current.contains(target)) {
-          console.log("selfRef.current.contains!");
-          e.dataTransfer.effectAllowed = "move";
-          return;
-        }
+      if (selfRef.current && selfRef.current.contains(target)) {
+        e.dataTransfer.dropEffect = "none";
+        return;
       }
     }
-    e.dataTransfer.effectAllowed = "none";
+    e.dataTransfer.dropEffect = "none";
   };
 
   const onDrop = (e: DragEv) => {
     const { target } = e;
     if (target instanceof HTMLElement) {
-      const trackEl = draggingTrackRef.current;
-      if (trackEl) {
-        console.log("onDrop trackEl = ", trackEl);
-      }
-
-      if (overTrackRef.current) {
-        overTrackRef.current.style.background = "none";
+      const overTrack = overTrackRef.current;
+      console.log("onDropHandler!");
+      if (overTrack) {
+        const { cursorY, trackHeight } = getMetrics(overTrack, e);
+        const isTop = cursorY <= trackHeight / 2;
+        console.log("isTop = ", isTop);
+        console.log("onDrop trackEl = ", overTrack);
       }
     }
   };
 
   const onDragEnd = (e: DragEv) => {
     const draggingEl = draggingTrackRef.current;
+
     if (draggingEl) {
       draggingEl.style.background = "none";
       draggingEl.draggable = true;
@@ -110,10 +179,11 @@ const Playlist: React.FC = () => {
       draggingTrackRef.current = undefined;
     }
 
-    const overEl = overTrackRef.current;
-    if (overEl) {
-      overEl.style.background = "none";
-      overTrackRef.current = undefined;
+    overTrackRef.current = undefined;
+
+    if (markerRef.current) {
+      markerRef.current.remove();
+      markerRef.current = undefined;
     }
   };
 
@@ -121,7 +191,6 @@ const Playlist: React.FC = () => {
     <PlaylistContainer
       ref={selfRef}
       onDragEnter={onDragEnter}
-      onDragLeave={onDragLeave}
       onDragEnd={onDragEnd}
       onDragStart={onDragStart}
       onDrop={onDrop}
