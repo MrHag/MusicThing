@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div<{ show: boolean }>`
+  pointer-events: none;
   padding: 5px 10px;
   background-color: gray;
   position: absolute;

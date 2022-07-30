@@ -1,7 +1,14 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import TransferIO from "./TransferIO";
 import "./style.css";
 import { onDragEvent } from "./lib";
+import { DragDropContext } from "./DragDropContext";
 
 export type IsAcceptEvent = (
   elem: EventTarget,
@@ -39,6 +46,8 @@ const useDrop = (
     isAcceptEvent,
   } = events;
 
+  const [, dragdrop, setDragDrop] = useContext(DragDropContext);
+
   const [drop, setDrop] = useState<HTMLElement>();
   const [tag, setTag] = useState<string>(" ");
 
@@ -57,7 +66,6 @@ const useDrop = (
 
   const onDragOver = (e: DragEvent) => {
     if (!e.dataTransfer) return;
-
     if (!e.currentTarget) return;
 
     const tio = TransferIO.from(e.dataTransfer);
@@ -89,9 +97,14 @@ const useDrop = (
 
   useEffect(() => {
     if (!drop) return;
-    drop.draggable = true;
+    if (dragdrop.isDragging) drop.classList.add("LockPointerEvents");
+    else drop.classList.remove("LockPointerEvents");
+  }, [dragdrop.isDragging]);
 
-    if (state.isOver) drop.classList.add("LockPointerEvents");
+  useEffect(() => {
+    if (!drop) return;
+
+    if (dragdrop.isDragging) drop.classList.add("LockPointerEvents");
     else drop.classList.remove("LockPointerEvents");
 
     drop.addEventListener("dragenter", onDragEnter);
@@ -99,7 +112,6 @@ const useDrop = (
     drop.addEventListener("dragover", onDragOver);
     drop.addEventListener("drop", onDrop);
     return () => {
-      drop.draggable = false;
       drop.classList.remove("Drag");
       drop.removeEventListener("dragenter", onDragEnter);
       drop.removeEventListener("dragleave", onDragLeave);

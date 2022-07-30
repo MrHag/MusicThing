@@ -3,13 +3,14 @@ import useDrop from "components/DragDrop/useDrop";
 import TransferIO from "components/DragDrop/TransferIO";
 import Text from "components/Text/Text";
 import { useAppDispatch } from "hooks";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { setDropDown, setPosition } from "store/DropDownSlice";
 import { setTrack } from "store/PlayerSlice";
 import { moveTrack } from "store/PlaylistSlice";
 import { Track as TrackType } from "types";
 import { DropDownHandler } from "./DropDownHandler";
 import { OptionIcon } from "./icons";
+import { v4 as uuid } from "uuid";
 import {
   Container,
   MainContainer,
@@ -18,6 +19,8 @@ import {
   OptButton,
   LastBlock,
 } from "./style";
+import { PlaceholderContext } from "components/Placeholder/PlaceholderContext";
+import { DragDropContext } from "components/DragDrop/DragDropContext";
 
 interface Props {
   track: TrackType;
@@ -34,12 +37,22 @@ const Track: React.FC<Props> = ({ track, index }) => {
     e.preventDefault();
   };
 
+  const [placeholder, setPlaceholder] = useContext(PlaceholderContext);
+
+  const [dragdrop] = useContext(DragDropContext);
+
+  const [UUID] = useState(uuid());
+
   let [dragTop, setDragTop] = useState(true);
 
   let onDragStart = (_a: any, e: DragEvent, tio: TransferIO) => {
-    tio.add("trackindex", index.toString());
+    tio.add("trackindex", index);
+    tio.add("trackname", track.name);
   };
-  let onDragOver = (_a: any, e: DragEvent, _b: any) => calc(e);
+  let onDragOver = (_a: any, e: DragEvent, _b: any) => {
+    setPlaceholder({ ...placeholder, position: { x: e.pageX, y: e.pageY } });
+    calc(e);
+  };
 
   let onIsAccept = (_a: any, e: DragEvent, tio: TransferIO) => {
     const fromInd = Number.parseInt(tio.get("trackindex")[0]);
@@ -51,6 +64,23 @@ const Track: React.FC<Props> = ({ track, index }) => {
     console.log(dragTop);
     console.log(fromIndex, toIndex);
     dispatch(moveTrack({ fromIndex, toIndex }));
+    setPlaceholder({ ...placeholder, text: `` });
+  };
+
+  let onDragEnter = (_a: any, e: DragEvent, tio: TransferIO) => {
+    console.log("onDragEnter");
+    console.log(UUID);
+    console.log(e.currentTarget);
+    const trackName = tio.get("trackname")[0];
+    setPlaceholder({ ...placeholder, text: `Insert ${trackName}` });
+    dragdrop.id = UUID;
+    e.stopPropagation();
+  };
+
+  let onDragLeave = (_a: any, e: DragEvent, tio: TransferIO) => {
+    console.log("onDragLeave");
+    console.log(dragdrop.id);
+    if (dragdrop.id === UUID) setPlaceholder({ ...placeholder, text: `` });
   };
 
   const [{ isDragging }, , setDrag, setDragTag] = useDrag({
@@ -59,6 +89,8 @@ const Track: React.FC<Props> = ({ track, index }) => {
   const [{ isOver }, , setDrop, setDropTag] = useDrop({
     dropEvent: onDrop,
     dragOverEvent: onDragOver,
+    dragEnterEvent: onDragEnter,
+    dragLeaveEvent: onDragLeave,
     isAcceptEvent: onIsAccept,
   });
 

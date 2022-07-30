@@ -29,7 +29,7 @@ export default class TransferIO {
     for (let slice of this.transfer.types) {
       if (!slice.startsWith(key)) continue;
 
-      const split = slice.split(":");
+      const split = slice.split("\n");
       return split.slice(1).includes(value);
     }
     return false;
@@ -43,7 +43,7 @@ export default class TransferIO {
   }
 
   private static splitValues(str: string) {
-    const split = str.split(":");
+    const split = str.split("\n");
     return split.slice(1);
   }
 
@@ -53,8 +53,8 @@ export default class TransferIO {
 
     if (slice) {
       this.transfer.clearData(slice);
-      this.transfer.setData(`${slice}:${strValue}`, " ");
-    } else this.transfer.setData(`${key}:${strValue}`, " ");
+      this.transfer.setData(`${slice}\n${strValue}`, " ");
+    } else this.transfer.setData(`${key}\n${strValue}`, " ");
   }
 }
 

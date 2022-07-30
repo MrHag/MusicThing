@@ -1,4 +1,11 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { DragDropContext } from "./DragDropContext";
 import { onDragEvent } from "./lib";
 import TransferIO from "./TransferIO";
 
@@ -29,7 +36,10 @@ const useDrag = ({
     isDragging: false,
   });
 
+  const [, , setDragDrop] = useContext(DragDropContext);
+
   const onDragStart = (e: DragEvent) => {
+    setDragDrop({ isDragging: true });
     setState({ ...state, isDragging: true });
     if (!e.target) return;
 
@@ -44,6 +54,7 @@ const useDrag = ({
   };
 
   const onDragEnd = (e: DragEvent) => {
+    setDragDrop({ isDragging: false });
     setState({ ...state, isDragging: false });
     if (!e.currentTarget) return;
 

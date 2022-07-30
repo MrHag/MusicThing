@@ -1,20 +1,21 @@
 import { Container } from "./style";
 import Text from "components/Text/Text";
-import { useAppSelector } from "hooks";
-import { selectPlaceholder } from "store/PlaceholderSlice";
 import { useBaseWindow } from "components/AppWindow/useBaseWindow";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { PlaceholderContext } from "./PlaceholderContext";
 
 const Placeholder: React.FC = () => {
-  const placeholder = useAppSelector(selectPlaceholder);
+  const [placeholder] = useContext(PlaceholderContext);
   const [, setWindow, Position, setPosition] = useBaseWindow();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
+    console.log("pos");
     setPosition(placeholder.position);
   }, [placeholder.position]);
 
   useEffect(() => {
+    console.log("Text", placeholder.text);
     setShow(placeholder.text !== "");
   }, [placeholder.text]);
 
