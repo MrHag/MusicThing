@@ -61,16 +61,11 @@ const Track: React.FC<Props> = ({ track, index }) => {
   let onDrop = (_a: any, e: DragEvent, tio: TransferIO) => {
     const fromIndex = Number.parseInt(tio.get("trackindex")[0]);
     const toIndex = dragTop ? index : index + 1;
-    console.log(dragTop);
-    console.log(fromIndex, toIndex);
     dispatch(moveTrack({ fromIndex, toIndex }));
     setPlaceholder({ ...placeholder, text: `` });
   };
 
   let onDragEnter = (_a: any, e: DragEvent, tio: TransferIO) => {
-    console.log("onDragEnter");
-    console.log(UUID);
-    console.log(e.currentTarget);
     const trackName = tio.get("trackname")[0];
     setPlaceholder({ ...placeholder, text: `Insert ${trackName}` });
     dragdrop.id = UUID;
@@ -78,8 +73,6 @@ const Track: React.FC<Props> = ({ track, index }) => {
   };
 
   let onDragLeave = (_a: any, e: DragEvent, tio: TransferIO) => {
-    console.log("onDragLeave");
-    console.log(dragdrop.id);
     if (dragdrop.id === UUID) setPlaceholder({ ...placeholder, text: `` });
   };
 

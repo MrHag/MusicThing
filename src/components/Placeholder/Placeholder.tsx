@@ -10,12 +10,10 @@ const Placeholder: React.FC = () => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    console.log("pos");
     setPosition(placeholder.position);
   }, [placeholder.position]);
 
   useEffect(() => {
-    console.log("Text", placeholder.text);
     setShow(placeholder.text !== "");
   }, [placeholder.text]);
 
