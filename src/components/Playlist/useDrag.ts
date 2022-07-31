@@ -1,4 +1,4 @@
-import { DragEvent, useRef } from "react";
+import { DragEvent, useRef, useEffect } from "react";
 
 /*
  * TODO:
@@ -15,13 +15,14 @@ const Placeholder = document.createElement("div");
 Placeholder.style.backgroundColor = "yellow";
 Placeholder.style.width = "256px";
 Placeholder.style.height = "64px";
-Placeholder.style.opacity = "1";
+Placeholder.style.zIndex = "999999";
 Placeholder.style.top = "-999999px";
 Placeholder.style.position = "absolute";
 Placeholder.style.padding = "5px 10px";
 Placeholder.style.color = "var(--primary-text-color)";
 Placeholder.style.fontSize = "14pt";
-document.body.appendChild(Placeholder);
+
+const DummyImage = document.createElement("div");
 
 export const useDrag = (selfRef: React.RefObject<HTMLElement>) => {
   const draggingTrackRef = useRef<HTMLElement>();
@@ -42,6 +43,19 @@ export const useDrag = (selfRef: React.RefObject<HTMLElement>) => {
       el = el.parentElement;
     }
     return null;
+  };
+
+  const movePlaceholderToPos = (x: number, y: number) => {
+    const rect = (selfRef.current as HTMLElement).getBoundingClientRect();
+    const top = y - rect.y;
+    const left = x - rect.x;
+
+    Placeholder.style.top = top.toString() + "px";
+    Placeholder.style.left = left.toString() + "px";
+  };
+
+  const hidePlaceholder = () => {
+    Placeholder.style.top = "-9999999px";
   };
 
   const onDragEnter = (e: DragEv) => {
@@ -72,7 +86,9 @@ export const useDrag = (selfRef: React.RefObject<HTMLElement>) => {
 
     if (target instanceof HTMLElement) {
       e.dataTransfer.effectAllowed = "move";
-      e.dataTransfer.setDragImage(Placeholder, 0, 0);
+
+      e.dataTransfer.setDragImage(DummyImage, 0, 0);
+      movePlaceholderToPos(e.clientX, e.clientY);
 
       target.style.opacity = "0.3";
       draggingTrackRef.current = target;
@@ -140,6 +156,8 @@ export const useDrag = (selfRef: React.RefObject<HTMLElement>) => {
 
     const { target } = e;
     if (target instanceof HTMLElement) {
+      movePlaceholderToPos(e.clientX, e.clientY);
+
       if (overTrackRef.current) {
         e.dataTransfer.dropEffect = "move";
         const { cursorY, trackHeight } = getMetrics(overTrackRef.current, e);
@@ -185,12 +203,25 @@ export const useDrag = (selfRef: React.RefObject<HTMLElement>) => {
     }
 
     overTrackRef.current = undefined;
+    hidePlaceholder();
 
     if (markerRef.current) {
       markerRef.current.remove();
       markerRef.current = undefined;
     }
   };
+
+  useEffect(() => {
+    if (selfRef.current) {
+      selfRef.current.appendChild(Placeholder);
+    }
+
+    return () => {
+      if (selfRef.current) {
+        selfRef.current.removeChild(Placeholder);
+      }
+    };
+  }, []);
 
   return {
     onDragEnd,

@@ -16,4 +16,5 @@ export const GridHeader = styled(GridTemplate)`
 export const PlaylistContainer = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
 `;

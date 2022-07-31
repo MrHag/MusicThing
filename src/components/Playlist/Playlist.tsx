@@ -1,7 +1,7 @@
 import Track from "./Track/Track";
 import Text from "../Text/Text";
 import { PlaylistContainer, GridHeader } from "./style";
-import { DragEvent, useRef } from "react";
+import { useRef } from "react";
 
 import { selectPlaylist } from "../../store/PlaylistSlice";
 import { useAppSelector } from "hooks";
