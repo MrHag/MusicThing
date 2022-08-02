@@ -12,18 +12,11 @@ const Playlist: React.FC = () => {
 
   const selfRef = useRef<HTMLDivElement>(null);
 
-  const { onDragEnter, onDragEnd, onDragStart, onDrop, onDragOver } =
-    useDrag(selfRef);
+  const tracks = playlist?.tracks ?? [];
+  useDrag(selfRef, tracks);
 
   return (
-    <PlaylistContainer
-      ref={selfRef}
-      onDragEnter={onDragEnter}
-      onDragEnd={onDragEnd}
-      onDragStart={onDragStart}
-      onDrop={onDrop}
-      onDragOver={onDragOver}
-    >
+    <PlaylistContainer ref={selfRef}>
       <GridHeader>
         <Text>#</Text>
         <Text>Title</Text>

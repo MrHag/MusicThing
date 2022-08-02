@@ -13,7 +13,7 @@ const Playlists: React.FC = () => {
       id: id.toString(),
     });
     return (
-      <NavLink key={id} to={path}>
+      <NavLink key={id} to={path} data-playlist-name={name}>
         <Text>{name}</Text>
       </NavLink>
     );
