@@ -18,3 +18,5 @@ export const PlaylistContainer = styled.div`
   flex-direction: column;
   position: relative;
 `;
+
+export const List = styled.div(PlaylistContainer);

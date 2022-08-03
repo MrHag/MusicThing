@@ -4,9 +4,21 @@ import { Track } from "types";
 /*
  * TODO:
  * 1. Disable drop outside PlaylistContainer DONE
- * 2. Think about drag and drop handler for entire
- *    window and not only this component
- *  3. dragImage transparency issue...
+ * An user gets a message that he/she can't do drop here...
+ *
+ *************************************************************
+ *
+ * 2. This code must be refactored after some time
+ *
+ * 2.1 I think it's possible to split this code in some logical blocks, maybe Placeholder
+ * Marker classes??? But not sure for now.
+ *
+ * 2.2 IMPORTANT: You should think about attribute names like data-playlist-name which
+ * is used in useDrag.ts and Track.tsx files. Maybe it's a good idea to carry them in some
+ * contants.ts file
+ *
+ *************************************************************
+ *
  */
 
 const TrackIDAttributeName = "data-track-id";
@@ -53,8 +65,19 @@ export const useDrag = (
     [playlistRef]
   );
 
+  const findParentPlaylistItemEl = useCallback((target: HTMLElement) => {
+    let el: HTMLElement | null = target;
+    while (el) {
+      if (el.hasAttribute("data-playlist-name")) {
+        return el;
+      }
+      el = el.parentElement;
+    }
+    return null;
+  }, []);
+
   const movePlaceholderToPos = useCallback((x: number, y: number) => {
-    const top = y + Placeholder.clientHeight / 2;
+    const top = y - Placeholder.clientHeight / 2;
     const left = x + 16;
     Placeholder.style.top = top.toString() + "px";
     Placeholder.style.left = left.toString() + "px";
@@ -188,35 +211,32 @@ export const useDrag = (
 
       const { target } = e;
 
-      if (target instanceof HTMLElement) {
-        // TODO: This won't work because we can drag over <NavLink><Text /></NavLink>
-        // And <Text /> which is <p></p> doesn't have this attribute so...
-        console.log(target);
-        const playlistName = target.getAttribute("data-playlist-name");
-        if (playlistName) {
-          Placeholder.innerText = `Move to ${playlistName}`;
-          movePlaceholderToPos(e.clientX, e.clientY);
-          return;
-        }
+      if (!(target instanceof HTMLElement)) {
+        return;
       }
 
-      if (target instanceof HTMLElement && e.dataTransfer) {
-        movePlaceholderToPos(e.clientX, e.clientY);
+      movePlaceholderToPos(e.clientX, e.clientY);
 
+      const playlistItemEl = findParentPlaylistItemEl(target);
+      if (playlistItemEl) {
+        const playlistName = playlistItemEl.getAttribute("data-playlist-name");
+        Placeholder.innerText = `Move to ${playlistName}`;
+        return;
+      }
+
+      const isInsidePlaylist =
+        playlistRef.current && playlistRef.current.contains(target);
+      if (!isInsidePlaylist) {
+        Placeholder.innerText = "You can't do this!";
+        return;
+      }
+
+      if (e.dataTransfer) {
         if (overTrackRef.current) {
           e.dataTransfer.dropEffect = "move";
           const { cursorY, trackHeight } = getMetrics(overTrackRef.current, e);
 
-          // TODO: Refactor this code because it is only for example purpose
-          const trackId =
-            overTrackRef.current.getAttribute(TrackIDAttributeName);
-          if (trackId !== undefined) {
-            if (Number(trackId) === 2) {
-              Placeholder.innerText = "Hello world!";
-            } else {
-              setPlaceholderInsertText();
-            }
-          }
+          setPlaceholderInsertText();
 
           if (markerRef.current) {
             updateMarkerPosition(cursorY, trackHeight);
@@ -227,12 +247,8 @@ export const useDrag = (
           return;
         }
 
-        if (playlistRef.current && playlistRef.current.contains(target)) {
-          e.dataTransfer.dropEffect = "none";
-          return;
-        }
-
         e.dataTransfer.dropEffect = "none";
+        console.log("THIS BRANCH!");
       }
     },
     [
@@ -242,6 +258,7 @@ export const useDrag = (
       updateMarkerPosition,
       playlistRef,
       setPlaceholderInsertText,
+      findParentPlaylistItemEl,
     ]
   );
 

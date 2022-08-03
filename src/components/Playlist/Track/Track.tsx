@@ -31,7 +31,6 @@ const Track: React.FC<Props> = ({ track, position }) => {
 
   return (
     <Container
-      data-track="value"
       data-track-id={track.id}
       onContextMenu={onContext}
       draggable

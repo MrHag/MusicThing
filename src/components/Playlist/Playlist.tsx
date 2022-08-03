@@ -1,6 +1,6 @@
 import Track from "./Track/Track";
 import Text from "../Text/Text";
-import { PlaylistContainer, GridHeader } from "./style";
+import { PlaylistContainer, GridHeader, List } from "./style";
 import { useRef } from "react";
 
 import { selectPlaylist } from "../../store/PlaylistSlice";
@@ -23,9 +23,11 @@ const Playlist: React.FC = () => {
         <Text>Album</Text>
         <Text>Duration</Text>
       </GridHeader>
-      {playlist?.tracks.map((track, index) => (
-        <Track key={index} track={track} position={index + 1} />
-      ))}
+      <List ref={selfRef}>
+        {playlist?.tracks.map((track, index) => (
+          <Track key={index} track={track} position={index + 1} />
+        ))}
+      </List>
     </PlaylistContainer>
   );
 };
