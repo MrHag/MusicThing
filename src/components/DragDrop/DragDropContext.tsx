@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { createContext } from "react";
 
 interface State {
-  id: string;
+  isEnter: boolean;
+  cachedEvent: DragEvent | null;
+  DragEnterEvent: (e: DragEvent) => void;
 }
 
 interface SecondState {
@@ -16,7 +18,9 @@ type Context = [
 ];
 
 const initialState: State = {
-  id: "",
+  isEnter: false,
+  cachedEvent: null,
+  DragEnterEvent: () => {},
 };
 
 const initialSecondState: SecondState = {

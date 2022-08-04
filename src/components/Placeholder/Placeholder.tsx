@@ -14,6 +14,7 @@ const Placeholder: React.FC = () => {
   }, [placeholder.position]);
 
   useEffect(() => {
+    console.log(placeholder.text);
     setShow(placeholder.text !== "");
   }, [placeholder.text]);
 

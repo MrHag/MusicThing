@@ -46,7 +46,7 @@ const useDrop = (
     isAcceptEvent,
   } = events;
 
-  const [, dragdrop, setDragDrop] = useContext(DragDropContext);
+  const [firstdragdrop, dragdrop] = useContext(DragDropContext);
 
   const [drop, setDrop] = useState<HTMLElement>();
   const [tag, setTag] = useState<string>(" ");
@@ -57,9 +57,12 @@ const useDrop = (
 
   const onDrop = (e: DragEvent) => {
     if (!e.dataTransfer) return;
+    if (!e.currentTarget) return;
 
     setState({ ...state, isOver: false });
-    if (!e.currentTarget) return;
+
+    firstdragdrop.isEnter = false;
+    firstdragdrop.cachedEvent = null;
 
     dropEvent?.(e.currentTarget, e, TransferIO.from(e.dataTransfer));
   };
@@ -77,29 +80,46 @@ const useDrop = (
 
   const onDragEnter = (e: DragEvent) => {
     if (!e.dataTransfer) return;
-    if (!e.currentTarget) return;
+    if (!e.target) return;
     const tio = TransferIO.from(e.dataTransfer);
 
-    if (tio.hasValue("tag", tag) && isAcceptEvent(e.currentTarget, e, tio)) {
+    if (firstdragdrop.isEnter) {
+      firstdragdrop.cachedEvent = e;
+      firstdragdrop.DragEnterEvent = onDragEnter;
+      return;
+    } else {
+      firstdragdrop.isEnter = true;
+    }
+
+    if (
+      tio.hasValue("tag", tag) &&
+      isAcceptEvent(drop as EventTarget, e, tio)
+    ) {
       e.preventDefault();
       setState({ ...state, isOver: true });
     }
 
-    dragEnterEvent?.(e.currentTarget, e, tio);
+    dragEnterEvent?.(drop as EventTarget, e, tio);
   };
 
   const onDragLeave = (e: DragEvent) => {
-    setState({ ...state, isOver: false });
     if (!e.dataTransfer || !drop) return;
     if (!e.currentTarget) return;
-    dragLeaveEvent?.(e.currentTarget, e, TransferIO.from(e.dataTransfer));
-  };
 
-  useEffect(() => {
-    if (!drop) return;
-    if (dragdrop.isDragging) drop.classList.add("LockPointerEvents");
-    else drop.classList.remove("LockPointerEvents");
-  }, [dragdrop.isDragging]);
+    setState({ ...state, isOver: false });
+
+    firstdragdrop.isEnter = false;
+
+    dragLeaveEvent?.(e.currentTarget, e, TransferIO.from(e.dataTransfer));
+
+    if (firstdragdrop.cachedEvent !== null) {
+      const ce = firstdragdrop.cachedEvent;
+
+      firstdragdrop.DragEnterEvent(ce);
+
+      firstdragdrop.cachedEvent = null;
+    }
+  };
 
   useEffect(() => {
     if (!drop) return;
@@ -112,7 +132,6 @@ const useDrop = (
     drop.addEventListener("dragover", onDragOver);
     drop.addEventListener("drop", onDrop);
     return () => {
-      drop.classList.remove("Drag");
       drop.removeEventListener("dragenter", onDragEnter);
       drop.removeEventListener("dragleave", onDragLeave);
       drop.removeEventListener("dragover", onDragOver);

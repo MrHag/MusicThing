@@ -11,7 +11,12 @@ interface State {
   position: Pos;
 }
 
-type Context = [State, React.Dispatch<React.SetStateAction<State>>];
+type Actions = {
+  setText: (value: string) => void;
+  setPosition: (value: Pos) => void;
+};
+
+type Context = [State, Actions];
 
 const initialState: State = {
   text: "",
@@ -20,16 +25,21 @@ const initialState: State = {
 
 export const PlaceholderContext = createContext<Context>([
   initialState,
-  () => {},
+  { setText: () => {}, setPosition: () => {} },
 ]);
 
 export const PlaceholderContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [state, dispatch] = useState(initialState);
+  const [state, setState] = useState(initialState);
+
+  const Actions = {
+    setText: (value: string) => setState({ ...state, text: value }),
+    setPosition: (value: Pos) => setState({ ...state, position: value }),
+  };
 
   return (
-    <PlaceholderContext.Provider value={[state, dispatch]}>
+    <PlaceholderContext.Provider value={[state, Actions]}>
       {children}
     </PlaceholderContext.Provider>
   );

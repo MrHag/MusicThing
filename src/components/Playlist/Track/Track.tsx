@@ -10,7 +10,6 @@ import { moveTrack } from "store/PlaylistSlice";
 import { Track as TrackType } from "types";
 import { DropDownHandler } from "./DropDownHandler";
 import { OptionIcon } from "./icons";
-import { v4 as uuid } from "uuid";
 import {
   Container,
   MainContainer,
@@ -20,7 +19,6 @@ import {
   LastBlock,
 } from "./style";
 import { PlaceholderContext } from "components/Placeholder/PlaceholderContext";
-import { DragDropContext } from "components/DragDrop/DragDropContext";
 
 interface Props {
   track: TrackType;
@@ -37,11 +35,7 @@ const Track: React.FC<Props> = ({ track, index }) => {
     e.preventDefault();
   };
 
-  const [placeholder, setPlaceholder] = useContext(PlaceholderContext);
-
-  const [dragdrop] = useContext(DragDropContext);
-
-  const [UUID] = useState(uuid());
+  const [, placeholderActions] = useContext(PlaceholderContext);
 
   let [dragTop, setDragTop] = useState(true);
 
@@ -50,7 +44,7 @@ const Track: React.FC<Props> = ({ track, index }) => {
     tio.add("trackname", track.name);
   };
   let onDragOver = (_a: any, e: DragEvent, _b: any) => {
-    setPlaceholder({ ...placeholder, position: { x: e.pageX, y: e.pageY } });
+    placeholderActions.setPosition({ x: e.pageX, y: e.pageY });
     calc(e);
   };
 
@@ -62,18 +56,17 @@ const Track: React.FC<Props> = ({ track, index }) => {
     const fromIndex = Number.parseInt(tio.get("trackindex")[0]);
     const toIndex = dragTop ? index : index + 1;
     dispatch(moveTrack({ fromIndex, toIndex }));
-    setPlaceholder({ ...placeholder, text: `` });
+    placeholderActions.setText("");
   };
 
   let onDragEnter = (_a: any, e: DragEvent, tio: TransferIO) => {
     const trackName = tio.get("trackname")[0];
-    setPlaceholder({ ...placeholder, text: `Insert ${trackName}` });
-    dragdrop.id = UUID;
-    e.stopPropagation();
+    placeholderActions.setText(`Insert ${trackName}`);
+    calc(e);
   };
 
   let onDragLeave = (_a: any, e: DragEvent, tio: TransferIO) => {
-    if (dragdrop.id === UUID) setPlaceholder({ ...placeholder, text: `` });
+    placeholderActions.setText("");
   };
 
   const [{ isDragging }, , setDrag, setDragTag] = useDrag({
