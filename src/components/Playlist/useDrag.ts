@@ -1,40 +1,31 @@
 import { useRef, useEffect, useCallback } from "react";
 import { Track } from "types";
+import {
+  Placeholder,
+  movePlaceholderToPos,
+  hidePlaceholder,
+} from "./placeholder";
+import { createMarker, removeMarker } from "./marker";
 
 /*
  * TODO:
  * 1. Disable drop outside PlaylistContainer DONE
- * An user gets a message that he/she can't do drop here...
+ * An user gets a message that s/he can't do drop here...
  *
  *************************************************************
  *
  * 2. This code must be refactored after some time
  *
- * 2.1 I think it's possible to split this code in some logical blocks, maybe Placeholder
- * Marker classes??? But not sure for now.
- *
- * 2.2 IMPORTANT: You should think about attribute names like data-playlist-name which
- * is used in useDrag.ts and Track.tsx files. Maybe it's a good idea to carry them in some
- * contants.ts file
- *
  *************************************************************
  *
+ * 3. Scrolled overflow when drag on document's border
+ *
+ *************************************************************
  */
 
 const TrackIDAttributeName = "data-track-id";
-
-const Placeholder = document.createElement("div");
-// Placeholder.style.backgroundColor = "yellow";
-Placeholder.style.backgroundColor = "black";
-Placeholder.style.width = "256px";
-Placeholder.style.height = "64px";
-Placeholder.style.zIndex = "999999";
-Placeholder.style.top = "-999999px";
-Placeholder.style.position = "absolute";
-Placeholder.style.padding = "5px 10px";
-Placeholder.style.color = "var(--primary-text-color)";
-Placeholder.style.pointerEvents = "none";
-Placeholder.style.fontSize = "14pt";
+// Depends on src/components/Playlist/Track/Track.tsx
+const PlaylistItemAttrName = "data-playlist-name";
 
 const DummyImage = document.createElement("div");
 
@@ -44,75 +35,31 @@ export const useDrag = (
 ) => {
   const draggingTrackRef = useRef<HTMLElement>();
   const overTrackRef = useRef<HTMLElement>();
-  const markerRef = useRef<HTMLElement>();
 
   const findParentTrackEl = useCallback(
-    (target: HTMLElement): HTMLElement | null => {
+    (target: HTMLElement, borderEl: HTMLElement | null): HTMLElement | null => {
       let el: HTMLElement | null = target;
-      while (el) {
+      while (el && el !== borderEl) {
         if (el.hasAttribute(TrackIDAttributeName)) {
           return el;
-        }
-
-        if (playlistRef.current === el) {
-          return null;
         }
 
         el = el.parentElement;
       }
       return null;
     },
-    [playlistRef]
+    []
   );
 
   const findParentPlaylistItemEl = useCallback((target: HTMLElement) => {
     let el: HTMLElement | null = target;
     while (el) {
-      if (el.hasAttribute("data-playlist-name")) {
+      if (el.hasAttribute(PlaylistItemAttrName)) {
         return el;
       }
       el = el.parentElement;
     }
     return null;
-  }, []);
-
-  const movePlaceholderToPos = useCallback((x: number, y: number) => {
-    const top = y - Placeholder.clientHeight / 2;
-    const left = x + 16;
-    Placeholder.style.top = top.toString() + "px";
-    Placeholder.style.left = left.toString() + "px";
-  }, []);
-
-  const hidePlaceholder = useCallback(() => {
-    Placeholder.style.top = "-9999999px";
-  }, []);
-
-  const updateMarkerPosition = useCallback(
-    (cursorY: number, trackHeight: number) => {
-      if (cursorY < 0) {
-        return;
-      }
-
-      const marker = markerRef.current;
-      cursorY = Math.abs(cursorY);
-      if (marker) {
-        if (cursorY <= trackHeight / 2) {
-          marker.style.top = "0";
-          marker.style.bottom = "unset";
-        } else {
-          marker.style.top = "unset";
-          marker.style.bottom = "0";
-        }
-      }
-    },
-    []
-  );
-
-  const removeMarker = useCallback(() => {
-    if (markerRef.current !== undefined) {
-      markerRef.current.remove();
-      markerRef.current = undefined;
-    }
   }, []);
 
   const getMetrics = useCallback((el: HTMLElement, e: DragEvent) => {
@@ -123,34 +70,13 @@ export const useDrag = (
     };
   }, []);
 
-  const createMarker = useCallback(
-    (parent: HTMLElement, cursorY: number, trackHeight: number) => {
-      if (markerRef.current === undefined) {
-        const marker = document.createElement("div");
-
-        marker.style.width = "100%";
-        marker.style.height = "16px";
-        marker.style.backgroundColor = "var(--hblue-bg-color)";
-        marker.style.position = "absolute";
-
-        markerRef.current = marker;
-        updateMarkerPosition(cursorY, trackHeight);
-
-        parent.appendChild(marker);
-      } else {
-        updateMarkerPosition(cursorY, trackHeight);
-      }
-    },
-    [updateMarkerPosition]
-  );
-
   const onDragEnter = useCallback(
     (e: DragEvent) => {
       const { target } = e;
       e.preventDefault();
 
       if (target instanceof HTMLElement) {
-        let currentTrackEl = findParentTrackEl(target);
+        let currentTrackEl = findParentTrackEl(target, playlistRef.current);
         const isOverDraggingTrack = currentTrackEl === draggingTrackRef.current;
         if (currentTrackEl === null || isOverDraggingTrack) {
           return;
@@ -167,7 +93,7 @@ export const useDrag = (
         overTrackRef.current = currentTrackEl;
       }
     },
-    [getMetrics, createMarker, removeMarker, findParentTrackEl]
+    [getMetrics, findParentTrackEl, playlistRef]
   );
 
   const setPlaceholderInsertText = useCallback(() => {
@@ -202,7 +128,49 @@ export const useDrag = (
         target.draggable = false;
       }
     },
-    [movePlaceholderToPos, setPlaceholderInsertText]
+    [setPlaceholderInsertText]
+  );
+
+  const handleOverPlaylistItem = useCallback(
+    (target: HTMLElement) => {
+      const playlistItemEl = findParentPlaylistItemEl(target);
+      if (playlistItemEl) {
+        const playlistName = playlistItemEl.getAttribute(PlaylistItemAttrName);
+        Placeholder.innerText = `Move to ${playlistName}`;
+        removeMarker();
+        return true;
+      }
+      return false;
+    },
+    [findParentPlaylistItemEl]
+  );
+
+  const handleOutsidePlaylist = useCallback(
+    (target: HTMLElement) => {
+      const isInsidePlaylist =
+        playlistRef.current && playlistRef.current.contains(target);
+      if (!isInsidePlaylist) {
+        Placeholder.innerText = "You can't do this!";
+        removeMarker();
+        return true;
+      }
+      return false;
+    },
+    [playlistRef]
+  );
+
+  const handleOverTrack = useCallback(
+    (target: HTMLElement, e: DragEvent) => {
+      if (e.dataTransfer && overTrackRef.current) {
+        e.dataTransfer.dropEffect = "move";
+        const { cursorY, trackHeight } = getMetrics(overTrackRef.current, e);
+
+        setPlaceholderInsertText();
+
+        createMarker(overTrackRef.current, cursorY, trackHeight);
+      }
+    },
+    [getMetrics, setPlaceholderInsertText]
   );
 
   const onDragOver = useCallback(
@@ -217,49 +185,17 @@ export const useDrag = (
 
       movePlaceholderToPos(e.clientX, e.clientY);
 
-      const playlistItemEl = findParentPlaylistItemEl(target);
-      if (playlistItemEl) {
-        const playlistName = playlistItemEl.getAttribute("data-playlist-name");
-        Placeholder.innerText = `Move to ${playlistName}`;
+      if (handleOverPlaylistItem(target)) {
         return;
       }
 
-      const isInsidePlaylist =
-        playlistRef.current && playlistRef.current.contains(target);
-      if (!isInsidePlaylist) {
-        Placeholder.innerText = "You can't do this!";
+      if (handleOutsidePlaylist(target)) {
         return;
       }
 
-      if (e.dataTransfer) {
-        if (overTrackRef.current) {
-          e.dataTransfer.dropEffect = "move";
-          const { cursorY, trackHeight } = getMetrics(overTrackRef.current, e);
-
-          setPlaceholderInsertText();
-
-          if (markerRef.current) {
-            updateMarkerPosition(cursorY, trackHeight);
-          } else {
-            createMarker(overTrackRef.current, cursorY, trackHeight);
-          }
-
-          return;
-        }
-
-        e.dataTransfer.dropEffect = "none";
-        console.log("THIS BRANCH!");
-      }
+      handleOverTrack(target, e);
     },
-    [
-      movePlaceholderToPos,
-      getMetrics,
-      createMarker,
-      updateMarkerPosition,
-      playlistRef,
-      setPlaceholderInsertText,
-      findParentPlaylistItemEl,
-    ]
+    [handleOutsidePlaylist, handleOverPlaylistItem, handleOverTrack]
   );
 
   const onDrop = useCallback(
@@ -279,27 +215,20 @@ export const useDrag = (
     [getMetrics]
   );
 
-  const onDragEnd = useCallback(
-    (e: DragEvent) => {
-      const draggingEl = draggingTrackRef.current;
+  const onDragEnd = useCallback((e: DragEvent) => {
+    const draggingEl = draggingTrackRef.current;
 
-      if (draggingEl) {
-        draggingEl.style.background = "none";
-        draggingEl.draggable = true;
-        draggingEl.style.opacity = "1";
-        draggingTrackRef.current = undefined;
-      }
+    if (draggingEl) {
+      draggingEl.style.background = "none";
+      draggingEl.draggable = true;
+      draggingEl.style.opacity = "1";
+      draggingTrackRef.current = undefined;
+    }
 
-      overTrackRef.current = undefined;
-      hidePlaceholder();
-
-      if (markerRef.current) {
-        markerRef.current.remove();
-        markerRef.current = undefined;
-      }
-    },
-    [hidePlaceholder]
-  );
+    overTrackRef.current = undefined;
+    hidePlaceholder();
+    removeMarker();
+  }, []);
 
   useEffect(() => {
     document.body.appendChild(Placeholder);
