@@ -16,3 +16,7 @@
   --alternative-text-color: #0f0f22;
   --active-text-color: #F0F0F0;
 }
+
+body {
+  overflow: hidden;
+}

@@ -9,22 +9,24 @@ import { createMarker, removeMarker } from "./marker";
 
 /*
  * TODO:
- * 1. Disable drop outside PlaylistContainer DONE
- * An user gets a message that s/he can't do drop here...
+ *************************************************************
+ *
+ * I've added overflow hidden to the body... But i think i can avoid this,
+ * by handling placeholder position depending on the document.body borders
+ * to prevent its overflow
+ *
+ *************************************************************
  *
  *************************************************************
  *
  * 2. This code must be refactored after some time
  *
  *************************************************************
- *
- * 3. Scrolled overflow when drag on document's border
- *
- *************************************************************
  */
 
+// Depends on <Container /> in src/components/Playlist/Track/Track.tsx
 const TrackIDAttributeName = "data-track-id";
-// Depends on src/components/Playlist/Track/Track.tsx
+// Depends on <NavLink /> in src/components/Navbar/Playlists.tsx
 const PlaylistItemAttrName = "data-playlist-name";
 
 const DummyImage = document.createElement("div");
@@ -97,16 +99,23 @@ export const useDrag = (
   );
 
   const setPlaceholderInsertText = useCallback(() => {
-    // TODO: Can i prove that findTrackById always will return some element
-    // Also if i can then i should use some better syntax which will show
-    // That findTrackById always return Track element
     if (draggingTrackRef.current) {
-      const idAttr = draggingTrackRef.current.getAttribute(
-        TrackIDAttributeName
-      ) as string;
+      const idAttr =
+        draggingTrackRef.current.getAttribute(TrackIDAttributeName);
+
+      if (idAttr === null || idAttr === undefined) {
+        throw new Error(
+          `Dragging track element doesn't have ${TrackIDAttributeName} attribute`
+        );
+      }
+
       const id = Number(idAttr);
-      const track = tracks.find((track) => track.id === id) as Track;
-      Placeholder.innerText = `Insert ${track.name}`;
+      const track = tracks.find((track) => track.id === id);
+      if (track) {
+        Placeholder.innerText = `Insert ${track.name}`;
+      } else {
+        throw new Error("Track with target id isn't found!");
+      }
     }
   }, [tracks]);
 
@@ -160,7 +169,7 @@ export const useDrag = (
   );
 
   const handleOverTrack = useCallback(
-    (target: HTMLElement, e: DragEvent) => {
+    (e: DragEvent) => {
       if (e.dataTransfer && overTrackRef.current) {
         e.dataTransfer.dropEffect = "move";
         const { cursorY, trackHeight } = getMetrics(overTrackRef.current, e);
@@ -193,7 +202,7 @@ export const useDrag = (
         return;
       }
 
-      handleOverTrack(target, e);
+      handleOverTrack(e);
     },
     [handleOutsidePlaylist, handleOverPlaylistItem, handleOverTrack]
   );
@@ -215,7 +224,7 @@ export const useDrag = (
     [getMetrics]
   );
 
-  const onDragEnd = useCallback((e: DragEvent) => {
+  const onDragEnd = useCallback((_: DragEvent) => {
     const draggingEl = draggingTrackRef.current;
 
     if (draggingEl) {

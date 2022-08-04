@@ -16,7 +16,7 @@ const Playlist: React.FC = () => {
   useDrag(selfRef, tracks);
 
   return (
-    <PlaylistContainer ref={selfRef}>
+    <PlaylistContainer>
       <GridHeader>
         <Text>#</Text>
         <Text>Title</Text>
