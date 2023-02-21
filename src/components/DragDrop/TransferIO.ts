@@ -9,13 +9,22 @@ export default class TransferIO {
     return new TransferIO(transfer);
   }
 
-  get(key: string) {
+  getMany(key: string) {
     for (let slice of this.transfer.types) {
       if (!slice.startsWith(key)) continue;
 
       return TransferIO.splitValues(slice);
     }
     return [];
+  }
+
+  get(key: string) {
+    return this.getMany(key).at(0);
+  }
+
+  getNumber(key: string) {
+    const str = this.getMany(key).at(0);
+    return str ? Number.parseFloat(str) : undefined;
   }
 
   hasKey(key: string) {
