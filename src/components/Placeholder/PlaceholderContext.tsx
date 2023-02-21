@@ -33,9 +33,17 @@ export const PlaceholderContextProvider: React.FC<{
 }> = ({ children }) => {
   const [state, setState] = useState(initialState);
 
+  let newstate = state;
+
   const Actions = {
-    setText: (value: string) => setState({ ...state, text: value }),
-    setPosition: (value: Pos) => setState({ ...state, position: value }),
+    setText: (value: string) => {
+      newstate = { ...newstate, text: value };
+      setState(newstate);
+    },
+    setPosition: (value: Pos) => {
+      newstate = { ...newstate, position: value };
+      setState(newstate);
+    },
   };
 
   return (

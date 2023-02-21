@@ -49,18 +49,19 @@ const Track: React.FC<Props> = ({ track, index }) => {
   };
 
   let onIsAccept = (_a: any, e: DragEvent, tio: TransferIO) => {
-    const fromInd = Number.parseInt(tio.get("trackindex")[0]);
+    const fromInd = tio.getNumber("trackindex");
     return index !== fromInd;
   };
   let onDrop = (_a: any, e: DragEvent, tio: TransferIO) => {
-    const fromIndex = Number.parseInt(tio.get("trackindex")[0]);
+    const fromIndex = tio.getNumber("trackindex");
+    if (fromIndex === undefined) return;
     const toIndex = dragTop ? index : index + 1;
     dispatch(moveTrack({ fromIndex, toIndex }));
     placeholderActions.setText("");
   };
 
   let onDragEnter = (_a: any, e: DragEvent, tio: TransferIO) => {
-    const trackName = tio.get("trackname")[0];
+    const trackName = tio.get("trackname");
     placeholderActions.setText(`Insert ${trackName}`);
     calc(e);
   };
