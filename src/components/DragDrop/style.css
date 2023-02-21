@@ -1,0 +1,7 @@
+.LockPointerEvents * {
+    pointer-events: none !important;
+}
+
+.LockPointerEvents {
+    pointer-events: auto;
+}
