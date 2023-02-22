@@ -1,3 +1,4 @@
+import { Props } from "components/IconContainer/IconContainer";
 import styled, { css, FlattenSimpleInterpolation } from "styled-components";
 import ClassicInput from "../ClassicInput/ClassicInput";
 
@@ -11,6 +12,8 @@ const slider = ({ styles }: SliderProps) => {
     -webkit-appearance: none;
     width: 100%;
     margin: 0;
+    height: 15px;
+    cursor: pointer;
 
     &::-webkit-slider-runnable-track {
       ${styles}
@@ -32,7 +35,6 @@ const slider = ({ styles }: SliderProps) => {
 const sliderCSS = css`
   width: 100%;
   height: 3px;
-  cursor: pointer;
   background-color: var(--blue-bg-color);
 `;
 

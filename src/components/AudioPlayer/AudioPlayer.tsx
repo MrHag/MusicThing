@@ -23,10 +23,12 @@ const AudioPlayer: React.FC = () => {
   const track = useAppSelector(selectTrack);
   const trackLink = track ? track.track : "";
 
-  const raf = useRef(0);
+  const animationLoop = useRef(false);
 
   const audioCont = useRef<HTMLDivElement>(null);
   const audio = useRef<HTMLAudioElement>(null);
+
+  const lastInputSeek = useRef<number>(0);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -38,7 +40,8 @@ const AudioPlayer: React.FC = () => {
     if (!audio.current) return;
 
     audio.current.play();
-    raf.current = requestAnimationFrame(whilePlaying);
+    animationLoop.current = true;
+    requestAnimationFrame(whilePlaying);
     setIsPlaying(true);
   };
 
@@ -46,16 +49,16 @@ const AudioPlayer: React.FC = () => {
     if (!audio.current) return;
 
     audio.current.pause();
-    cancelAnimationFrame(raf.current);
+    animationLoop.current = false;
     setIsPlaying(false);
   };
 
   const onMuteBtnClick = () => setIsMuted(!isMuted);
 
   const whilePlaying = () => {
-    if (!audio.current) return;
+    if (!audio.current || !animationLoop.current) return;
     setSeek(Math.floor(audio.current.currentTime));
-    raf.current = requestAnimationFrame(whilePlaying);
+    requestAnimationFrame(whilePlaying);
   };
 
   const displayBufferedAmount = () => {
@@ -83,24 +86,29 @@ const AudioPlayer: React.FC = () => {
   const onAudioProgress = () => displayBufferedAmount();
 
   const onSeekSliderInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSeek(Number(e.target.value));
-    cancelAnimationFrame(raf.current);
+    animationLoop.current = false;
+    const value = Number(e.currentTarget.value);
+    setSeek(value);
+    lastInputSeek.current = value;
   };
 
-  const onClick = () => {
-    cancelAnimationFrame(raf.current);
+  const onClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    animationLoop.current = false;
+    setSeek(lastInputSeek.current);
+    if (audio.current != null)
+      audio.current.currentTime = lastInputSeek.current;
   };
 
-  let onSeekSliderChange = (e: Event) => {
-    if (e.currentTarget && e.currentTarget instanceof HTMLInputElement) {
-      const value = Number(e.currentTarget.value);
-      if (audio.current != null) audio.current.currentTime = value;
-      setSeek(value);
-      if (isPlaying) {
-        raf.current = requestAnimationFrame(whilePlaying);
-      }
-    }
-  };
+  // let onSeekSliderChange = (e: Event) => {
+  //   if (e.currentTarget && e.currentTarget instanceof HTMLInputElement) {
+  //     const value = Number(e.currentTarget.value);
+  //     if (audio.current != null) audio.current.currentTime = value;
+  //     setSeek(value);
+  //     if (isPlaying) {
+  //       raf.current = requestAnimationFrame(whilePlaying);
+  //     }
+  //   }
+  // };
 
   const onVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
@@ -148,7 +156,7 @@ const AudioPlayer: React.FC = () => {
         />
         <Output>{calculateTime(seek)}</Output>
         <SeekSlider
-          onChange={onSeekSliderChange}
+          // onChange={onSeekSliderChange}
           onInput={onSeekSliderInput}
           onClick={onClick}
           disabled={trackLink === ""}
